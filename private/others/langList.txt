@@ -1,0 +1,144 @@
+LangCode	en-us	zh-tw
+af	Afrikaans	南非荷蘭語
+sq	Albanian	阿爾巴尼亞語
+ar	Arabic (Standard)	阿拉伯語(標準)
+ar	Aragonese	阿拉貢語
+hy	Armenian	亞美尼亞語
+as	Assamese	 阿薩姆語
+ast	Asturian	阿斯圖里亞斯語
+az	Azerbaijani	亞塞拜然語
+eu	Basque	巴斯克語
+bg	Bulgarian	保加利亞語
+be	Belarusian	白俄羅斯語
+bn	Bengali	孟加拉語
+bs	Bosnian	波斯尼亞語
+br	Breton	布列塔尼語
+bg	Bulgarian	保加利亞語
+my	Burmese	緬甸語
+ca	Catalan	加泰隆語
+ch	Chamorro	查莫羅語
+ce	Chechen	車臣語
+zh-hk	Chinese (Hong Kong)	中文(香港)
+zh-cdo	Ming Dong	閩東方言
+zh-cjy	Jinyu	晉語方言
+zh-cn	Chinese (PRC)	中文(中國)
+zh-cpx	Pu Xian	蒲仙方言
+zh-czh	Huizhou	徽州方言
+zh-czo	Min Zhong	閩中方言
+zh-gan	Gan	贛語方言
+zh-hak	Hakka	客家方言
+zh-hsn	Xiang	湘語方言
+zh-mnp	Min Bel	閩北方言
+zh-nan	Min Nan	閩南方言
+zh-wu	Wu	吳語方言
+zh-yue	Yue	粵語方言
+zh-sg	Chinese (Singapore)	中文(新加坡)
+zh-tw	Chinese (Taiwan)	中文(台灣)
+cv	Chuvash	楚瓦什語
+co	Corsican	科西嘉語
+cr	Cree	克里語
+hr	Croatian	克羅埃西亞語
+cs	Czech	捷克語
+da	Danish	丹麥語
+nl	Dutch (Standard)	荷蘭語(標準)
+nl-be	Dutch (Belgian)	比利時荷蘭語
+en-gb	English (United Kingdom)	英語(英國)
+en-us	English (United States)	英語(美國)
+eo	Esperanto	世界語
+et	Estonian	愛沙尼亞語
+fo	Faeroese	法羅語
+fa	Farsi	波斯語
+fj	Fijian	斐濟語
+fi	Finnish	芬蘭語
+fr	French (Standard)	法語(標準)
+fy	Frisian	菲士蘭語
+fur	Friulian	佛里烏利語
+gd	Gaelic (Scots)	蘇格蘭蓋爾語
+gd-ie	Gaelic (Irish)	愛爾蘭蓋爾語
+gl	Galacian	加利西亞語
+ka	Georgian	喬治亞語
+de	German (Standard)	德語(標準)
+el	Greek	希臘語
+gu	Gujurati	古吉拉特語
+ht	Haitian	海地語
+he	Hebrew	希伯來語
+hi	Hindi	印地語
+hu	Hungarian	匈牙利語
+is	Icelandic	冰島語
+id	Indonesian	印尼語
+iu	Inuktitut	因紐特語
+ga	Irish	愛爾蘭語
+it	Italian (Standard)	義大利語(標準)
+ja	Japanese	日語
+kn	Kannada	康那達語
+ks	Kashmiri	克什米爾語
+kk	Kazakh	哈薩克語
+km	Khmer	高棉語
+ky	Kirghiz	吉爾吉斯語
+tlh	Klingon	克林貢語
+ko	Korean	韓語
+la	Latin	拉丁文
+lv	Latvian	拉脫維亞語
+lt	Lithuanian	立陶宛語
+lb	Luxembourgish	盧森堡語
+mk	FYRO Macedonian	馬其頓語
+ms	Malay	馬來語
+ml	Malayalam	馬拉雅拉姆語
+mt	Maltese	馬耳他語
+mi	Maori	毛利語
+mr	Marathi	馬拉地語
+mo	Moldavian	摩爾達維雅語
+nv	Navajo	納瓦霍語
+ng	Ndonga	蒙古語
+ne	Nepali	尼泊爾文
+no	Norwegian	挪威語
+oc	Occitan	歐克語
+or	Oriya	奧里亞語
+om	Oromo	奧羅莫語
+fa	Persian	波斯語
+fa-ir	Persian/Iran	波斯語/伊朗語
+pl	Polish	波蘭語
+pt	Portuguese	葡萄牙語
+pa	Punjabi	旁遮普語
+qu	Quechua	奇楚瓦語
+rm	Rhaeto-Romanic	雷托-羅曼語
+ro	Romanian	羅馬尼亞語
+ro-mo	Romanian (Moldavia)	羅馬尼亞語(摩爾多瓦)
+ru	Russian	俄語
+ru-mo	Russian (Moldavia)	俄語(摩爾多瓦)
+sz	Sami (Lappish)	薩米語
+sg	Sango	桑戈語
+sa	Sanskrit	梵語
+sc	Sardinian	薩丁尼亞語
+gd	Scots Gaelic	蘇格蘭蓋爾語
+sd	Sindhi	信德語
+si	Singhalese	僧家羅語
+sr	Serbian	塞爾維亞語
+sk	Slovak	斯洛伐克語
+sl	Slovenian	斯洛維尼亞語
+sb	Sorbian	索布語
+es	Spanish	西班牙語
+sx	Sutu	塞索托語
+sw	Swahili	斯瓦希里語
+sv	Swedish	瑞典語
+ta	Tamil	坦米爾語
+tt	Tatar	韃靼語
+te	Teluga	泰盧固語
+th	Thai	泰語
+tig	Tigre	提格雷語
+ts	Tsonga	宋加語
+tn	Tswana	札那語
+tr	Turkish	土耳其語
+tk	Turkmen	土庫曼語
+uk	Ukrainian	烏克蘭語
+hsb	Upper Sorbian	上索布語
+ur	Urdu	烏爾都語
+ve	Venda	溫達語
+vi	Vietnamese	越語
+vo	Volapuk	沃拉普客語
+wa	Walloon	瓦隆語
+cy	Welsh	威爾斯語
+xh	Xhosa	科薩與
+ji	Yiddish	意第緒語
+zu	Zulu	祖魯語
+ot	Others	其他

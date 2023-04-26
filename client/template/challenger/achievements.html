@@ -1,0 +1,55 @@
+<template name="achievements">
+	<style>
+		h2 > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		div.hiddenGem {
+			border: 2px dotted #d4d4d4;
+			color: #5c5c5c !important;
+		}
+
+		div > h3 {
+			line-height: 6vw;
+		}
+
+		div > h3 > img {
+			max-height: 6vw;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			h2 > img {
+				max-height: 2.4vw;
+			}
+
+			div > h3 {
+				line-height: 2.4vw;
+			}
+
+			div > h3 > img {
+				max-height: 2.4vw;
+			}
+		}
+	</style>
+	<h2>{{chaTranslation "obtainedachievements"}} <img src="{{iconURL}}achievements.png" /></h2>
+	<h3>{{achievementsN}} / 30</h3>
+	<sub>{{chaTranslation "achievementsnote"}}</sub>
+	<section class="flexPanel">
+		{{#each obtainedAchievements}}
+			<div style="background-color: rgba(124, 181, 24, 0.8); color: #2e2e2e;">
+				<div style="background-color: rgba(124, 181, 24);"></div>
+				<em>{{chaTranslation type}}</em>
+				<h3><img title="{{iconNote type}}" src="{{iconURL}}achievements/{{type}}.png" /></h3>
+				<em>{{getDate date}}</em>
+			</div>
+		{{/each}}
+		{{#each hiddenAchievements}}
+			<div class="hiddenGem">
+				<em>{{chaTranslation "hiddengem"}}</em>
+				<h3><img src="{{iconURL}}hidden-gem.png" /></h3>
+				<em>{{chaTranslation "hiddengem"}}</em>
+			</div>
+		{{/each}}
+	</section>
+</template>

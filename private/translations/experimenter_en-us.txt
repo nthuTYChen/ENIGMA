@@ -1,0 +1,295 @@
+activate#Activate
+activated#Experiment Activated
+activatenote#Check everything before you activate an experiment for the first time, since you are not allowed to change the settings afterwards.
+active#Active
+activities#Activities
+activating#Activating...
+add#Add
+addelement#Add an Element
+addCoord#Add (by e-mail)
+affiliation#Affiliation(s)
+affiliationsemptye#No Affiliation
+agethreshold#Age Threshold
+alreadyexcludede#Some experiments were excluded already.
+audio#Audio
+badrespkeye#Please use "space", "0-9", or "a-z" as response keys
+badurls#Could not open the following links:
+basicinfo#Basic Info
+basicsettings#Basic Settings
+binary#Binary
+block#Block(s)
+blocklabel#Block Label
+blocktitle#Block Title
+blockupdated#Block info updated, but not saved yet.
+cancel#Cancel
+cellnume#No %C cols in line %L
+cellbadrespkeye#Line %L cell %C is not a valid correct response key
+cellbadsessione#Line %L cell %C is not a valid session number
+celldelayformate#Line %L cell %C is not a Delay number between 0 and 3600
+celllenformate#Line %L cell %C is not a Length number between -1 and 3600
+cellposformate#Line %L cell %C is not a Pos number between -10000 and 10000
+cellstrformate#Line %L cell %C has more than 100 chars or not a string
+cellurlformate#Line %L cell %C is not a URL start with http:// or https://
+challengecode#Challenge Code
+changesettings#Change Settings
+checkrapidrt#Check Rapid RT
+checkresp#Check Response Accuracy
+collectresp#Collect Responses
+column#Column(s)
+compensation#Compensation
+complete#Complete
+completedat#Completed At
+completedexps#Completed Exps
+completeexpdownloadnote#By downloading the results of this experiment, you agree that <em>(i)</em> you will not share these results else where, <em>(ii)</em> your e-mail will be shared with the experimenter(s) of this experiment, and <em>(iii)</em> you will cite this study following the instruction provided by the experimenter.
+completeexpinfo#Complete Exp Info
+completeexpregnote#You have to register and verify an "Experimenter" account to download the results.
+conditions#Conditions: 
+condmistmatche#Mismatches between training and test conditions were found.
+configexp#Configure Exp
+confirmactivateexp#Confirm Activation
+consentform#Consent Form
+consentlengthe#Consent form too long
+contactemail#Contact E-mail
+coordadded#Coordinator added
+coordinateexps#Coordinating Exps
+coordinators#Coordinators
+coordremoved#Coordinator removed
+coordunverifiede#Coordinator account is unverified
+copyexplinks#Copy Exp Links
+correctresp#Correct Response
+currentstimuli#Current Stimuli List
+create#Create
+createdat#Created At
+createnewexp#Create New Exp
+createnewexpok#New Exp Created
+daydreamer#No Response
+deactivate#De-activate
+debriefing#Debriefing
+debriefingcontent#Debriefing Content
+debriefinginfo#Debriefing Info
+debriefinglengthe#Debriefing Content Too Long
+delete#Delete
+deleteaccountnote1#All your personal <em>AND</em> experimental data associated with your ENIGMA experimenter account will be <em>PERMANENTLY</em> deleted.
+deleteaccountnote2#This action is <em>NOT</em> reversible, and we are <em>NOT</em> responsible for restoring your data.
+deleteaccountnote3#If you have <em>CAREFULLY</em> considered the consequences, enter your password below and proceed...
+deleteexp#Delete Exp
+deleteexpwarn#Are you sure to delete the following experiment and all its data? Your action cannot be undone!
+deleting#Deleting...
+descriptionemptye#No Exp Description
+descriptiontoolonge#Exp Description Too Long
+download#Download
+downloadcompleteres#Completed Exp Results Downloaded
+downloading#Downloading. Please wait.
+edit#Edit
+editcoordinate#Edit Coordinator
+emailtoolonge#Email Too Long
+emlength#Element Length (sec)
+emlengthformate#Please fill in a column name including "AudioURL" or "VideoURL"
+emlengthrangee#Element length must be >= -1 and <= 3600.
+emorder#Element Order
+emstartcole#Start time can only refer to the [[Delay]] column
+emstartrangee#開始時間必須 >= 0 或 <= 3600
+emstimulipos#Stimuli Position (X/Y)
+emstimulitype#Stimuli Type
+emtitle#Element Title
+emtitlespecchare#Special chars and initial digits are not allowed.
+emtype#Element Type
+emupdated#Element info updated, but not saved.
+endcoordinate#End Coordination
+endtime#End Time
+enterverifycode#Enter Verification Code
+error#Error: 
+estimatetime#Estimated Time
+ethics#Research Ethics Info
+ethicsemptye#No Research Ethics Info
+ethicstoolonge#Research Ethics Info Too Long
+exclude#Exclude
+excluded#Excluded
+excludedexpadded#Excluded exps added
+excludedexpremoved#Excluded exp removed
+excludeexp#Exclude Exp
+expactivationtest#Exp Activation Test
+expdeleted#Exp Deleted
+expdescription#Exp Description
+exppreviewtest#Exp Preview Test
+exptraininstruction#Training Instruction
+exptestinstruction#Test Instruction
+expquota#Total Exp Quota: 
+expquotafull#No exp quota left
+expprogress#Exp Progress
+exptitle#Exp Title
+fastcompletion#Fast RT
+fastresp#Short RT
+fblengthnotnume#Feedback length must be numeric.
+fbtextlengthe#Feedback texts must present for "right" and "wrong" responses.
+feedbacklen#Feedback Length
+feedbacktexts#Feedback Texts
+fileapie#No File API support in your browser.
+frequentquitter#Multiple Withdraws
+gaphour#Gap Hours
+hide#Hide
+image#Image
+inactive#Inactive
+inactiveexps#Inactive Exps
+infinitelene#Element length is set to be infinitely long without collecting any response (Block/Element Order): 
+instruction#Instruction
+instructionlengthe#Exp Instruction Too Long
+intervallowe#Random test interval should have a lower bound of at least 2.
+intervalnonnume#Random test interval should be two numbers separated by "-".
+keylengthe#Number of response keys/texts does not match response type.
+keywords#Keywords
+keywordsemptye#No Keywords
+keywordstoolonge#Keywords Too Long
+language#Language
+lastlogin#Last login from: 
+likert#Likert (3-7 points)
+limitedexpmanage#Not all management options are available in the mobile interface.
+linkscopied#Links copied
+listinstruction#List Instruction
+logactivateexp#Exp Activation
+logaddcoordinator#Add Coordinator
+logchangedebriefing#Debriefing Update
+logchangeorientation#Orientation Update
+logchangetest#Test Update
+logchangetraining#Training Update
+logdeleteexp#Exp Deletion
+logendcoordination#End Coordination
+logremovecoordinator#Remove Coordinator
+logupdateexpbasics#Basic Settings Update
+lowacc#Low Training Accuracy
+manageaccount#Manage Account
+manageexp#Manage Exps
+maxcoorde#5 coordinators already.
+messages#Messages
+misscorrrespe#The correct response is not included in response keys
+multiple#Mutiple Participation
+multiplen#Number of Participation
+multipletrain#Multiple Training
+newexp#New Experiment
+next10#Next 10
+no#No
+noooo#Noooo!
+noactivity#No activity.
+noblocke#No "Block" column
+noenusinfo#Please provide the English version for all of Description, Consent Form, Training Instruction, Test Instruction, and Debrifing Content.
+nocorrecte#No "Correct" column
+nocriticalerrors#No critical errors found in the test of the experimental settings. Please double-check once again before you really activate this experiment. Once an experiment is activated, you will not be able to change any experimental settings, and you can only remove this experiment from the public experiment list available to participants by deleting it completely.
+noelementacte#No element at all. Block Title: 
+none#None.
+nopreviewerrors#No critical errors found in the test of the experimental settings. You can proceed and preview your experiment.
+noresultse#No available results
+noresp#Low Test Response Rate
+norunningexp#You don't have exps that are running.
+nosubje#Participant Number Can't be Zero.
+nosuchexp#Invalid challenge codes included.
+nosuchusere#No such user.
+nosuchvariableacte#The column referred to by indicating [[ ]] in an element does not exist in your stimuli list (Column Title/Element Title): 
+nosuchvariablee#No data column indicated with [[ ]] in your stimuli list.
+nosupportcopy#Clipboard not supported
+notestblockacte#No block in the test session
+notexcluded#Not Excluded
+notrainingblockacte#No block in the training sessionnotestcollecte#Changes saved. Warning: No data collection in the test session.
+notitlee#Element title should not be empty.
+notrainingcollecte#Changes saved. Warning: Training session has a threshold but doesn't collect data.
+nourl#No URLs to be tested
+numericale#Use only digits for numerical info.
+numrep#Num of Repetition
+onerespperordere#Each element order allows only one response collection
+orientation#Orientation
+orientationinfo#Orientation Info
+participants#Participants
+posrangee#The number of a position must be between -10000 and 10000 
+posxcole#X Coordination can only refer to the [[PosX]] column
+posycole#Y Coordination can only refer to the [[PosY]] column
+presentation#Presentation
+presentonset#Element Onset (sec)
+prev10#Prev 10
+preview#Preview
+proceed#Proceed
+promlene#Random test prompt length should be higher than 0.
+promlennotnume#Random test prompt length must be numeric.
+pwnochange#Ignore password columns if no change is needed.
+removeexcludeexp#Remove Excluded Exp
+randomblocks#Random Block Order?
+randomtest#Random Recall Test
+randomtestint#Random Test Interval
+randomtestprom#Random Test Prompt
+randomtestpromlen#Random Test Prompt Length
+randomtrial#Random Trial Order?
+repeatemtitlee#Please avoid same element titles.
+replacestimuli#Replace stimuli...
+researcher#Researcher(s)
+researchersemptye#No Researcher Names
+researcherstoolonge#Researcher Names Too Long
+reset#Reset
+resptypekeys#Response Type & Keys
+resultlink#Result Link
+row#Row(s)
+runningexps#Running Exps: 
+save#Save
+saved#Changes Saved
+savereminder#Remember to "Save" any changes before switching to a different section.
+selectfile#Select a file...
+selfexcludee#Can't exclude this exp itself
+screening#Screening
+show#Show
+showall#Show All
+showfeedback#Show Response Feedback?
+showless#Show Less
+showmore#Show More
+showunverified#Unverified Only
+showverified#Verified Only
+skiptraining#Skip Training Session?
+startpreview#Start Preview
+status#Status
+subjnum#Participant Number
+targetaccuracy#Target Accuracy
+test#Test
+testfile#Test Stimuli File
+testinglist#Testing...
+testnocheckrespcorre#The test session will have to provide response accuracy to participants, but none of the elements in the test session checks response accuracy.
+testblocknoconde#Not all test blocks include every test condition in all sessions the stimuli list
+testsessionmismatche#The numbers in the Session column in the test stimuli list is not consistent with the Number of Participation settings
+testsessionnoblocke#Not all test sessions include every block in the stimuli list
+teststimuliurl#Test Stimuli URLs
+text#Text
+titleemptye#No Exp Title
+titleexiste#Exp Title Used
+titletoolonge#Exp Title Too Long
+toomanyblocks#10 blocks at most
+toomanycolse#No more than 20 columns in addition to "Block"
+toomanyems#No more than 10 elements per block
+toomanyexcludedexpe#Already excluded 20 exps
+toomanyparticipatione#Too Many Multiple Partipations
+toomanyrowse#5,000 rows at most in addition to headers
+toomanyrt#Only one random test for each block
+toomanysubje#Participant Number Too High
+training#Training
+trainingblocknoconde#Not all training blocks include every training condition in all sessions in the stimuli list
+trainingfile#Training Stimuli File
+trainingnocheckrespcorre#A target accuracy rate is set for the training session, but none of the elements in the training session checks response accuracy.
+trainingsessionmismatche#The numbers in the Session column in the training stimuli list is not consistent with the Number of Participation settings
+trainingsessionnoblocke#Not all training sessions include every block in the stimuli list
+unreadmsgs#Unread Messages: 
+unary#Unary
+update#Update
+updatecomexpinfo#Update Info
+updatecomplete#Update Completed
+updateexpbasicok#Basic Settings Updated
+urlok#All URLs are OK
+validated#Validated?
+validateresults#Validate Results
+verified#Verified: 
+verify#Verify
+verifycode#Verification Code
+verifycodenotfounde#No such code
+verifycodeusede#Code used already
+verifying#Verifying...
+verifynewemail#A new e-mail needs to be verified again.
+verifysuccessful#Verified successfully!
+video#Video
+website#Website (Optional)
+websiteformate#Wrong Website Address Format
+websitetoolonge#Website Address Too Long
+welcomeback#, welcome back!
+yes#Yes

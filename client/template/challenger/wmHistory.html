@@ -1,0 +1,79 @@
+<template name="wmHistory">
+	<style>
+		section > div > h3 ~ div:not(:first-of-type) {
+			height: 4vh;
+			width: 0%;
+			margin: 5px 0;
+			padding: 0 2px; 
+			border-radius: 2px;
+			text-align: left;
+			line-height: 4vh;
+			white-space: nowrap;
+		}
+
+		section > div:not(:last-of-type) > h3 ~ div:not(:first-of-type) {
+			height: 6vh;
+			line-height: unset;
+		}		
+
+		section > div:first-of-type > h3 ~ div:not(:first-of-type) {
+			background-color: rgba(168, 218, 220);
+		}
+
+		section > div:last-of-type > h3 ~ div:not(:first-of-type) {
+			background-color: rgba(234, 140, 85);
+		}
+
+		section > div:last-of-type > h3 ~ div:not(:first-of-type).userGroup {
+			background-color: rgba(199, 81, 70);
+		}
+
+		h2 > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		@media only screen and (min-width: 1200px) {
+
+			h2 > img {
+				max-height: 2.4vw;
+			}
+			
+		}
+
+	</style>
+	<h2>{{chaTranslation "wmhistorytitle"}} <img src="{{iconURL}}wm-history.png" /></h2>
+	<section class="flexPanel">
+		<div style="width: 100%; background-color: rgba(241, 250, 238, 0.7);">
+			<div style="background-color: rgba(241, 250, 238);"></div>
+			<h3>{{chaTranslation "lastsevenwmtests"}}</h3>
+			{{#each wmTests}}
+				<div><em style="line-height: 6vh; vertical-align: bottom;">{{testDate endTime}} ({{chaTranslation "wmscore"}}{{totalScore}})</em> <sub style="display: inline-block; line-height: 3vh;">{{chaTranslation "wmage"}}{{age}}<br/>{{chaTranslation "wmcorrrt"}}{{correctRTMean}}{{chaTranslation "ms"}}</sub>
+				</div>
+			{{/each}}
+		</div>
+		<div style="background-color: rgba(87, 204, 153, 0.8); text-align: center;">
+			<div style="background-color: rgba(87, 204, 153);"></div>
+			<h3>{{chaTranslation "wmlasttest"}}</h3>
+			<em>{{chaTranslation "wmage"}}{{lastTest "age"}}</em>
+			<h3>{{lastTest "totalScore"}} ({{chaTranslation "recordscore"}}{{recordScore}})</h3>
+			<em>{{chaTranslation "wmduration"}}{{chaTranslation "about"}}{{lastTest "duration"}}{{chaTranslation "minutes"}}</em>
+			<em>{{chaTranslation "untilnexttest"}}{{untilNextTest}} {{chaTranslation "day"}}</em>
+			{{#if timeGapPassed}}
+				<p>
+					<input type="button" id="runWM" value="{{chaTranslation "runwm"}}" />
+				</p>
+			{{/if}}
+		</div>
+		<div style="background-color: rgba(242, 208, 169, 0.8); text-align: center;">
+			<div style="background-color: rgba(242, 208, 169);"></div>
+			<h3>{{chaTranslation "wmenigmastats"}}</h3>
+			<div class="{{ageMeanColor 0 20}}"><em> &lt; 20 </em>({{wmSiteAgeMeans 0}})</div>
+			<div class="{{ageMeanColor 21 30}}"><em> 21 - 30 </em>({{wmSiteAgeMeans 1}})</div>
+			<div class="{{ageMeanColor 31 40}}"><em> 31 - 40 </em>({{wmSiteAgeMeans 2}})</div>
+			<div class="{{ageMeanColor 41 50}}"><em> 41 - 50 </em>({{wmSiteAgeMeans 3}})</div>
+			<div class="{{ageMeanColor 51 9999}}"><em> &gt; 50 </em>({{wmSiteAgeMeans 4}})</div>
+			<em>{{chaTranslation "wmtotalsession"}}{{wmSiteSessionN}} {{chaTranslation "wmlastupdate"}}{{wmSiteLastUpdate}}</em>
+		</div>
+	</section>
+</template>

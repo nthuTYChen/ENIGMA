@@ -1,0 +1,82 @@
+<h2>About Challengers</h2>
+<section>
+	<h3>What is ENIGMA?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/about_whats_enigma.svg" />
+		</figure>
+		<p>ENIGMA is an online tool for <em>linguists</em> around the world to design their <em>language/grammar learning experiments</em>, which aims to answer the ultimate question: <em>How does the linguistic system work in our brain?</em> The name of ENIGMA is inspired by the encryption device used by the Germany millitary during World War II, which was later deciphered successfully by the Western Allies. Language acquisition and communication could be viewed as turns of encrypting and deciphering language input and output between the speaker and the hearer. As a Challenger, Your role in ENIGMA is to try as many language learning experiments as possible, and provide your <em>behavioral data</em> to help linguists answer the main question and build a model for the encrypting and deciphering language system in our brain. Too many jargons? Unclear details? Let us explain further.
+		</p>
+	</article>
+</section>
+
+<section>
+	<h3>Who's behind ENIGMA?</h3>
+	<article>
+		<figure><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/nthu-emblem.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/most-logo.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/meteor-logo.svg" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/steamline-icon.png" /></figure>
+		<p>ENIGMA is a research project supervised by <a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">Dr. Tsung-Ying Chen</a>, who is a PhD in Linguistics (University of Alberta, Canada, 2014) and currently an assistant professor at <a href="http://www.fl.nthu.edu.tw" target="_blank">Department of Foreign Languages and Literature</a> of National Tsing Hua University of Taiwan. This project is funded by the Ministry of Science and Technology of Taiwan (108-2410-H-007 -030-MY3) from Aug, 2019 to Jul 2022. This project has also been approved by the Research Ethics Board at National Tsing Hua University of Taiwan (10805HS050) to assure that research related to the current project is carried out properly and that the participants (that is, you) have their rights properly informed and their online privacy fully protected. In other words, it would be safe for you to contribute your anonymous data in ENIGMA to help advance linguists' scientific research. The Web application is built using the <a href="https://www.meteor.com/" target="_blank">Meteor</a> package based on Node.js, and the use of the icons and images are licensed by <a href="https://streamlineicons.com/">Streamline Icons</a>.</p>
+	</article>
+	<article>
+		<p><em>Research Team</em></p>
+		<p>Principle Investigator: Tsung-Ying Chen, PhD</p>
+		<p>Current Assistants: Ssu-Han Chang, Wei-Hsin Lo, Bo-Ying Yang</p>
+		<p>Previous Assistants: Tzu-Hsuan Tseng, Yi-Shan Lin</p>
+	</article>
+</section>
+
+<section>
+	<h3>Who are linguists? What is linguistics?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_whos_linguist.svg" />
+		</figure>
+		<p>While it's very unlikely to answer these two questions in a few words, we're glad that you asked, and will try to give you a brief overview here.</p>
+		<p>So, you probably know that there're about 7,000+ human languages around the world, many of which remain unexplored, and quiet a number of which are actually dying (that is, no one speaks these languages as a native speaker). Linguists are scientists who study the complex structures of these languages and how our brain is capable of learning these complex structures, and the entire subject is known as linguistics (this statement, of course, is greatly oversimplified). As linguists, we collect and analyze language data to contribute to theories of the "language mind" to explain the mental system that we are born with to communicate in the languages we can currently observe, and, perhaps more importantly, why this system might not be able to communicate using some languages that we have not found so far on this planet. To some people's surprise, we explore these research questions with all kinds of experimental approaches, and language/grammar learning experiment is one of them.</p>
+	</article>
+</section>
+
+<section>
+	<h3>What is language/grammar learning experiment?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_exp.svg" />
+		</figure>
+		<p>When linguists ask the question of "how is a human language acquired?", they could try to propose a grand theory or hypothesis of our mental linguistic system, but most of the time they don't attempt to answer this ultimate question directly. As mentioned above, human language is a complex system involving many individual aspects, each worth thorough discussions, so we often narrow our questions to "how are sounds of the language acquired?", "how is this sentence structure acquired?", etc. (and we surely go even further than these questions). Therefore, to answer "how is a human language acquired", we don't bring a thick grammar book to you and see how you learn everything (or try to analyze whatever children produce or understand), but explore every single subtle research question to, eventually, answer the ultimate question or test the grand hypothesis.</p>
+		<p>With this mindset, linguists developed the so-called language/grammar learning experiment to test how individual linguistic aspects could (not) be acquired by human learners (well, some even tried this on other non-human species). The materials you're exposed to in a language/grammar learning experiment but is a "miniature language" usually composed of a small number of language items involving one or two linguistic aspects we're interested in. The language items could be directly borrowed from a real language, or created for our research purpose. Usually, you are not told what you're expected to learn until the end of the experiment, because for many linguists, we want to see how you could (not) pick up some patterns with your language "instinct" (just like infants, who are not told what to learn but could somehow figure it out naturally, without knowing that they're learning). Sometimes we ask whether one aspect can be more easily learned than the other, supposed that our mental system is only capable to learn the former. Then, we would have two languages/grammars for two different groups of learners to compare their learning performance.</p>
+	</article>
+</section>
+
+<section>
+	<h3>What is behavioral data?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_behavdata.svg" />
+		</figure>
+		<p>A very common experimental paradigm in the field of psychology and linguistics is behavioral. That is, we try to observe your behavioral patterns with and without some treatment in an experiment, which is also the case in language/grammar learning experiments in ENIGMA. These experiments would ask you to respond by pressing a key on the keyboard of your computer/laptop, or tap a button showing on the screen of your mobile device, and that's all. ENIGMA records only your responses and the time you spend on these responses as our "behavioral data". Nothing more, and nothing less. Neurolinguists would try to stick some sensors to your head to measure your brain waves, or even put you in a machine to scan your head directly, but we don't do that. Don't get us wrong. Their works are greatly appreciated, and if we could do the same thing remotely, we probably will do it, too. But first of all, you will certainly be informed, let along the fact that we don't have the technology to do it just yet.</p>
+	</article>
+</section>
+
+<section>
+	<h3>The sources of "Language Facts"</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_fact_source.svg" />
+		</figure>
+		<p>After you log into your challenger account, you will see some randomly presented facts about languages, and we surely don't make these up! After all, ENIGMA is an extremely serious academic website, which is unlike any "content farm". The sources of our language facts are from the following list of linguistic textbooks, and if you are particularly interested in knowing more about a fact, please feel free to contact us, and we will be able to tell you exactly where you can find in the textbooks!</p>
+	</article>
+</section>
+
+<section>
+	<h3>What else should I know?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_more_tips.svg" />
+		</figure>
+		<p>If you have already signed up your challenger account, we're sure that you've got all the details from the <em>User Agreement & Privacy Statement</em> of ENIGMA you need. But just in case that you haven't, or simply missed all the information (uh.), let us give you a quick overview/review including the most important principles we strictly follow.</p>
+		<p>First, in every ENIGMA experiment, you will remain entirely anonymous, and experimenters will not be able to know who take part in their experiments. This is a standard "delinking" procedure required in almost all research ethics guidelines. Experimenters are also informed that they should not request any specific personal information that could be linked to your real-life identity. Second, you could choose to quit an experiment during or after an experimental session without getting the approval from experimenters or even the administrators of ENIGMA. During an experiment, you can simply close your browser or the tab of ENIGMA to quit. After completing an experimental session, you can find the record in your account and remove your data from there. Of course, we always ask you to think twice before removing your data completely, since your contribution helps linguists understand our mental system better, as we're still very far from answering the ultimate question.</p>
+		<p>If there's any other information that is unclear to you, please send your suggestions to chen.ty [at] mx.nthu.edu.tw, and we're happy to address the issues or answer whatever question you might have. Otherwise, please also enjoy our Challenger System, which aims to help you understanding your language learning performance and linguistic instinct better!</p>
+	</article>
+	<article>
+		<sub>Last updated on Sep 6, 2021</sub>
+	</article>
+</section>

@@ -1,0 +1,89 @@
+<style>
+	ul > li::first-line {
+		font-weight: bold;
+	}
+</style>
+
+<section>
+	<h3>Stimuli List Format</h3>
+	<article>
+		<p>A list of stimuli should be a <span class="textWarning">pure-text file with UTF-8 encoding</span>. The first row of the list would be viewed as column headers (<span class="textWarning">please use English alphabets</span>), and every single row in the rest of the list represents a stimulus and its information. The cells in each row should be separated with a <span class="textWarning">tab key</span> in order to be parsed correctly in ENIGMA, as in the following example:</p>
+		<table>
+			<tr>
+				<th>StimuliID</th>
+				<th>TextStimuli</th>
+				<th>AudioURLs</th>
+				<th>Correct</th>
+				<th>...</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Ball</td>
+				<td>http://test.url/ball.wav</td>
+				<td>a</td>
+				<td>...</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Bird</td>
+				<td>http://test.url/bird.wav</td>
+				<td>l</td>
+				<td>...</td>
+			</tr>
+			<tr>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+			</tr>
+		</table>
+		<p>Every list should have at most <span class="textWarning">1,001 rows</span> (headers included) and <span class="textWarning">30 columns</span>. Each data cell should contain at most <span class="textWarning">100 characters</span>. We recommend you to use Microsoft Excel (or other similar software) when editing the list, and then copy and paste the entire list to a text editor (e.g., Notepad or Sublime Text), and you will see a tab-separated list, which you can save as a UTF-8 encoded pure-text file to match the format required by ENIGMA.</p>
+		<p>Here we provide the stimuli lists used in the training/test session in the Demo challenge as examples:
+			<ul>
+				<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/training_demo.txt" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/training_demo.txt</a></li>
+				<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test_demo.txt" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test_demo.txt</a></li>
+			</ul>
+		</p>
+	</article>
+</section>
+
+<section>
+	<h3>Special Columns in a Stimuli List</h3>
+	<article>
+		<p>When the headers include texts that match some special strings of letters in case, the contents of the columns are processed differently as follows:</p>
+		<ul>
+			<li>Block (Required)<br/>Your stimuli will be grouped automatically according to the labels included in the "Block" column. In addition, blocks will only be generated automatically in ENIGMA based on the labels in this column.</li>
+			<li>Correct (Required for the Test Session)<br/>Your stimuli list for the <span class="textWarning">test session</span> must include the "Correct" column to set up the correct responses (it is optional for the training session). Participants will see their response accuracy rate in the debriefing session after they complete an experiment. Correct response keys can only be set as common keyboard keys, including "space", "0-9", and "a-z". If there is more than one correct response key, please separate every two keys with a comma "," (e.g., "a,l,space").</li>
+			<li>StimuliID (Optional)<br/>You could add numeric labels for each stimulus in the list. Since ENIGMA <span class="textWarning">DOES NOT</span> number your stimuli automatically, we recommend you to label your stimuli by including this column to facilitate your analysis of experimental results.</li>
+			<li>Condition (Optional)<br/>You could include this column and group your stimuli into different experimental conditions. ENIGMA will help you assign your participants <span class="textWarning">randomly</span> to each condition. If you wish to reuse the same stimulus in different conditions, you can include all the applicable conditions in this column and separate them with a semi-colon ";", such as "experimental;control". <span class="textWarning">Note:</span> Each condition should also be included in each block. Since condition is randomly selected by ENIGMA, if a block does not include a selected condition, there will be no stimulus selected for this block, which would result in errors when running an experiment.</li>
+			<li>Session (Optional)<br/>If your experiment requires participants to complete multiple sessions ("Multiple Participation" is "Yes" in the Basic Info settings), and you want to use different subset of stimuli for different sessions, then you could include this column and specify the session number for each row, and ENIGMA will select the subset for your participant depending on their progress. For instance, if your "Number of Participation" is set to "2", then you have to specify the number from 1 to 2 in this column. You can also specify multiple session numbers for stimuli by separating the numbers with a semi-colon ";", such as "1;2". You <span class="textWarning">CANNOT</span> skip any session number, and stimuli marked with a session number higher than the "Number of Participation" setting will <span class="textWarning">NEVER</span> be selected. You can also choose to include this column for either or both stimuli lists. <span class="textWarning">Note:</span> If you include this column, make sure that every session includes all the blocks and that each block in each session includes all the conditions (if the Condition column is included as well).
+			</li>
+			<li>*TextStimuli* (Optional)<br/>You could include columns with a name including the string "TextStimuli" (e.g., "WordTextStimuli"), and store data that will be presented as pure texts in your experiment. This also means that if you put URLs into these columns, ENIGMA <span class="textWarning">WILL NOT</span> load the contents via the links for you.</li>
+			<li>*AudioURL*, *VideoURL*, *ImageURL* (Optional)<br/>If you have columns with a name including the strings "AudioURL", "VideoURL", or "ImageURL" (e.g., "StimuliAudioURL"), the data stored in these columns can be used as paths to audios, videos, or images, and ENIGMA can load these contents and use them as stimuli in your experiment (see "URL Columns" section below).</li>
+			<li>Length (Optional)<br/>You can include this column to specify the length (s) of presenting a stimulus. This column must include numeric values between -1 and 3600.</li>
+			<li>Delay (Optional)<br/>You can include this column to specify the delay (ms) in presenting a stimulus. This column must include numeric values between 0 and 3600.</li>
+			<li>PosX, PosY (Optional)<br/>You can include this column to specify the position of a visual stimulus. This column must include numeric values between -10000 and 10000. The number here means the proportion to the stimulus' length or height. For instance, if PosX has a value of -50, then the visual stimulus will be moved from the center to its left by 50% of its length.</li>
+		</ul>
+	</article>
+</section>
+
+<section>
+	<h3>URL Columns</h3>
+	<article>
+		<p>In a URL column, a link <span class="textWarning">must</span> start with "http://" or "https://", and should be directly connected to a .wav/.mp4/.jpg/.png file as in the following examples:</p>
+		<ul>
+			<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test.wav" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test.wav</a></li>
+			<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test.png" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test.png</a></li>
+		</ul>
+		<p>In every URL column, you can't mix URLs linked to different types of files. For instance, if you include URLs linked to either .wav or .jpg files in a column with a header including "AudioURL", you will receive an error message from ENIGMA. In addition, to minimize cross-browser compatibility issues, "AudioURL" columns can only have links to .wav files, "VideoURL" columns can only have links to .mp4 files encoded using H.264 or H.265, and "ImageURL" columns can have links to common Web image .jpg or .png files.</p>
+		<p>Note that file sharing links provided by most cloud storage (e.g., Dropbox, Google Drive, OneDrive) <span class="textWarning">cannot</span> be processed in ENIGMA since these links only direct browser to a "page" where a file is shared rather than to a shared "file" itself. Thus, we recommend you to upload your files to a Web space provided by your institution, so ENIGMA could load the multimedial files via the direct links.</p>
+		<p>When you click "Test Stimuli URLs" on this page, ENIGMA will help check if your URLs can be accessed normally. This function is mainly used to avoid cases where you have typos in your links that make these links invalid. If your URLs pass the test in this function, it only means that all URLs can be accessed normally, but it <span class="textWarning">doesn't</span> mean that these URLs are direct links to your multimedia files.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

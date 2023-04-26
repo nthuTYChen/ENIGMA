@@ -1,0 +1,19 @@
+<section>
+	<article>
+		<p>When participants complete the test phase, the information you provide here as part of the debriefing process will be presented to participants. According to the common research ethics guidelines, since it is not possible for participants to ask questions in online experiment settings, experimenters have the responsibility to provide most detailed explanations to allow participants to understand the purpose/goals of the study. ENIGMA by default allows 5,000 characters for your debriefing information, but if you need some extra space for additional details, a link to external files or Web pages is permitted. However, if we receive complaints regarding the links (e.g., for the inclusion of violent or sexual information), your experiment data could be removed, and your experimenter account will be suspended.</p>
+		<p>If participants are required to complete multiple test sessions, the debriefing information will only be shared after participants complete all test sessions. Debriefing information will neither appear when participants share their performance in an ENIGMA experiment in a social network site.</p>
+	</article>
+</section>
+
+<section>
+	<article>
+		<p>As mentioned in the instruction on the orientation information, you should at least provide debriefing information in English (US). This is because when the information in other language is not complete, ENIGMA will show all the information in English (US) by default.</p>
+		<p>The list of language only includes some most popular languages, but if you feel eager to provide information in a specific language that is not included here, please let us know.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

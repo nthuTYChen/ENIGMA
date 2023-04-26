@@ -1,0 +1,39 @@
+<section>
+	<article>
+		On this "Explore" page, you will see every single language learning challenge designed by ENIGMA experimenters. These challenges are grouped into separate categories based on your challenger account, which we will explain below. In addition to these challenge groups, you will see some crucial information for each challenge:
+		<ul>
+			<li>Challenge Title - Very little explanation is required for this information, right? It's just the name of the challenge.</li>
+			<li>Estimated Time - Experimenters provide this information to show the time it takes to complete a training session and a test session in a challenge. Since the process and environmental settings vary across challengers, the time required to complete a challenge differs more or less. We suggest you to save some more time than the estimated time so you can complete a challenge without being rushed or interrupted.</li>
+			<li>Recruiting - If a challenge is still recruiting challengers, you will see "Yes" for this item. If you participate in this challenge, the recorded anonymous data will be shared with the experimenter for research purpose. If a challenge already stops recruiting new challengers, you will see "No" for this item, and your data will <span class="textWarning">NOT</span> be shared with the experimenter. This information does not appear in the "Do it again!" category.</li>
+			<li>Waiting Time - After you complete a challenge, you might need to wait for a period of time before you can start the next challenge. This setting is provided by experimenters of a challenge, so it could vary across challenges. Of course, there could be challenges without such a restriction, so you can move on to the next challenges immediately.</li>
+			<li>Start a Challenge - Every challenge comes with a "Let's Go!" button, and you can simply /click/tap the button to start the challenge. You could also click/tap the "Enter Code" button in the "Do it now!" section to enter the challenge code provided by experimenters to start a challenge, so you won't have to trawl through a long list of challenges.</li>
+		</ul>
+	</article>
+</section>
+
+<section>
+	<h3>Do it now!</h3>
+	<article>
+		<p>Challenges listed in "Do it now!" are those you have not participated in just yet. Meanwhile, these challenges also present their information in your mother tongue or second language, which allows you to clearly understand the procedure and the debriefing information.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Completed Challenges</h3>
+	<article>
+		<p>This group includes only the challenges that you have completed, so you could try to conquer them once again. When you complete these challenges, the results will only be bound to your account, which are not accessible to experimenters. Therefore, if there is any compensation committed in these challenges, you may not be able to claim it once again. If you have any question regarding the qualification of claiming the compensation of a completed challenge, please directly contact the experimenters of the challenge.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Probably not...</h3>
+	<article>
+		<p>This group also includes challenges that you have not participated in just yet. However, these challenges do not have the information presented in your mother tongue or second language, which suggests that you might not be able to understand the instruction or debriefing information. Of course, we could not rule out the possibility that you can still understand the information presented in these challenges, so you could still take a look and see if you know how to do these challenges. But if you can't, we strongly discourage you from doing these challenges, or it might be simply a waste of time :)</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

@@ -1,0 +1,40 @@
+<section>
+	<article>
+		<p>In "Orientation", you can add information that will be presented before each stage begins, including "Exp Description", "Consent Form", "Compensation". "Training Instruction", and "Test Instruction". You can provide the information for different languages to help recruit participants with diverse language backgrounds. When you provide all of the above five types of information as well as "Debriefing" for a language, ENIGMA will mark this experiment to have the information for that particular language, and will recommend this experiment to participants setting the language as their native language or L2. Regardless, you will have to provide all the information for <span class="textWarning">English (US)</span> to be able to activate this experiment.</p>
+		<p>We currently only include some major languages in addition to English in our list, but if you wish to provide information for some other languages, please let us know at any time.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Exp Description</h3>
+	<article>
+		<p>When partipants enter an experiment, the description about the experiment would be the very first information presented to them. Therefore, you should explain your experiment briefly in 1,000 characters to help them judge if they really want to take part in your experiment.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Consent Form</h3>
+	<article>
+		<p>A consent form should clearly explain the rights and responsibilities to participants, and the consent form should be approved by a Research Ethics Board. ENIGMA allows a consent form as long as 15,000 characters, but if your approved consent form needs more space, please let us know as well. A link to your consent form will appear below the description, and participants can click the link to expand the consent form to quickly go through all the details.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Compensation</h3>
+	<article>
+		<p>In this item, you can use 1,000 characters to briefly explain how a participation is compensated for and how a participant can receive the compensation. Your description here should be consistent with the research ethics guidelines you are asked to follow, and you must avoid exaggerated and misleading information. This information will only be presented when an experiment is still recruiting participants. Once an experiment recruits the target number of participants and marked automatically as "Complete" in ENIGMA, this information will be hidden to avoid misleading participants.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Training/Test Instruction</h3>
+	<article>
+		<p>Before a training/test phase starts, ENIGMA will present the instruction to participants. In 2,000 characters, you should try to explain to your participants what they should do in a training/test phase. Don't forget to take users of both desktop and mobile devices into consideration when composing the instructions. If your experiment does not have a training phase, just enter "Not Application" in "Training Instruction".</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

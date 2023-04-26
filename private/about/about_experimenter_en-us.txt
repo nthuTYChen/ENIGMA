@@ -1,0 +1,100 @@
+<h2>About Experimenter</h2>
+<section>
+	<h3>What is ENIGMA?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_enigma.svg" />
+		</figure>
+		<p>ENIGMA is an online tool for <em>linguists</em> around the world to design their <em>artificial language/grammar learning experiments</em> (or experiments with a similar design), which aims to answer the ultimate question: <em>How does the linguistic system work in our brain?</em> The name of ENIGMA is inspired by the encryption device used by the Germany millitary during World War II, which was later deciphered successfully by the Western Allies. Language acquisition and communication could be likewise viewed as turns of encrypting and deciphering language input and output between the speaker and the hearer. ENIGMA is a completely free Web application, with a goal to gather linguists testing the learnability of different linguistic aspects or exploring the role of various internal and external factors that could influence learners' performance in artificial language/grammar learning experiments. As an Experimenter in ENIGMA, you will enjoy the following advantages. First, ENIGMA allows for flexible experimental designs to accomodate your needs in running different types of artificial language/grammar learning experiments. Second, ENIGMA is optimized for online crowdsourcing, which aims to help you gather a larger amount of data from participants with diverse backgrounds and analyze complicated learners' behavioral data in such experiments. Finally, ENIGMA will serve as the online database and host your data, which allows other researchers to have access to and explore your published data or even try to replicate your study.
+		</p>
+	</article>
+</section>
+
+<section>
+	<h3>Who's behind ENIGMA?</h3>
+	<article>
+		<figure><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/nthu-emblem.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/most-logo.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/meteor-logo.svg" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/steamline-icon.png" /></figure>
+		<p>ENIGMA is a research project supervised by <a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">Dr. Tsung-Ying Chen</a>, who is a PhD in Linguistics (University of Alberta, Canada, 2014) and currently an assistant professor at <a href="http://www.fl.nthu.edu.tw" target="_blank">Department of Foreign Languages and Literature</a> of National Tsing Hua University of Taiwan (ROC). This project is funded by the Ministry of Science and Technology of Taiwan (A comprehensive examination of evidence and methodology in artificial grammar learning; 108-2410-H-007-030-MY3) from Aug, 2019 to Jul 2022. The Web application is built using the <a href="https://www.meteor.com/" target="_blank">Meteor</a> package based on Node.js, and the use of the icons and images are licensed by <a href="https://streamlineicons.com/">Streamline Icons</a>.</p>
+	</article>
+	<article>
+		<p><em>Research Team</em></p>
+		<p>Principle Investigator: Tsung-Ying Chen, PhD</p>
+		<p>Current Assistants: Ssu-Han Chang, Wei-Hsin Lo, Bo-Ting Yang</p>
+		<p>Previous Assistants: Tzu-Hsuan Tseng, Yi-Shan Lin</p>
+	</article>
+</section>
+
+<section>
+	<h3>Research Ethics Guidelines</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_ethical_approval.svg" />
+		</figure>
+		<p>This research project has been approved by the Research Ethics Board at National Tsing Hua University of Taiwan (10805HS050) to assure that ENIGMA is properly designed to clearly inform the participants their rights and maximize the protection of their online privacy (see below). This approval is not automatically extended to cover your research since the nature of linguistic studies and experiments varies, which means it is necessary for your research to be independently approved by your Institutional Review Board or Research Ethics Board. ENIGMA also requires you to specify information regarding your research ethics approval in every experiment, which will be available for participants' reference. We highly recommend you to get the approval prior to officially running your experiments in ENIGMA. If ENIGMA administrators receive any complaint about your experiments whose research ethics information is missing or incorrect, these experiments will be taken down first. If you try to activate and run the experiments again without adding the correct information, and we receive similar complaints, your experimenter account will be banned <em>PERMANANTLY</em>. To help you prepare for your research ethics approval application, the following paragraphs explain the core system of ENIGMA.</p>
+		<p>ENIGMA has the following elements that conform to our research ethics guidelines and thus cannot be modified to accomodate your needs. First, participants in ENIGMA will always be delinked from their data. In addition to their experiment data, your experiments in ENIGMA will only record participants' gender, age, handedness, L1/L2, and part of his/her IP address, which cannot be associated to the participant's real-life identity. Neither is ENIGMA equipped with any system that allows you to directly contact any participant. Second, even after completing an experiment session, participants can still choose to stop participating in your study and remove their data from your experiment, without the need to be approved by you or ENIGMA administrators (although you will be informed of their action). Third, ENIGMA will NOT actively remove any of your experiment data or hide the data you choose to publish in ENIGMA, supposed that they do not violate the User Agreement of ENIGMA. Furthermore, once you choose to publish your experiment data in ENIGMA, it is always made available in ENIGMA. Finally, the name, affiliation, and e-mail address you provide to ENIGMA when signing up for an Experimenter account will always be revealed to your participants.</p>
+		<p>Each experiment in ENIGMA allows you to add necessary information for potential participants to assess whether they want to take part in your study. For instance, you can provide a general description on your experiment as an orientation, upload the consent form that is approved by your IRB or REB, and add a detailed explanation in a post-experimental debreifing session. These core designs should meet the basic requirements for setting up an ethical online behavioral experiment. However, if there is any detail that needs to be clarified further, or your IRB/REB has any suggestion that can help us improve ENIGMA and help you get the approval from your IRB/REB, please feel free to contact us at enigma.nthu [at] gmail.com.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Your Rights and Responsibilities</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_exp_right.svg" />
+		</figure>
+		<p>As an Experimenter in ENIGMA, you have a full control and copyright of your own personal and experiment data. Your data in ENIGMA will not be disclosed, shared, or transferred to any third party in any regard without your (or participants') consent, unless we are forced to do so to cooperate with any lawful investigation in Taiwan (ROC). As mentioned earlier, we will neither remove your data actively, unless you violate the User Agreement of ENIGMA (see below) or even the laws of your country or Taiwan (ROC), which, at worst, could lead to the removal of your Experimenter account and all associated data. You are also guaranteed to have free and full access to all the functions of ENIGMA, but you <em>MUST NOT</em> reuse the ENIGMA service in any form of profitable commercial activities.</p>
+		<p>The complete list of responsibilities for an Experimenter in ENIGMA can be found in the User Agreement that you agree with when signing up for an Experimenter account (you did/will check it carefully, right?), and here we only summarize some crucial points:
+			<ul>
+				<li>You need to conform to the research ethics guidelines that ENIGMA strictly follows to maximally protect the rights of your participants.</li>
+				<li>You need to provide genuine information related to your study and research ethics guidelines that your study follows.</li>
+				<li>You cannot share your Experimenter account with other individuals or sign up for multiple Experimenter accounts.</li>
+			</ul>
+		Any violation against the User Agreement of ENIGMA, the Research Ethics Guidelines that ENIGMA follows, or even the domestic laws of Taiwan (ROC).
+		</p>
+	</article>
+</section>
+
+<section>
+	<h3>The Experimenter System</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_exp.svg" />
+		</figure>
+		<p>Each Experimenter in ENIGMA by default is allowed to create up to 30 experiments and run at most 10 experiments simultaneously, in which any number of conditions can be included, and ENIGMA will randomly assign participants to each condition for you. Accordingly, you should not create experiments for each condition you have, or you could waste your experiment quota easily. You can request for an increase in your experiment quota by e-mailing us, and your request will be reviewed by an ENIGMA administrator. There is no guarantee that your request will be approved, and the administrator will consider your case based on your activities in ENIGMA as well as the overall resource available in the ENIGMA server. Priority will be given to those who design/run their experiment in accord with the ENIGMA policies and publish their experiment data collected using ENIGMA in academic conferences and journals.</p>
+		<p>As part of our ENIGMA User Agreement, Experimenters should not share their account with any other individuals. If you has a research team for your experiments, each of your team members should sign up for an Experimenter account. The coordinator system allows you to add up to 5 coordinators to each experiment to help manage your experiment. A coordinator in an experiment can do anything other than deleting the experiment or adding/removing another coordinator to/from the experiment. All members of the same experiment will be notified with changes made to the experiment by any member in the experiment or changes in the status of the experiment.</p>
+		<p>As noted above, since you have full control of your own data, you can choose to remove an experiment and its data, or even the entire Experimenter account from ENIGMA at any time. However, please use these functions at your discretion. While we back up the ENIGMA database on a regular basis, it is <em>NOT</em> our responsibility to restore your data removed by accident.</p>
+	</article>
+</section>
+
+<section>
+	<h3>The "Challenger" System</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_challenger.svg" />
+		</figure>
+		<p>Participants in ENIGMA must sign up for a "gamified" Challenger system, which is designed to encourage them to participate in as many experiments as possible to facilitate data collection of all experiments in ENIGMA. To Challengers, each experiment in ENIGMA is like a game. They earn points and achievements by taking part in various studies, learn their own language learning performance such as accuracy rate and response latency, and compare their performance to others' in a ranking system. Therefore, a vivid and playful (but also ethical) description on your experiment will help you attract more Challengers to participate in your experiment.</p>
+		<p>Participants must agree to provide their date of birth, gender, handedness, L1/L2, and part of their IP Address for research purpose when signing up for a Challenger account. All the information will be recorded automatically as part of participant information when they take part in your study (date of birth will be automatically converted into age at the time of participation) for your reference. Unsuprisingly, all the information does not include any detail that can help link ENIGMA Challengers to their real-life identity, which is required by the Research Ethics Guidelines ENIGMA follows.</p>
+		<p>Since the Challenger system attempts to encourage participants to take part in multiple experimental sessions, you might wonder if some previous exposure to one artificial grammar/language would affect learning of another. In the worse case,  two entirely independent studies might accidently have two very similar groups of training items with just a minor difference in their hidden linguistic patterns, and it is very likely for whatever abstract generalizations learned from one study to interfere with learning target generalizations in another. To our best knowledge, there has been no such assessment in the literature of artificial grammar/language learning, since virtually none of previous studies "reused" their participants in this way, so we neither are unable to tell you what the effects could be. But to help reduct any potential negative effect, ENIGMA allows you to set the minimum time interval between Challengers' last participation and their participation in your experiment, so hopefully the interference from their previous participation in other experiments would be minimized. We are open to your suggestion as to how to address this issue better. Challengers are allowed to participate in the same experiment repeatedly (e.g., to earn more points or to set a best record in the gamified system), but their experiment data is only stored if your experiment is set to have delayed posttests. For instance, if your experiment allows for only 2 repeated participations, the data from Challengers after their third attempt (i.e., one immediate test session plus two delayed test sessions) will not be collected.</p>
+		<p>Another possible concern is whether the design of the Challenger system in ENIGMA allows for true <em>implicit language learning</em>, which is usually the main focus in artificial grammar/language learning studies. That is, whether a given linguistic aspect could be acquired and generalized to novel forms when participants are not aware of learning process and linguistic regularities hidden in training input (see Hulstijn's (2005) review article "Theoretical and empirical issues in the study of implicit and explicit second-language learning: Introduction", among many others). In ENIGMA, however, participants are made fully aware of the goal of ENIGMA and will be "forewarned of an upcoming retention test for a particular type of information", both as part of research ethics requirements and as a necessary element in our design of the gamified Challenger system - it would probably not make sense if "players" do not know what "games" they are playing. One possible consequence with this intentional learning is to use explicit learning strategies during a training session, which could lead to the development of explicit, rather than implicit, knowledge, even if implicit knowledge could have been devloped in an implicit learning context. In particular, explicit learning strategies may mislead participants to look for subregularities that are unrelated to target patterns hidden in training input, which could lead us to conclude that target patterns cannot be acquired. These issues are addressed in ENIGMA by allowing Experimenters to incorporate various awareness measures in an experiment, including confidence rating, and source attribution (e.g., Rogers et al., 2016: Implicit and explicit knowledge of inflectional morphology) and word monitoring task (e.g., Suzuki et al., 2017: Validity of new measures of implicit knowledge: Distinguishing implicit knowledge from automatized explicit knowledge), which help Experimenters evaluate if participants still develop an implicit knowledge of target linguistic aspect despite having a clear intention to learn some linguistic aspect. If this is indeed the finding, it could be even stronger evidence that the target linguistic aspect can be acquired naturally by our mental language learning system.</p>
+	</article>
+	<article>
+		<p>While ENIGMA is designed and optimized for artificial language/grammar learning experiments, the flexibility allows you to design different experiments. However, your experiments must have a training phase to expose Challengers to some language input and a test phase to assess their learning performance. This follows from the logics in the design of ENIGMA, which aims to focus on the same experimental flow and offers an opportunity for Challengers to know more about their own language learning performance.</p>
+	</article>
+	<article>
+		<p>Last but not least, to make the Challenger system more interesting and provide an additional variable for experimenters to analyze learners' performance, a operation-span working memory test is included in the Challenger system. In this test, Challengers will see math formulae one by one (e.g., 7 + 8 = 15), and they will have to judge the correctness of the result of each formula within a time limit and try to memorize the number of each result at the same time. After each group of formulae, a group of buttons will appear. Half of the buttons are with the result numbers of the target formulae, and half are with a random number. Challengers will have to recall the result numbers in correct order within a time limit by clicking the buttons. At the beginning of the test, each group includes only 2 formulae, and the number will gradually increase to 8. However, if Challengers respond incorrectly to more than half of the items in either judgment or recall for three groups in a row, the test will terminate before it reaches the end. Each correct judgment or recall in correct order is given 1 point, and a recalled result number in incorrect order is given 0.5 point. There are 105 math formulae at most, so the possible highest score would be 210. Challengers can run the test for every 30 days, and the most recent test result and the age at the time of the test will be recorded as part of the Challenger's profile when they participate in an experiment.</p>
+	</article>
+</section>
+
+<section>
+	<h3>How to Cite ENIGMA?</h3>
+	<article>
+		<figure>
+			<img src="https://your.server.dns/imageFolder/illustrations/about_cite.svg" />
+		</figure>
+		<p>Currently, if you publish any work with experiment data collected using ENIGMA, you can cite the Web application as:</p>
+		<q>Chen, T.-Y. (2022). ENIGMA: An online research tool for artificial language/grammar learning. https://lngproc.hss.nthu.edu.tw/ENIGMA</q>
+	</article>
+	<article>
+		<sub>Last updated on Mar 15, 2022</sub>
+	</article>
+</section>

@@ -1,0 +1,34 @@
+<!DOCTYPE>
+<html lang="en-us" style="box-sizing: border-box; height: 100%; width: 100%;">
+	<head>
+		<title></title>
+		<link href="https://fonts.googleapis.com/css?family=Bitter|Noto+Sans+TC|Noto+Serif+TC|Rajdhani|Share+Tech+Mono&display=swap" rel="stylesheet"> 
+  		<meta charset="UTF-8">
+	</head>
+	<body style="min-height: 100%; width: 100%; background-color: black; color: #f0b326; font-size: 3.2vh; line-height: 3.2vh;">
+		<article style="text-align: left; margin: 10px 2vw;">
+			<h2 style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; font-size: 6.4vh; line-height: 6.4vh;">
+				<span style="margin-right: 0.5vw; padding: 0.1vw 0.5vw; box-shadow: 0.5vw 0.4vw #5c5c5c; background-color: #f0b326; color: #FFFFFF; font-size: 110%;">E</span>NIGMA
+			</h2>
+			<hr style="margin: 15px 0; height: 3px; background-color: #5c5c5c; border: 0;">
+			<section style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; color: white; margin: 15px 0;">
+				<p style="margin: 10px 0;">
+					Dear ENIGMA user,
+				</p>
+				<p style="margin: 10px 0;">
+					Welcome to ENIGMA! Please use the following link to visit the account verification page and click on "Submit" to activate your ENIGMA account, and start your journey of creating or solving language puzzles! We also suggest you to check the "About ENIGMA" page to see more details about the goal of ENIGMA, recent updates, and how your anonymous data will be collected and used in ENIGMA. If you didn't sign up for an account in ENIGMA or request to reset your e-mail address, please ignore this message.
+				</p>
+				<p style="margin: 10px 0;">Note: Your unverified account will be deleted automatically without completing the verification process within 72 hours, whether you sign up for a new account or reset your e-mail.</p>
+				<p style="margin: 10px 0;">
+					ENIGMA Team<br/>
+					enigma.nthu [at] gmail.com
+				</p>
+				<p style="margin: 10px 0; text-align: center;">
+					<a style="display: inline-block; margin: 0 5px; padding: 5px 10px; background-color: #f0b326; color: white;" href="[url]" target="_blank">Activate Account</a>
+					<a style="display: inline-block; margin: 0 5px; padding: 5px 10px; background-color: #f0b326; color: white;" href="[aboutUrl]" target="_blank">ENIGMA</a>
+				</p>
+			</section>
+			<sub style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; color: white; font-size: 2.4vh;">*** This is an automatically delivered message. Please do not reply directly. ***</sub>
+		</article>
+	</body>
+</html>

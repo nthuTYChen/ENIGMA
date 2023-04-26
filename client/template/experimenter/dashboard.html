@@ -1,0 +1,29 @@
+<template name="dashboard_exp">
+	<section>
+		<p><em>{{username}}</em>{{translation "welcomeback"}}</p>
+		<sub><span>{{translation "lastlogin"}}{{lastIP}}</span><span>{{translation "runningexps"}}{{runningExps}}/{{runningExpQuota}}</span></sub>
+	</section>
+	<section>
+		<h3>&#9724; {{translation "expprogress"}}</h3>
+		{{#each allRunningExp}}
+			<p id="{{_id}}">
+				<div class="progressBG"></div>
+				<div class="progressFG" style="width: {{progressPerc status.currentSubj basicInfo.subjNum}}%;">
+					<em style="padding-left: 5px;">{{basicInfo.title}}</em> - {{status.currentSubj}}/<em>{{basicInfo.subjNum}}</em>
+				</div>
+			</p>
+		{{else}}
+			{{translation "norunningexp"}}
+		{{/each}}
+	</section>
+	<section>
+		<h3>&#9724; {{translation "activities"}}<sub><a id="logPrev10" href="#">{{translation "prev10"}}</a></sub><sub><a id="logNext10" href="#">{{translation "next10"}}</a></sub></h3>
+		{{#each allActivityLog}}
+			<p style="text-align: left; background-color: #d4d4d4; padding: 0 2px;">
+				<em>{{translation type}}</em> &nbsp;&nbsp;{{translation "expTitle"}} {{expTitle}} / {{user}} / {{date}}
+			</p>
+		{{else}}
+			{{translation "noactivity"}}
+		{{/each}}
+	</section>
+</template>

@@ -1,0 +1,119 @@
+<template name="register">
+  <form>
+    <fieldset>
+      <legend>{{translation "signup"}}</legend>
+	    <p>
+        <label for="userId">{{translation "email"}}</label>
+        <span><input type="email" name="userId" id="userId" placeholder="" required /></span>
+      </p>
+      <p>
+        <label for="passwd">{{translation "password"}}</label>
+		    <span><input type="password" name="passwd" id="userPW" placeholder="{{translation "pwlength"}}" required /></span>
+      </p>
+      <p>
+        <label for="passwd">{{translation "pwretype"}}</label>
+        <span><input type="password" name="passwd" id="userPWRetype" required /></span>
+      </p>
+       <p>
+        <label for="hand">{{translation "userlang"}}</label>
+        <select name="hand">
+          <option value="zh-tw" {{userLangSel "zh-tw"}}>{{translation "zhTw"}}</option>
+          <option value="en-us" {{userLangSel "en-us"}}>{{translation "enUs"}}</option>
+        </select>
+      </p>
+      {{#if challengerSignUp}}
+        <sub>{{translation "reginfonochange"}}</sub>
+        <p>
+      	   <label for="dob">{{translation "dob"}}</label>
+      	   <span><input type="date" name="dob" min="1901-01-01" required /></span>
+        </p>
+        <p>
+      	   <label for="gender">{{translation "gender"}}</label>
+      	   <select name="gender">
+      		    <option value="male" selected>{{translation "male"}}</option>
+      		    <option value="female">{{translation "female"}}</option>
+      		    <option value="other">{{translation "other"}}</option>
+      	   </select>
+        </p>
+        <p>
+      	   <label for="hand">{{translation "handedness"}}</label>
+      	   <select name="hand">
+      		    <option value="right" selected>{{translation "right"}}</option>
+      		    <option value="left">{{translation "left"}}</option>
+      		    <option value="both">{{translation "both"}}</option>
+      	   </select>
+        </p>
+        <p>
+          <label for="L1">{{translation "firstLang"}}</label>
+          <select name="L1">
+            {{#each langname}}
+              <option value="{{code}}" {{userLangSel code}}>{{name}}</option>
+            {{/each}}
+          </select>
+        </p>
+        <p>
+          <label for="L2">{{translation "secondLang"}}</label>
+          <select name="L2">
+            <option value="na" selected>{{translation "none"}}</option>
+            {{#each langname}}
+              <option value="{{code}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </p>
+      {{/if}}
+      <p>
+      	<label for="userCat">{{translation "usertype"}}</label>
+      	<span><input type="text" name="userCat" title="{{translation "usertypenochange"}}" value="{{dynamic_trans "userCat"}}" readonly /></span>
+      </p>
+      <p>
+        <input type="submit" id="userSignUp" value="{{translation "submit"}}" />
+        <input type="button" id="userSignIn" value="{{translation "haveanaccount"}}" />
+        <p>
+          <sub>
+            {{translation "signupagree"}}<a id="getAgreement" href="#">{{translation "termandcondition"}}</a>
+          </sub>
+        </p>
+      </p>
+    </fieldset>
+  </form>
+  <div id="agreementContainer"></div>
+</template>
+
+<template name="registered">
+  <div id="registeredMsg">
+    <p>{{translation "thankyoureg"}}</p>
+    <p>{{translation "verifydelete"}}</p>
+    <p><input type="button" id="userResendVerify" value="{{translation "verifyresend"}}" /></p>
+  </div>
+  <img id="mailSent" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/icons/mail.png" />
+</template>
+
+<template name="verify">
+  <form>
+    <fieldset>
+      <legend>{{translation "verify"}}</legend>
+      <p>
+        <label>{{translation "enterverifycode"}}</label>
+        <span><input type="text" id="verifyCode" value="{{verifyCode}}" /></span>
+      </p>
+      <p>
+        <input type="submit" id="submitVerify" value="{{translation "submit"}}" />
+      </p>
+    </fieldset>
+  </form>
+</template>
+
+<template name="resendVerify">
+  <form>
+    <fieldset>
+      <legend>{{translation "verifyagain"}}</legend>
+      <p>
+        <label>{{translation "email"}}</label>
+        <span><input type="email" id="verifyAgainEmail" required /></span>
+      </p>
+      <p>
+        <input type="submit" id="submitReVerify" value="{{translation "submit"}}" />
+      </p>
+    </fieldset>
+  </form>
+</template>

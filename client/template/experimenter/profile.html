@@ -1,0 +1,72 @@
+<template name="profile_exp">
+	<section>
+		<form>
+			<fieldset>
+				<legend>{{expTranslation "manageaccount"}}</legend>
+				<p>
+        	<label for="userId">{{genTranslation "email"}}</label>
+        	<span><input type="email" name="userId" id="userId" value="{{username}}" required /><br/>
+        		<sub style="color: red;">{{expTranslation "verified"}}{{verifiedStatus}}</sub> <sub>{{expTranslation "verifynewemail"}}</sub>
+        	</span>
+      	</p>
+      	<p>
+        	<label for="passwd">{{genTranslation "password"}}</label>
+		      <span><input type="password" name="passwd" id="userPW" placeholder="{{genTranslation "pwlength"}}" /></span>
+      	</p>
+      	<p>
+        	<label for="passwd">{{genTranslation "pwretype"}}</label>
+        	<span><input type="password" name="passwd" id="userPWRetype" /><br/><sub>{{expTranslation "pwnochange"}}</sub></span>
+      	</p>
+      	<p>
+        	<label for="userLang">{{genTranslation "userlang"}}</label>
+        	<select name="userLang">
+          	<option value="zh-tw" {{userLangSel "zh-tw"}}>{{genTranslation "zhTw"}}</option>
+            <option value="en-us" {{userLangSel "en-us"}}>{{genTranslation "enUs"}}</option>
+        	</select>
+      	</p>
+      	<p>
+      		<label for="userCat">{{genTranslation "usertype"}}</label>
+      		<span><input type="text" name="userCat" value="{{userCat}}" readonly /><br/><sub>{{genTranslation "usertypenochange"}}</sub></span>
+      	</p>
+      	<p>
+      		<input type="submit" id="profileChange" value="{{genTranslation "submit"}}" />
+      		{{#if notVerified}}
+      			 <input type="button" id="profileResendVerify" value="{{genTranslation "verifyresend"}}" />
+      		{{/if}}
+          <input type="submit" id="deleteAccount" value="{{genTranslation "deleteaccount"}}" />
+      	</p>
+      </fieldset>
+		</form>
+	</section>
+  <section>
+    <p><a id="getAgreement" href="#">{{genTranslation "termandcondition"}}</a></p>
+  </section>
+  <div id="agreementContainer"></div>
+</template>
+
+<template name="exp_deleteAccount">
+  <style>
+    img + ul {
+      padding: 0 5%;
+    }
+
+    @media only screen and (min-width: 1200px) {
+      img + ul {
+        padding: 0 30%;
+      }
+    }
+  </style>
+  <h2>{{genTranslation "beforeyougo"}}</h2>
+  <!-- Change the path -->
+  <img src="https://your.server.dns/imageFolder/illustrations/delete_data.svg" />
+  <ul style="text-align: left;">
+    <li>{{{expTranslation "deleteaccountnote1"}}}</li>
+    <li>{{{expTranslation "deleteaccountnote2"}}}</li>
+    <li>{{{expTranslation "deleteaccountnote3"}}}</li>
+  </ul>
+  <em>{{genTranslation "password"}}</em> <input type="password" />
+  <p>
+    <input type="button" id="cancelDelete" value="{{genTranslation "cancel"}}" />
+    <input type="button" id="confirmDelete" value="{{genTranslation "confirm"}}" />
+  </p>
+</template>

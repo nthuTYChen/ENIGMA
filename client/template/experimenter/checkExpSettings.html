@@ -1,0 +1,36 @@
+<template name="checkExpSettings">
+	<h2>
+		{{#if preview}}
+			{{expTranslation "exppreviewtest"}}
+		{{else}}
+			{{expTranslation "expactivationtest"}}
+		{{/if}}
+	</h2>
+	<section>
+		<h3>{{expTranslation "exptitle"}} - {{expTitle}}</h3>
+		{{#each failList}}
+			<p style="color: red; text-align: left;"><em>{{expTranslation "error"}}{{expTranslation type}}</em> {{note}}</p>
+		{{else}}
+			{{#if testing}}
+				<p>{{expTranslation "testinglist"}}</p>
+			{{else}}
+				{{#if preview}}
+					<p>{{expTranslation "nopreviewerrors"}}</p>
+				{{else}}
+					<p style="text-align: left;">{{expTranslation "nocriticalerrors"}}</p>		
+					<img src="https://your.server.dns/imageFolder/illustrations/activate_check.svg" />
+				{{/if}}
+			{{/if}}
+		{{/each}}
+		<p>
+			{{#if noTestErrors}}
+				{{#if preview}}
+					<input type="button" id="startPreview" value="{{expTranslation "startpreview"}}" /> 
+				{{else}}
+					<input type="button" id="confirmActivateExp" value="{{expTranslation "confirmactivateexp"}}" /> 
+				{{/if}}
+			{{/if}}
+          	<input type="button" id="backToConfig" value="{{genTranslation "back"}}" /> 
+        </p>
+	</section>
+</template>

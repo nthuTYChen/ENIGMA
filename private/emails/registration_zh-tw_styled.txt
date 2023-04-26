@@ -1,0 +1,34 @@
+<!DOCTYPE>
+<html lang="en-us" style="box-sizing: border-box; height: 100%; width: 100%;">
+	<head>
+		<title></title>
+		<link href="https://fonts.googleapis.com/css?family=Bitter|Noto+Sans+TC|Noto+Serif+TC|Rajdhani|Share+Tech+Mono&display=swap" rel="stylesheet"> 
+  		<meta charset="UTF-8">
+	</head>
+	<body style="min-height: 100%; width: 100%; background-color: black; color: #f0b326; font-size: 3.2vh; line-height: 3.2vh;">
+		<article style="text-align: left; margin: 10px 2vw;">
+			<h2 style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; font-size: 6.4vh; line-height: 6.4vh;">
+				<span style="margin-right: 0.5vw; padding: 0.1vw 0.5vw; box-shadow: 0.5vw 0.4vw #5c5c5c; background-color: #f0b326; color: #FFFFFF; font-size: 110%;">字</span>謎
+			</h2>
+			<hr style="margin: 15px 0; height: 3px; background-color: #5c5c5c; border: 0;">
+			<section style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; color: white; margin: 15px 0;">
+				<p style="margin: 10px 0;">
+					「字謎」使用者您好：
+				</p>
+				<p style="margin: 10px 0;">
+					歡迎您來到「字謎」，請點選下列連結至「字謎」的帳號啟用頁面，點選「送出」以啟用您的「字謎」帳號，並開始您的創造或解答語言謎題之旅！我們也建議您可以參考網站上「關於字謎」的部份進一步的了解「字謎」的目標、最新的「字謎」更新、以及「字謎」如何蒐集或使用您的匿名資料。若您沒有註冊「字謎」帳號或是沒有要求重新設定您的帳號電子郵件，請無須理會本郵件。
+				</p>
+				<p style="margin: 10px 0;">注意：無論您是新註冊帳號或是重設電子郵件，請在72小時之內驗證完成，否則帳號將自動被刪除。</p>
+				<p style="margin: 10px 0;">
+					「字謎」團隊<br/>
+					enigma.nthu [at] gmail.com
+				</p>
+				<p style="margin: 10px 0; text-align: center;">
+					<a style="display: inline-block; margin: 0 5px; padding: 5px 10px; background-color: #f0b326; color: white;" href="[url]" target="_blank">啟用帳號</a>
+					<a style="display: inline-block; margin: 0 5px; padding: 5px 10px; background-color: #f0b326; color: white;" href="[aboutUrl]" target="_blank">字謎</a>
+				</p>
+			</section>
+			<sub style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif; color: white; font-size: 2.4vh;">*** 此為系統自動發送郵件，請勿直接回覆 ***</sub>
+		</article>
+	</body>
+</html>

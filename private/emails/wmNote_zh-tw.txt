@@ -1,0 +1,13 @@
+哈囉！
+
+你今天都過得好嗎？距離上次你在「字謎」進行工作記憶已經經過30天囉！要不要回來瞧瞧你的工作記憶有什麼樣的變化呢？
+
+上次進行工作記憶日期：[wmDate]
+上次工作記憶分數：[wmScore]
+工作記憶最高分：[wmHighScore]
+
+「字謎」團隊
+enigma.nthu [at] gmail.com
+https://lngproc.hss.nthu.edu.tw/ENIGMA
+
+*** 此為自動發送的系統訊息，請勿直接回覆 ***

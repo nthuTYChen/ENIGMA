@@ -1,0 +1,12 @@
+<template name="challengerMenu">
+	<h3>{{genTranslation "challenger"}}</h3>
+	<a id="backToHome">{{genTranslation "userhome"}}</a>
+	{{#if verified}}
+		<a id="explore">{{chaTranslation "explorechallenge"}}</a>
+		<a id="history">{{chaTranslation "history"}}</a>
+		<a id="achievements">{{chaTranslation "achievements"}} {{#if hasNewAchieve}}<span class="textWarning">{{newAchieveNum}}</span>{{/if}}</a>
+	{{/if}}
+	<a id="manageAccount">{{chaTranslation "manageaccount"}}</a>
+	<a id="aboutSite">{{genTranslation "aboutenigma"}}</a>
+	<a id="logout">{{genTranslation "logout"}}</a>
+</template>

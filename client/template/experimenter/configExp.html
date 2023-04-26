@@ -1,0 +1,758 @@
+<template name="configBasicInfo">
+	<h2>{{expBasicInfo "title"}}<p><sub><a id="configExpIns">{{translation "instruction"}}</a></sub></p></h2>
+	<section>
+		<form>
+      <p>
+        <span>{{translation "challengecode"}}</span>
+        <span>{{expGenInfo "_id"}}  {{#if activated}}<a id="copyExpLinks" href="#">{{translation "copyexplinks"}}</a>{{/if}}</span>
+      </p>
+			<p>
+        <span>{{translation "status"}}</span>
+        <span>{{expStatusInfo "state"}}</span>
+      </p>
+			<p>
+        <span>{{translation "createdat"}}</span>
+        <span>{{expGenInfo "createdAt"}}</span>
+      </p>
+      <p>
+        <span>{{translation "participants"}}</span>
+				<span>{{expStatusInfo "currentSubj"}}/{{expBasicInfo "subjNum"}}</span>
+      </p>
+      <p>
+        <span>{{translation "coordinators"}}</span>
+				<span>
+					{{#each value in coordinators}}
+						{{value}}; 
+					{{else}}
+						{{translation "none"}}
+					{{/each}}
+				</span>
+      </p>
+      <p class="details">
+        <span>{{translation "researcher"}}</span>
+				<span>{{expBasicInfo "researchers"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "affiliation"}}</span>
+				<span>{{expBasicInfo "affiliations"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "contactemail"}}</span>
+				<span>{{expBasicInfo "email"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "website"}}</span>
+				<span>{{expBasicInfo "website"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "ethics"}}</span>
+				<span>{{expBasicInfo "ethics"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "keywords"}}</span>
+				<span>{{expBasicInfo "keywords"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "agethreshold"}}</span>
+				<span>{{expBasicInfo "age"}}</span>
+      </p>
+      <p class="details">
+        <span>{{translation "screening"}}</span>
+        <span>{{translation "fastcompletion"}}: <span class="textWarning">{{screeningExclude "fastCompletion"}}</span> {{translation "frequentquitter"}}: <span class="textWarning">{{screeningExclude "frequentQuitter"}}</span> {{translation "daydreamer"}}: <span class="textWarning">{{screeningExclude "daydreamer"}}</span></span>
+      </p>
+      <p class="details">
+        <span>{{translation "estimatetime"}}</span>
+        <span>{{expBasicInfo "hour"}} H {{expBasicInfo "min"}} M</span>
+      </p>
+      <p class="details">
+        <span>{{translation "gaphour"}}</span>
+				<span>{{expBasicInfo "gapHour"}}</span>
+      </p>
+      <p class="details">
+      	<span>{{translation "multiple"}}</span>
+				<span>{{columnYes "multiple"}}</span>
+      </p>
+      <p class="details">
+      	<span>{{translation "multiplen"}}</span>
+				<span>{{expBasicInfo "multipleN"}}</span>
+      </p>
+      <p class="details">
+      	<span>{{translation "multipletrain"}}</span>
+				<span>{{columnYes "multipleTrain"}}</span>
+      </p>
+      <p><sub><a id="ShowMore">{{translation "showmore"}}</a> <a id="ShowLess">{{translation "showless"}}</a></sub></p>
+    </form>	
+    <article>
+    	{{#unless activated}}
+      	<sub>{{translation "activatenote"}}</sub>
+     	{{/unless}}
+    </article>
+	</section>
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "editcoordinate"}}</legend>
+        <p>
+          <label for="email">{{translation "addCoord"}}</label>
+          <span><input type="email" name="email" id="coordEmail" value="" required /></span>
+        </p>
+        <p>
+          <input type="submit" id="addCoord" value="{{translation "add"}}" />
+          <input type="button" id="cancelChange" value="{{translation "cancel"}}" />
+        </p>
+        {{#each value in coordinators}}
+          <span style="background-color: #d4d4d4">{{value}}</span><sub><a class="removeCoord" id="{{value}}">X</a></sub>
+        {{/each}}
+      </fieldset>
+    </form>
+  </section>
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "excludeexp"}}</legend>
+        <p>
+          <label for="expId">{{translation "challengecode"}}</label>
+          <span><input type="text" name="expId" id="challengeCode" max="100" value="" required /></span>
+        </p>
+        <p>
+          <input type="submit" id="exclude" value="{{translation "exclude"}}" />
+          <input type="button" id="cancelExclude" value="{{translation "cancel"}}" />
+        </p>
+        {{#each value in excludedExps}}
+          <span style="background-color: #d4d4d4"><em>{{value.title}}</em> ({{value.id}})</span><sub><a class="removeExcludedExp" id="exc_{{value.id}}">X</a></sub>
+        {{/each}}
+      </fieldset>
+    </form>
+  </section>
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "validateresults"}}</legend>
+        <p>
+          <label for="verifyCode">{{translation "enterverifycode"}}</label>
+          <span><input type="text" name="verifyCode" id="verifyCode" value="" required /></span>
+        </p>
+        <p>
+          <input type="submit" id="verify" value="{{translation "verify"}}" />
+          <input type="button" id="cancelVerify" value="{{translation "cancel"}}" />
+          <input type="button" id="showUnverified" value="{{translation "showunverified"}}" />
+          <input type="button" id="showVerified" value="{{translation "showverified"}}" />
+          <input type="button" id="showAll" value="{{translation "showall"}}" />
+        </p>
+        <table style="width: 100%;">
+          <tr style="background-color: #d4d4d4;">
+            <th style="width: 50%;">{{translation "endtime"}}</th><th>{{translation "status"}}</th><th>{{translation "verifycode"}}</th><th>{{translation "validated"}}</th>
+          </tr>
+          {{#each expResults}}
+            {{#if notWithdrawn withdrawDate}}
+              <tr>
+                <td style="text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden;">{{endTime}}</td><td>{{validateResStage stage}}</td><td>{{verifyCode}}</td><td style="color: #ffffff; background-color: {{validateResColor verified}};">{{validateRes verified}}</td>
+              </tr>
+            {{/if}}
+          {{/each}}
+        </table>
+      </fieldset>
+    </form>
+  </section>
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "configexp"}}</legend>
+        <p>
+          <label for="title">{{translation "exptitle"}}</label>
+          <span><input type="text" name="title" id="title" maxlength="50" value="{{expBasicInfo "title"}}" required /></span>
+        </p>
+        <p>
+          <label for="keywords">{{translation "keywords"}}</label>
+          <span><input type="text" name="keywords" id="keywords" maxlength="100" value="{{expBasicInfo "keywords"}}" required /></span>
+        </p>
+        <p>
+          <label for="researcher">{{translation "researcher"}}</label>
+          <span><input type="text" name="researcher" id="researcher" maxlength="200" value="{{expBasicInfo "researchers"}}" requried /></span>
+        </p>
+        <p>
+          <label for="affiliation">{{translation "affiliation"}}</label>
+          <span><input type="text" name="affiliation" id="affiliation" maxlength="200" value="{{expBasicInfo "affiliations"}}" required /></span>
+        </p>
+        <p>
+          <label for="email">{{translation "contactemail"}}</label>
+          <span><input type="email" name="email" id="email" maxlength="100" value="{{expBasicInfo "email"}}" required /></span>
+        </p>
+        <p>
+          <label for="website">{{translation "website"}}</label>
+          <span><input type="text" name="website" id="website" maxlength="100" value="{{expBasicInfo "website"}}" /></span>
+        </p>
+        <p>
+          <label for="ethics">{{translation "ethics"}}</label>
+          <span><input type="text" name="ethics" id="ethics" maxlength="200" value="{{expBasicInfo "ethics"}}" required /></span>
+        </p>
+        <p>
+          <label for="subjNum">{{translation "subjnum"}}</label>
+          <span><input type="number" name="subjNum" id="subjNum" min="1" max="1000" value="{{expBasicInfo "subjNum"}}" required /></span>
+        </p>
+        <p>
+          <label for="age">{{translation "agethreshold"}}</label>
+          <span><input type="number" name="age" id="age" min="6" max="120" value="{{expBasicInfo "age"}}" required /></span>
+        </p>
+        <p>
+          <label for="age">{{translation "screening"}}</label>
+            <span>
+              {{translation "fastcompletion"}}<input type="checkbox" id="fastCompletion" {{boxChecked "screening" "fastCompletion"}} /> 
+              {{translation "frequentquitter"}}<input type="checkbox" id="frequentQuitter" {{boxChecked "screening" "frequentQuitter"}} />
+              {{translation "daydreamer"}}<input type="checkbox" id="daydreamer" {{boxChecked "screening" "daydreamer"}} />
+            </span>
+        </p>
+        <p>
+          <label for="estTime">{{translation "estimatetime"}}</label>
+          <span>
+            <input type="number" name="estTime" id="hour" min="0" max="10" value="{{expBasicInfo "hour"}}" required />H
+            <input type="number" name="estTime" id="min" min="0" max="59" value="{{expBasicInfo "min"}}" required />M
+          </span>
+        </p>
+        <p>
+          <label for="gapHour">{{translation "gaphour"}}</label>
+          <span><input type="number" name="gapHour" id="gapHour" min="1" max="336" value="{{expBasicInfo "gapHour"}}" required /></span>
+        </p>
+        <p>
+          <label for="multiple">{{translation "multiple"}}</label>
+          <span><input type="checkbox" id="multiple" {{boxChecked "multiple"}} /></span>
+        </p>
+        <p>
+          <label for="multipleN">{{translation "multiplen"}}</label>
+          <span><input type="number" name="multipleN" id="multipleN" min="1" max="10" value="2" /></span>
+        </p>
+        <p>
+          <label for="multipleTrain">{{translation "multipletrain"}}</label>
+          <span><input type="checkbox" id="multipleTrain" {{boxChecked "multipleTrain"}} /></span>
+        </p>
+        <p>
+          <input type="submit" id="saveExpSettings" value="{{translation "save"}}" />
+          <input type="button" id="cancelChange" value="{{translation "cancel"}}" />
+        </p>
+      </fieldset>
+    </form>
+  </section>
+	<p>
+		{{#if expState "inactive"}}
+      {{#if notCoordinator}}
+			  <input type="button" id="activate" value="{{translation "activate"}}" />
+      {{/if}}
+    {{else}}
+      <input type="button" class="desktopOnly" id="download" value="{{translation "download"}}" />
+    {{/if}}
+    <input type="button" id="preview" value="{{translation "preview"}}" />
+    {{#if notCoordinator}}
+      <input type="button" id="delete" value="{{translation "delete"}}" />
+      <input type="button" class="desktopOnly" id="editCoord" value="{{translation "editcoordinate"}}" />
+    {{/if}}
+    {{#unless notCoordinator}}
+      <input type="button" id="quitCoord" value="{{translation "endcoordinate"}}" />
+    {{/unless}}
+    <input type="button" class="desktopOnly" id="excludeExp" value="{{translation "excludeexp"}}" />
+    {{#if expState "inactive"}}
+     	<input type="button" class="desktopOnly" id="change" value="{{translation "changesettings"}}" />
+    {{/if}}
+    {{#unless expState "inactive"}}
+      <input type="button" class="desktopOnly" id="validate" value="{{translation "validateresults"}}" />
+    {{/unless}}
+	</p>
+	<div id="instructionContainer"></div>
+</template>
+
+<template name="orientation">
+  <section>
+    <form>
+        <fieldset>
+            <legend>{{translation "orientationinfo"}}<sub><a id="orientationIns">{{translation "instruction"}}</a></sub></legend>
+            <sub>{{translation "savereminder"}}</sub>
+            <p>
+              <label for="languages">{{translation "language"}}</label>
+              <span>
+                <select name="languages">
+                  {{#each languages}}
+                    <option value="{{code}}" {{defaultLang code}}>{{name}}</option>
+                  {{/each}}
+                </select>
+              </span>
+            </p>
+            <p>
+              <label for="descriptions">{{translation "expdescription"}}<br/>
+              <span style="color: red">{{descriptionNum}}</span> / 1,000</label>
+              <span><textarea name="descriptions" id="descriptions" maxlength="1000">{{descriptions}}</textarea></span>
+            </p>
+            <p>
+              <label for="consentForms">{{translation "consentform"}}<br/>
+              <span style="color: red">{{consentFormNum}}</span> / 15,000</label>
+              <span><textarea name="consentForms" id="consentForms" maxlength="15000">{{consentForm}}</textarea></span>
+            </p>
+            <p>
+              <label for="compensations">{{translation "compensation"}}<br/>
+              <span style="color: red">{{compensationNum}}</span> / 1,000</label>
+              <span><textarea name="compensations" id="compensations" maxlength="1000">{{compensation}}</textarea></span>
+            </p>
+            <p>
+              <label for="trainingInstructions">{{translation "exptraininstruction"}}<br/>
+              <span style="color: red">{{instructionNum "trainingInstructions"}}</span> / 2,000</label>
+              <span><textarea name="trainingInstructions" id="trainingInstructions" maxlength="2000">{{instructions "trainingInstructions"}}</textarea></span>
+            </p>
+            <p>
+              <label for="testInstructions">{{translation "exptestinstruction"}}<br/>
+              <span style="color: red">{{instructionNum "testInstructions"}}</span> / 2,000</label>
+              <span><textarea name="testInstructions" id="testInstructions" maxlength="2000">{{instructions "testInstructions"}}</textarea></span>
+            </p>
+            <p>
+              {{#unless activated}}
+                <input type="submit" id="orientationSubmit" value="{{translation "save"}}" />
+              {{/unless}}
+            </p>
+        </fieldset>
+    </form>
+  </section>
+  <div id="instructionContainer"></div>
+</template>
+
+<template name="trainingConfig">
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "training"}}<sub><a id="trainingConfigIns">{{translation "instruction"}}</a></sub></legend>
+        <sub>{{translation "savereminder"}}</sub>
+        <p>
+          <label for="skipTraining">{{translation "skiptraining"}}</label>
+          <span>
+            <input type="checkbox" id="skipTraining" {{boxChecked "skipTraining"}} />
+          </span>
+        </p>
+        {{#if existTrainingStimuli}}
+          <p>
+            <label for="selectTrainingList">{{translation "currentstimuli"}}</label>
+            <span>
+              <span style="color: red">{{stimuliRows}}</span> {{translation "row"}} <span style="color: red">{{stimuliCols}}</span> {{translation "column"}} <span style="color: red">{{trainingBlocks}}</span> {{translation "block"}} / {{translation "conditions"}}<span style="color: red">{{trainingConds}}</span><br/>
+              <a id="downloadList" href="">{{translation "download"}}</a>
+              <a id="selectTrainingList" href="">{{translation "replacestimuli"}}</a>
+              {{#if testingList}}
+                <span style="background-color: #cf1313; color: #FFFFFF;">{{translation "testinglist"}} {{testingProgress}}</span>
+              {{else}}
+                <a id="testTrainingList" href="">{{translation "teststimuliurl"}}</a>
+              {{/if}}
+              <sub><a id="stimuliFileIns">{{translation "listinstruction"}}</a></sub>
+              <input type="file" id="hiddenSelector" />
+            </span>
+          </p>
+        {{else}}
+          <p>
+            <label for="selectTrainingList">{{translation "trainingfile"}}</label>
+            <span>
+              <input type="file" id="hiddenSelector" /><a id="selectTrainingList" href="">{{translation "selectfile"}}</a><sub><a id="stimuliFileIns">{{translation "listinstruction"}}</a></sub>
+            </span>
+          </p>
+        {{/if}}
+        <p>
+          <label for="randomBlocks">{{translation "randomblocks"}}</label>
+          <span>
+            <input type="checkbox" id="randomBlocks" {{boxChecked "randomBlocks"}} />
+          </span>
+        </p>
+        <p>
+          <label for="targetAccuracy">{{translation "targetaccuracy"}}</label>
+          <span>
+            <input type="checkbox" id="targetAccuracy" {{boxChecked "targetAccuracy"}} />
+            {{#if thresholdApply}}
+              <input type="number" id="accuracyValue" min="1" max="100" value="{{accuracyValue}}" />%
+            {{/if}}
+          </span>
+        </p>
+        {{#each blocks}}
+          <fieldset class="blocks" id="block_{{id}}">
+            <legend>
+              {{title}}<sub><a id="{{id}}_edit">{{translation "edit"}}</a><a id="{{id}}_add">{{translation "addelement"}}</a><a id="{{id}}_up">&#x2191;</a><a id="{{id}}_down">&#x2193;</a></sub>
+            </legend>
+            <p>
+              <label for="blockTitle">{{translation "blocktitle"}}</label>
+              <span>
+                <input type="text" name="blockTitle" id="blockTitle" maxlength="20" value="{{title}}" />
+              </span>
+            </p>
+            <p>
+              <label for="blockLabel">{{translation "blocklabel"}}</label>
+              <span>
+                <input type="text" name="blockLabel" id="blockLabel" value="{{label}}" readonly />
+              </span>
+            </p>
+            <p>
+              <label for="nRepetition">{{translation "numrep"}}</label>
+              <span>
+                <input type="number" name="nRepetition" id="nRepetition" min="1" value="{{rep}}" />
+              </span>
+            </p>
+            <p>
+              <label for="randomStimuliOrder">{{translation "randomtrial"}}</label>
+              <span>
+                <input type="checkbox" name="randomStimuliOrder" id="randomStimuliOrder" {{boxChecked "randomStimuliOrder" random}} />
+              </span>
+            </p>
+            <p>
+              <label for="emTitle">{{translation "emtitle"}}</label>
+              <span>
+                <input type="text" name="emTitle" id="emTitle" maxlength="20" value="{{emValue "title"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emType">{{translation "emtype"}}</label>
+              <span>
+                <select class="emType" id="emType_{{id}}">
+                  <option value="presentation" {{emTypeSelect "presentation"}}>{{translation "presentation"}}</option>
+                  <option value="randomTest" {{emTypeSelect "randomTest"}}>{{translation "randomtest"}}</option>
+                </select>
+              </span>
+            </p>
+            <p>
+              <label for="emPresentOnset">{{translation "presentonset"}}</label>
+              <span>
+                <input type="text" name="emPresentOnset" id="emPresentOnset" value="{{emValue "start"}}" /> 
+              </span>
+            </p>
+            <p>
+              <label for="emLength">{{translation "emlength"}}</label>
+              <span>
+                <input type="text" name="emLength" id="emLength" value="{{emValue "length"}}" /> 
+              </span>
+            </p>
+            <p>
+              <label for="emStimuli">{{translation "emstimulitype"}}</label>
+              <span>
+                <select class="emStimuli" id="emStimuli_{{id}}">
+                  <option value="text" {{stimuliTypeSelect "text"}}>{{translation "text"}}</option>
+                  <option value="audio" {{stimuliTypeSelect "audio"}}>{{translation "audio"}}</option>
+                  <option value="video" {{stimuliTypeSelect "video"}}>{{translation "video"}}</option>
+                  <option value="image" {{stimuliTypeSelect "image"}}>{{translation "image"}}</option>
+                </select> 
+                <input type="text" name="emStimuliContent" id="emStimuliContent" maxlength="200" value="{{emValue "stimuli" "content"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emPos">{{translation "emstimulipos"}}</label>
+              <span>
+                <input type="text" name="emPos" id="emPosX" value="{{emValue "pos" "x"}}" /> 
+                <input type="text" name="emPos" id="emPosY" value="{{emValue "pos" "y"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emOrder">{{translation "emorder"}}</label>
+              <span>
+                <input type="number" name="emOrder" id="emOrder" min="1" max="10" value="{{emValue "order"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emCollectResp">{{translation "collectresp"}}</label>
+              <span>
+                <input type="checkbox" name="emCollectResp" class="emCollectResp" id="emCollectResp_{{id}}" {{boxChecked "collectResp"}} {{boxDisabled "emCollectResp"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emRespTypeKeys">{{translation "resptypekeys"}}</label>
+              <span>
+                <select class="emRespType" {{boxDisabled "emRespType"}}>
+                  <option value="unary" {{respTypeSelect "unary"}}>{{translation "unary"}}</option>
+                  <option value="binary" {{respTypeSelect "binary"}}>{{translation "binary"}}</option>
+                  <option value="likert" {{respTypeSelect "likert"}}>{{translation "likert"}}</option>
+                </select> 
+                <input type="text" name="emRespKeysTexts" id="emRespKeysTexts" value="{{emValue "resp" "keyTexts"}}" />
+                <input type="text" name="emRespKeys" id="emRespKeys" value="{{emValue "resp" "keys"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emCorrResp">{{translation "correctresp"}}</label>
+              <span>
+                <input type="text" name="emCorrResp" id="emCorrResp" maxlength="50" value="{{emValue "resp" "correctResp"}}" {{boxDisabled "emCorrResp"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emCheckResp">{{translation "checkresp"}}</label>
+              <span>
+                <input type="checkbox" name="emCheckResp" class="emCheckResp" id="emCheckResp_{{id}}" {{boxChecked "checkResp"}} {{boxDisabled "emCheckResp"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emShowFeedback">{{translation "showfeedback"}}</label>
+              <span>
+                <input type="checkbox" name="emShowFeedback" class="emShowFeedback" id="emShowFeedback_{{id}}" {{boxChecked "showFeedback"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emFeedbackTexts">{{translation "feedbacktexts"}}</label>
+              <span>
+                <input type="text" name="emFeedbackTexts" id="emFeedbackTexts" maxlength="50" value="{{feedbackTexts}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emFeedbackLength">{{translation "feedbacklen"}}</label>
+              <span>
+                <input type="number" name="emFeedbackLength" id="emFeedbackLength" min="0" max="1000000" value="{{feedbackLen}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emRandomTestInt">{{translation "randomtestint"}}</label>
+              <span>
+                <input type="text" name="emRandomTestInt" id="emRandomTestInt" maxlength="20" value="{{emValue "randomTest" "interval"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emRandomTestProm">{{translation "randomtestprom"}}</label>
+              <span>
+                <input type="text" name="emRandomTestProm" id="emRandomTestProm" maxlength="50" value="{{emValue "randomTest" "prompt"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emRandomTestPromLen">{{translation "randomtestpromlen"}}</label>
+              <span>
+                <input type="number" name="emRandomTestPromLen" id="emRandomTestPromLen" min="0.1" max="1000000" value="{{emValue "randomTest" "promptLength"}}" />
+              </span>
+            </p>
+            <p>
+              <input type="button" class="hideUpdate" id="{{id}}" value="{{translation "hide"}}" />
+              {{#unless activated}}
+                <input type="button" class="update{{updateCat}}" id="{{id}}" value="{{translation "update"}}" /> 
+                <input type="button" class="deleteEm" id="{{id}}" value="{{translation "delete"}}" />
+              {{/unless}}
+            </p>
+            <div class="elementContainer">
+              {{#let currentBlockId=id}}
+                {{#each elements}}
+                  <div class= "{{type}}" id="em_{{currentBlockId}}_{{id}}" style="width: {{emStyle "width" currentBlockId}}; margin-left: {{emStyle "left" currentBlockId order}};">{{title}} ({{length}}s)<br/></div>
+                {{/each}}
+              {{/let}}
+            </div>
+          </fieldset>
+        {{/each}}
+          <p>
+            {{#unless activated}}
+              <input type="submit" id="trainingConfigSubmit" value="{{translation "save"}}" /> 
+            {{/unless}}  
+          </p>
+      </fieldset>
+    </form>
+  </section>
+  <div id="instructionContainer"></div>
+</template>
+
+<template name="testConfig">
+  <section>
+    <form>
+      <fieldset>
+        <legend>{{translation "test"}}<sub><a id="testConfigIns">{{translation "instruction"}}</a></sub></legend>
+        <sub>{{translation "savereminder"}}</sub>
+        {{#if existTestStimuli}}
+          <p>
+            <label for="selectTrainingList">{{translation "currentstimuli"}}</label>
+            <span>
+              <span style="color: red">{{stimuliRows}}</span> {{translation "row"}} <span style="color: red">{{stimuliCols}}</span> {{translation "column"}} <span style="color: red">{{testBlocks}}</span> {{translation "block"}} / {{translation "conditions"}}<span style="color: red">{{testConds}}</span><br/>
+              <a id="downloadList" href="">{{translation "download"}}</a>
+              <a id="selectTestList" href="">{{translation "replacestimuli"}}</a>
+              {{#if testingList}}
+                <span style="background-color: #cf1313; color: #FFFFFF;">{{translation "testinglist"}} {{testingProgress}}</span>
+              {{else}}
+                <a id="testTestList" href="">{{translation "teststimuliurl"}}</a>
+              {{/if}}
+              <sub><a id="stimuliFileIns">{{translation "listinstruction"}}</a></sub>
+              <input type="file" id="hiddenSelector" />
+            </span>
+          </p>
+        {{else}}
+          <p>
+            <label for="selectTestList">{{translation "testfile"}}</label>
+            <span>
+              <input type="file" id="hiddenSelector" /><a id="selectTestList" href="">{{translation "selectfile"}}</a><sub><a id="stimuliFileIns">{{translation "listinstruction"}}</a></sub>
+            </span>
+          </p>
+        {{/if}}
+        <p>
+          <label for="randomBlocks">{{translation "randomblocks"}}</label>
+          <span>
+            <input type="checkbox" id="randomBlocks" {{boxChecked "randomBlocks"}} />
+          </span>
+        </p>
+        <p>
+          <label for="checkRapidRT">{{translation "checkrapidrt"}}</label>
+          <span>
+            <input type="checkbox" id="checkFastRT" {{boxChecked "checkFastRT"}} />
+          </span>
+        </p>
+        {{#each blocks}}
+          <fieldset class="blocks" id="block_{{id}}">
+            <legend>
+              {{title}}<sub><a id="{{id}}_edit">{{translation "edit"}}</a><a id="{{id}}_add">{{translation "addelement"}}</a><a id="{{id}}_up">&#x2191;</a><a id="{{id}}_down">&#x2193;</a></sub>
+            </legend>
+            <p>
+              <label for="blockTitle">{{translation "blocktitle"}}</label>
+              <span>
+                <input type="text" name="blockTitle" id="blockTitle" maxlength="20" value="{{title}}" />
+              </span>
+            </p>
+            <p>
+              <label for="blockLabel">{{translation "blocklabel"}}</label>
+              <span>
+                <input type="text" name="blockLabel" id="blockLabel" value="{{label}}" readonly />
+              </span>
+            </p>
+            <p>
+              <label for="nRepetition">{{translation "numrep"}}</label>
+              <span>
+                <input type="number" name="nRepetition" id="nRepetition" min="1" value="{{rep}}" />
+              </span>
+            </p>
+            <p>
+              <label for="randomStimuliOrder">{{translation "randomtrial"}}</label>
+              <span>
+                <input type="checkbox" name="randomStimuliOrder" id="randomStimuliOrder" {{boxChecked "randomStimuliOrder" random}} />
+              </span>
+            </p>
+            <p>
+              <label for="emTitle">{{translation "emtitle"}}</label>
+              <span>
+                <input type="text" name="emTitle" id="emTitle" maxlength="20" value="{{emValue "title"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emPresentOnset">{{translation "presentonset"}}</label>
+              <span>
+                <input type="text" name="emPresentOnset" id="emPresentOnset" value="{{emValue "start"}}" /> 
+              </span>
+            </p>
+            <p>
+              <label for="emLength">{{translation "emlength"}}</label>
+              <span>
+                <input type="text" name="emLength" id="emLength" value="{{emValue "length"}}" /> 
+              </span>
+            </p>
+            <p>
+              <label for="emStimuli">{{translation "emstimulitype"}}</label>
+              <span>
+                <select class="emStimuli">
+                  <option value="text" {{stimuliTypeSelect "text"}}>{{translation "text"}}</option>
+                  <option value="audio" {{stimuliTypeSelect "audio"}}>{{translation "audio"}}</option>
+                  <option value="video" {{stimuliTypeSelect "video"}}>{{translation "video"}}</option>
+                  <option value="image" {{stimuliTypeSelect "image"}}>{{translation "image"}}</option>
+                </select> 
+                <input type="text" name="emStimuliContent" id="emStimuliContent" maxlength="200" value="{{emValue "stimuli" "content"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emPos">{{translation "emstimulipos"}}</label>
+              <span>
+                <input type="text" name="emPos" id="emPosX" value="{{emValue "pos" "x"}}" /> 
+                <input type="text" name="emPos" id="emPosY" value="{{emValue "pos" "y"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emOrder">{{translation "emorder"}}</label>
+              <span>
+                <input type="number" name="emOrder" id="emOrder" min="1" max="10" value="{{emValue "order"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emCollectResp">{{translation "collectresp"}}</label>
+              <span>
+                <input type="checkbox" name="emCollectResp" class="emCollectResp" id="emCollectResp_{{id}}" {{boxChecked "collectResp"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emRespTypeKeys">{{translation "resptypekeys"}}</label>
+              <span>
+                <select class="emRespType">
+                  <option value="unary" {{respTypeSelect "unary"}}>{{translation "unary"}}</option>
+                  <option value="binary" {{respTypeSelect "binary"}}>{{translation "binary"}}</option>
+                  <option value="likert" {{respTypeSelect "likert"}}>{{translation "likert"}}</option>
+                </select> 
+                <input type="text" name="emRespKeysTexts" id="emRespKeysTexts" value="{{emValue "resp" "keyTexts"}}" />
+                <input type="text" name="emRespKeys" id="emRespKeys" value="{{emValue "resp" "keys"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emCorrResp">{{translation "correctresp"}}</label>
+              <span>
+                <input type="text" name="emCorrResp" id="emCorrResp" maxlength="50" value="{{emValue "resp" "correctResp"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emCheckResp">{{translation "checkresp"}}</label>
+              <span>
+                <input type="checkbox" name="emCheckResp" class="emCheckResp" id="emCheckResp_{{id}}" {{boxChecked "checkResp"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emShowFeedback">{{translation "showfeedback"}}</label>
+              <span>
+                <input type="checkbox" name="emShowFeedback" class="emShowFeedback" id="emShowFeedback_{{id}}" {{boxChecked "showFeedback"}} />
+              </span>
+            </p>
+            <p>
+              <label for="emFeedbackTexts">{{translation "feedbacktexts"}}</label>
+              <span>
+                <input type="text" name="emFeedbackTexts" id="emFeedbackTexts" maxlength="50" value="{{feedbackTexts}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emFeedbackLength">{{translation "feedbacklen"}}</label>
+              <span>
+                <input type="number" name="emFeedbackLength" id="emFeedbackLength" min="0" max="1000000" value="{{feedbackLen}}" />
+              </span>
+            </p>
+            <p>
+              <input type="button" class="hideUpdate" id="{{id}}" value="{{translation "hide"}}" />
+              {{#unless activated}}
+                <input type="button" class="update{{updateCat}}" id="{{id}}" value="{{translation "update"}}" /> 
+                <input type="button" class="deleteEm" id="{{id}}" value="{{translation "delete"}}" />
+              {{/unless}}
+            </p>
+            <div class="elementContainer">
+              {{#let currentBlockId=id}}
+                {{#each elements}}
+                  <div class= "{{type}}" id="em_{{currentBlockId}}_{{id}}" style="width: {{emStyle "width" currentBlockId}}; margin-left: {{emStyle "left" currentBlockId order}};">{{title}} ({{length}}s)<br/></div>
+                {{/each}}
+              {{/let}}
+            </div>
+          </fieldset>
+        {{/each}}
+        <p>
+          {{#unless activated}}
+            <input type="submit" id="testConfigSubmit" value="{{translation "save"}}" /> 
+          {{/unless}}
+        </p>
+      </fieldset>
+    </form>
+  </section>
+  <div id="instructionContainer"></div>
+</template>
+
+<template name="debriefing">
+  <section>
+    <form>
+        <fieldset>
+            <legend>{{translation "debriefinginfo"}}<sub><a id="debriefingIns">{{translation "instruction"}}</a></sub></legend>
+            <sub>{{translation "savereminder"}}</sub>
+            <p>
+              <label for="languages">{{translation "language"}}</label>
+              <span>
+                <select name="languages">
+                  {{#each languages}}
+                    <option value="{{code}}" {{defaultLang code}}>{{name}}</option>
+                  {{/each}}
+                </select>
+              </span>
+            </p>
+            <p>
+              <label for="debriefingContent">{{translation "debriefingcontent"}}<br/>
+              <span style="color: red">{{debriefingNum}}</span> / 5,000</label>
+              <span><textarea name="debriefingContent" id="debriefingContent" maxlength="5000">{{debriefingContent}}</textarea></span>
+            </p>
+            <p>
+              {{#unless activated}}
+                <input type="submit" id="debriefingSubmit" value="{{translation "save"}}" />
+              {{/unless}}
+            </p>
+        </fieldset>
+    </form>
+  </section>
+  <div id="instructionContainer"></div>
+</template>

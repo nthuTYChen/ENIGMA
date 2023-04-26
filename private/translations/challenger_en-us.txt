@@ -1,0 +1,179 @@
+abnormalquit#The previous session was interrupted abnormally.
+about#About 
+accuracy#Accuracy: 
+achievements#Achievements
+achievementsnote#Click/tap the icons for an explanation!
+allparticipated#Nothing new? Try something new instead!
+betternexttime#Better Next Time
+betternexttimenote#Feel a bit frustrated to see your working memory drops a little bit? It'll be better next time!
+beyondus#Beyond Us
+beyondusnote#You've got 10,000 correct responses, and that's certainly beyond us - the average joes.
+bigthree#Big Three
+bigthreenote#You have to be an enthusiastic challenger to be ranked Top 3 in ENIGMA.
+brainanatomy#Brain Anatomy
+brainanatomynote#You solved a mystery in your brain by testing your working memory for the first time!
+chainoffive#A Chain of Five
+chainoffivenote#Respond correctly to 5 test items in a row. Pure luck?
+challengenotfounde#No such a challenge
+challengenum#Session = 
+challenger#Challenger: 
+challengetimegape#The time limit is not over yet
+challenging#Challenging
+cloudnine#On Cloud 9
+cloudninenote#Respond correctly to 9 test items in a row? There's a reason to be joyful!
+completedchallenge#Completed Challenges
+completedsessions#Completed Sessions
+consent#Consent
+correctresps#Correct Responses in Tests
+correctrtmean#Mean Correct Reaction Time (ms)
+currentlogin#Current Login
+date#Date: 
+day#Day(s)
+daydreamer#No Response Rate >= 50%
+deeplyrooted#Deeply Rooted
+deeplyrootednote#Your soul is deeply rooted in the challenges you have completed...
+dejavu#Déjà vu
+dejavunote#Everything is so familiar in your first repeated test session, right?
+deleteaccountnote1#Before you do anything, we just need to let you know that the data you have contributed so far are <em>CRITICAL</em> to scientific research of language.
+deleteaccountnote2#Even if you just leave your challenger account and data alone, they would contain <em>MINIMAL</em> information about your privacy, and we will <em>TRY OUR BEST</em> storing your data in a safe place, as promised.
+deleteaccountnote3#Also, this action is <em>NOT</em> reversible, and all your personal <em>AND</em> experimental data stored with your ENIGMA challenger account will be <em>PERMANENTLY</em> removed, and we are <em>NOT</em> responsible for restoring your data.
+deleteaccountnote4#Your e-mail and the list of participated experiments (excluding your stats) will be archieved for 365 days in a separate database not available to anyone. If you sign up for a challenger account with the same e-mail, the archieved data will still be restored to your account.
+deleteaccountnote5#If we still cannot convince you to stay, feel free to enter your password and proceed to the next step...but...don't leave us, <em>PLEASE?</em>
+deletedate#Accout Deletion Time:
+excel#Excel!
+excelnote#Your brain has evolved to have an even more working memory capacity!
+explorer#Explorer
+explorernote#You are just a curious person, aren't you? You even take on 10 completed challenges just for fun!
+expresultsremoved#Exp stats removed.
+endtime#Last sessioned ended at 
+enterexpid#Enter Code
+estimatedlength#Estimated Length: 
+explorechallenge#Explore!
+expongoing#You still have an ongoing experiment.
+exptitle#Challenge Title: 
+failedtraining#Tough Training?
+failedtrainingnote#Failed to achieve a target accuracy rate during a training phase. Are you tired?
+fastcompletion#Responses Too Quick (<= 350 ms)
+firsttry#First Try
+firsttrynote#How's your first experience? Must have been very exciting!
+frequentquitter#Withdraw Frequently (>= 3 times)
+habitue#Habitué
+habituenote#ENIGMA is just like your playground so you are here taking on challenges everyday!
+help#Help
+hiddengem#????????????
+history#History
+historynum#The number of records: 
+homecoming#Homecoming
+homecomingnote#Ah, just tried an old one? It's like coming home!
+homesick#Homesick
+homesicknote#You've tried 20 old ones? Must be homesick.
+hours# hour(s)
+infiniteloop#Infinite Loop
+infiniteloopnote#Completing 20 repeated test sessions is like being trapped in an infinite loop.
+inputexpid#Input a challenge ID
+keepitup#Keep It Up!
+keepitupnote#50 challenges, and 50 rounds of mental training. Keep it rolling!
+languagefacts#Language Facts
+lastsevenwmtests#Your Last 7 Tests
+letsgo#Let's go!
+lightning#Lightning
+lightningnote#Your correct responses in a test session are lightening fast!
+lostandfound#Lost and Found
+lostandfoundnote#When was the last time you took on a challenge? We thought we've lost you!
+lowacc#Low Response Accuracy in Training
+manageaccount#Manage Account
+meanrt#Mean RT: 
+minutes# minute(s)
+miracle#Miracle
+miraclenote#Hit 20 correct responses in a row in a test session? This is a miracle!
+monument#Monument
+monumentnote#You've just got 500 correct responses in test sessions. What an achievement!
+morerunning#Waiting for some challengers. Try again later.
+ms#ms
+next10#Next 10 >>
+no#No
+nochallenge#Let's solve some puzzles!
+nohistory#No Challenge History
+nohistorynote#You haven't left any footprint here.
+nolessrecord#You just reached the beginning
+nomorerecord#No more items
+none#None
+noothers#Nothing here - but that's OK!
+noparticipated#What? You haven't completed any challenge!?
+noresp#Low response rate in the test session
+nowmhistory#No Working Memory test records
+obtainedachievements#Obtained Achievements
+ongoingchallenge#Ongoing Challenge
+otherchallenge#Probably not...
+participatedrelativee#You have participated in related challenges.
+perfectten#Perfect 10
+perfecttennote#How do you feel being ranked in Top 10? It gotta be perfect!
+prev10#<< Prev 10
+pwnochange#Ignore password columns if no change is needed.
+repeatchallenge#Continue!
+recommended#Do it now!
+recordscore#Highest: 
+recruiting#Recruiting: 
+remainedrecall#Numbers to recall: 
+remainedrecalltime#Time Left: 
+remove#Remove
+removehistconfirm#Are you sure to remove this record?
+removing#Removing...
+retrieving#Retrieving...
+runwm#Test WM
+sec# second(s)
+signaturee#Please sign the consent form.
+siteranking#Site Ranking: 
+sleightofhand#Sleight of Hand
+sleightofhandnote#You just pressed some response key too fast by accident, didn't you? That happens!
+specialnote#Special Note
+sprinter#Sprinter
+sprinternote#Just like a sprinter, you rush to make responses - especially the correct ones!
+startwm#Start Working Memory Test
+swift#Swift
+swiftnote#Your correct responses in a test session were so swift!
+time#Time: 
+timetonext#Time to next session: 
+toddler#Learning to Walk
+toddlernote#Got 100 correct responses in test sessions. You will keep growing for sure!
+tothemoon#To The Moon
+tothemoon#You got a total of 2,000 correct responses! That's enough to take you to the moon.
+untilnexttest#Until the next test: 
+unverified#Your account is not verified!
+unverifiednote#Didn't get the verification code? Check you junk mailbox, or go to "Manage Account" page for another one.
+userdatanochange#The data below cannot be changed.
+verified#Verified: 
+verifycode#Code: 
+verifynewemail#A new e-mail needs to be verified again.
+veteran#Veteran
+veterannote#You have completed 100 test sessions. Other challengers would give you their full respect!
+view#View
+waitfortimegap#You need to wait for 
+warmingup#Warming Up
+warmingupnote#You have completed a few more challenges, but that's just a start!
+welcomeback#Hey, good to see you again!
+whatsthis#What's this?
+withdraw#End Challenge...
+withdrawing#Ending...
+withdrew#Challenge ended
+wmage#Age:
+wmcorrrt#Correct RT: 
+wmduration#Duration: 
+wmenigmastats#ENIGMA Users by Age
+wmhistory#History
+wmhistorytitle#Working Memory History
+wmlasttest#Your Last Test
+wmlastupdate#Last Update: 
+wmno#Incorrect
+wmphase#Ready for the next group
+wmrecage#Record Age:
+wmscore#Score: 
+wmtest#Working Memory Test
+wmtimegape#An interval of 24 hours is required 
+wmtotalsession#Total Session(s): 
+wmyes#Correct
+workingmemory#Working Memory
+workingmemoryrec#Working Memory High Score
+yes#Yes
+yinyang#Yin and Yang
+yinyangnote#It's the fate. It's your destiny. You got just exactly half of your responses correct in a test session.

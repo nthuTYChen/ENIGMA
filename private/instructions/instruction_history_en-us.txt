@@ -1,0 +1,32 @@
+<section>
+	<article>
+		On this page, you can review the record of your completed challenges in chronologically descending order (that is, newer ones are listed first). The basic information including the title of the challenge, your accuracy rate during the test session, as well as the mean reaction time for accurate responses. You can also retrieve verification codes here and provide them following experimenters' requests, if you miss them on the results page. For every single entry, you will see two buttons "View" and "Remove", which we will explain below.
+	</article>
+</section>
+
+<section>
+	<h3>View</h3>
+	<article>
+		<p>When you click a "View" button, you will be navigated to the page that was presented when you completed the test session of a challenge with more detailed results and comparisons. You can therefore review your test performance or share the result page on a social network site, too. However, if you failed to reach an accuracy threshold during the training session and was thus forced to terminate a challenge, you will not see this button.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Remove</h3>
+	<article>
+		<p>As promised in ENIGMA's Terms and Conditions (you can still find it in your Profile management page, if you missed it), ENIGMA guarantees that you can remove any part of your data at any time, so you can certainly click this button to remove any given record. The associated data will be completely elimiated from the ENIGMA server, including those originally available to experimenters. To make things easier, we don't even ask you to confirm your action - Once you click this button, the data is removed <em>immediately</em>. However, also as explained in our Terms and Condition, the design of ENIGMA means to protect your online privacy, and your contribution is vital to linguistic research. So we really hope you can keep the data with us as long as possible. Of course, if there's any challenge with false information or with a design that is potentially harmful or offensive, please feel free to remove the data as quickly as you can and report to us.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Consent</h3>
+	<article>
+		<p>At any time you need to check the consent form you signed when you agree to take part in a challenge, feel free to click on the Consent button to download it from ENIGMA.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="關閉" />
+	</p>
+</section>

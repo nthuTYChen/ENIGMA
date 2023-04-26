@@ -1,0 +1,245 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Bitter|Noto+Sans+TC|Noto+Serif+TC|Rajdhani|Share+Tech+Mono&display=swap" rel="stylesheet"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>ENIGMA</title>
+</head>
+
+<body>
+  <div id="contentInject"></div>
+  <div id="warning"></div>
+</body>
+
+<template name="defaultLayout">
+  {{> Template.dynamic template=main}}
+</template>
+
+<template name="contentLayout">
+  <header>
+    {{> header}}
+  </header>
+  <nav>
+    {{> Template.dynamic template=sideMenu}}
+  </nav>
+  <div id="contentBody">
+    {{> Template.dynamic template=body}}
+  </div>
+  <footer id="small">
+    {{> footer}}
+  </footer>
+</template>
+
+<template name="expLayout">
+  <div id="expBody">
+    <div id="expMenu">
+      <span>{{{siteTitle}}}</span>
+        {{#if preview}}
+          <span id="endPreview">{{translation "endreview"}}</span>
+        {{else}}{{#if runWMExp}}
+          <span id="endTest">{{translation "endtest"}}</span>
+        {{else}}
+          <span id="quitExp">{{translation "quitexp"}}</span>
+        {{/if}}{{/if}}
+    </div>
+    {{> Template.dynamic template=body}}
+  </div>
+  <div id="instructionContainer"></div>
+</template>
+
+<template name="langChoose">
+  <style>
+    
+    a {
+      display: inline-block;
+      margin: 5px 0;
+      padding: 5px;
+      width: 200px;
+      border-left: 5px solid #d4d4d4;
+      border-bottom: none;
+      text-align: center;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+  </style>
+  <div id="langMenu" style="position: absolute; top: 50%; left: 50%; width: 100%; transform: translate(-50%, -50%);">
+  	<h2>Please choose a language</h2>
+    <a id="zh-tw">正體中文 (TW)</a><br/>
+    <a id="en-us">English (US)</a>
+  </div>
+</template>
+
+<template name="loading">
+  <div id="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  	<h3>Loading...</h3>
+  </div>
+</template>
+
+<template name="header">
+  <span>≡</span><h1>{{{translation "siteTitle"}}}</h1>
+</template>
+
+<template name="miniHeader">
+  <div>{{{translation "siteTitle"}}}</div>
+</template>
+
+<template name="footer">
+  {{{translation "copyright"}}}
+</template>
+
+<template name="home">
+  <style>
+
+    div > p {
+      margin: 20px 0;
+      width: 100%;
+    }
+
+    div > p > a {
+      display: block;
+      margin: 2px 0;
+      margin-left: 10% !important;
+      margin-right: 10% !important;
+      padding: 5px;
+      width: 80%;
+      border-left: 5px solid #d4d4d4;
+      border-bottom: none;
+      text-align: center;
+    }
+
+    div > p > a:not(:first-of-type) {
+      display: block;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      background-color: #2e2e2e;
+      border-left: 5px solid #d19c21;
+      overflow: hidden;
+    }
+
+    div > p > a:not(:first-of-type):hover {
+      background-color: #d19c21;
+      color: black;
+    }
+
+    div#homeContainer {
+      position: absolute;
+      top: calc(50vh - 10vh);
+      left: 50vw;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      margin-bottom: 10vh;
+    }
+
+    div.snsIcons#facebook, {
+      text-align: right;
+    }
+
+    a.snsIcons {
+      display: inline-block;
+      position: relative;
+      height: 10vw;
+      width: 10vw;
+      margin: 0 2px;
+      border: 1px dotted #2e2e2e;
+      background-color: #2e2e2e;
+      color: #000000;
+      font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif;
+      font-size: 8vw;
+      font-weight: bold;
+      line-height: 10vw;
+      /*text-decoration: none;*/
+      transition: all 0.3s ease-in;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    a.snsIcons:hover {
+      transition: all 0.5s ease-out;
+    }
+
+    a.snsIcons#facebook:hover {
+      background-color: #3b5998;
+    }
+
+    a.snsIcons#twitter:hover {
+      background-color: #38a1f3;
+    }
+
+    a.snsIcons#youtube:hover {
+      background-color: #FF0000;
+    }
+
+    h3#siteSubtitle {
+      animation: flickering 1s ease-in-out alternate infinite;
+    }
+
+    @keyframes flickering {
+      0% {color: #d19c21;}
+      100% {color: #d4d4d4;}
+    }
+
+    @media only screen and (min-width: 1200px) {
+
+      div > p > a {
+        margin: 5px 0;
+        margin-left: 40% !important;
+        margin-right: 40% !important;
+        width: 20%;
+      }
+
+      a.snsIcons {
+        height: 3vw;
+        width: 3vw;
+        font-size: 2.4vw;
+        line-height: 3vw;
+      }
+
+      div#homeContainer {
+        top: calc(50vh - 2.5vw);
+        margin-bottom: 2.5vw;
+      }
+
+    }
+
+  </style>
+  <div id="homeContainer">
+	  <h1 id="siteBanner">{{translation "siteTitle"}}</h1>
+    <h3 id="siteSubtitle">{{translation "siteSubtitle"}}</h3>
+    <div id="homeMenu" style="font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif;">
+      <p>
+        <a id="challengerMenu">{{translation "challenger"}}</a>
+        <a id="challengerLogin">{{translation "signin"}}</a>
+        <a id="challengerSignUp">{{translation "signup"}}</a>
+        <a id="challengerDemo">{{translation "demoexp"}}</a>
+      </p>
+      <p>
+        <a id="experimenterMenu">{{translation "experimenter"}}</a>
+        <a id="experimenterLogin">{{translation "signin"}}</a>
+        <a id="experimenterSignUp">{{translation "signup"}}</a>
+      </p>
+      <p>
+        <a id="aboutENIGMA">{{translation "aboutenigma"}}</a>
+      </p>
+      <p>
+        <a id="langMenu">{{translation "selectlang"}}</a>
+        <a id="selectLang_zh-tw">{{translation "zhTw"}}</a>
+        <a id="selectLang_en-us">{{translation "enUs"}}</a>
+      </p>
+    </div>
+    <div>
+      <a class="snsIcons" id="facebook" href="https://www.facebook.com/Enigma.NTHU" target="_blank">f</a> <a class="snsIcons" id="twitter" href="https://twitter.com/enigma_nthu" target="_blank">t</a> <a class="snsIcons" id="youtube" href="https://www.youtube.com/channel/UC24SonuOW4CoWppcupesqEw" target="_blank">Y</a>
+    </div>
+  </div>
+  <footer>
+    {{> footer}}
+  </footer>
+</template>

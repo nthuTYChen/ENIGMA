@@ -1,0 +1,89 @@
+<style>
+	ul > li::first-line {
+		font-weight: bold;
+	}
+</style>
+
+<section>
+	<h3>實驗刺激項目清單格式</h3>
+	<article>
+		<p>實驗刺激項目清單應為以<span class="textWarning">UTF-8編碼的純文字檔</span>儲存。第一行將視為欄位名稱(<span class="textWarning">請使用英文字母</span>)，之後每行代表一個實驗刺激項目的資訊。每一行內的每個欄位應以<span class="textWarning">tab鍵</span>隔開，才能由「字謎」正確的讀取。範例如下：</p>
+		<table>
+			<tr>
+				<th>StimuliID</th>
+				<th>TextStimuli</th>
+				<th>AudioURLs</th>
+				<th>Correct</th>
+				<th>...</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Ball</td>
+				<td>http://test.url/ball.wav</td>
+				<td>a</td>
+				<td>...</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Bird</td>
+				<td>http://test.url/bird.wav</td>
+				<td>l</td>
+				<td>...</td>
+			</tr>
+			<tr>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+				<td>...</td>
+			</tr>
+		</table>
+		<p>每一個項目清單含欄位名稱最多<span class="textWarning">1,001行</span>和<span class="textWarning">30欄</span>，且每個資料欄位不得超過<span class="textWarning">100字元</span>。我們建議你使用Microsoft Excel(或其他類似的試算表軟體)編輯項目清單，再複製整個項目清單至純文字編輯器(如：Notepad或Sublime Text)，就會以tab分隔型式呈現，再儲存為UTF-8純文字檔，就是符合「字謎」的編輯項目清單格式。</p>
+		<p>這裡我們提供示範挑戰中使用的訓練與測驗刺激項目清單做為例子：
+			<ul>
+				<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/training_demo.txt" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/training_demo.txt</a></li>
+				<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test_demo.txt" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test_demo.txt</a></li>
+			</ul>
+		</p>
+	</article>
+</section>
+
+<section>
+	<h3>項目清單特殊欄位說明</h3>
+	<article>
+		<p>當你將項目清單上傳至「字謎」時，每個欄位名稱英文字母大小寫符合下列說明時才會儲存在「字謎」中。其餘欄位將會被捨棄。</p>
+		<ul>
+			<li>Block(必須)<br/>實驗刺激項目會根據項目清單中的「Block」欄位自動分配到某個特定的實驗區間。此外，實驗區間也只會根據「Block」中的類別自動產生。</li>
+			<li>Correct(必須在測驗階段使用)<br/>由於研究參與者在<span class="textWarning">測驗階段</span>中的測試正確率會做為「試後釋疑」的資訊之一，你的項目清單必須包含「Correct」欄位，以方便你設定正確的回應選擇。正確回應的按鍵只能包含space、0-9、或a-z這些常用的鍵盤按鍵。若有一個以上的正確回應，請用半形逗號「,」進行分隔。(如：「a,l,space」)</li>
+			<li>StimuliID(選用)<br/>你可以利用此欄位為每個實驗刺激項目編號。「字謎」並<span class="textWarning">不會</span>自動為你的實驗刺激項目進行編號，所以我們建議你包含這個欄位資訊，以方便你自行在進行分析時辨別實驗刺激項目。</li>
+			<li>Condition(選用)<br/>你可以利用此欄位將實驗刺激項目歸類至的實驗情境，而「字謎」會協助你將研究參與者將<span class="textWarning">隨機</span>分配到不同的實驗情境。如果你希望在不同的情境下使用一個實驗刺激項目的話，那你可以在此欄位以「;」半型分號將每個適用的情境名稱分開，如：「experimental;control」。<span class="textWarning>注意：</span>每一個情境應該出現在每一個實驗區間中，否則在隨機選擇情境的情況下，某些實驗區間可能會因為缺少某個情境而沒有任何的實驗刺激項目，造成實驗進行的錯誤。</li>
+			<li>Session(選用)<br/>如果你的實驗要求研究參與者完成多個實驗回合(也就是實驗基本設定中的「允許重覆參與」設定為「是」)，而且你希望在不同回合中使用不同組的實驗刺激項目的話，你就可以加入此欄位並且為每個實驗刺激項目標上實驗回合號碼。舉例來說，如果你將基本設定中的「可重覆參與次數」設定為「2」，那麼你在這個欄位中就可以設定「1」和「2」兩個實驗回合號碼。你也可以為實驗刺激項目設定多個實驗回合號碼，並用半形分號「;」將每個號碼隔開，如「1;2」。你<span class="textWarning">不能</span>跳過任何的實驗回合號碼，而且被標註高於「可重覆參與次數」實驗號碼的實驗刺激項目將<span class="textWarning">完全不會</span>被使用在實驗中。你可以選擇在訓練或測試階段的清單中加入此欄位，也可以選擇在兩個清單中都加入此欄位。<span class="textWarning">注意：</span>當你加入此欄位的時候，務必要確保每個實驗回合內都包含所有的實驗區間，而如果你的清單中也包含了「Condition」欄位，那麼每個實驗回合內的實驗區間也都應該要包含所有的實驗情境。
+			</li>
+			<li>*TextStimuli*(選用)<br/>你可以使用名稱包含「TextStimuli」的欄位(如：「WordTextStimuli」)儲存以文字呈現的實驗刺激項目。若你在這些欄位中輸入網址，「字謎」將<span class="textWarning">不會</span>連結至這些網址指向的檔案或頁面。</li>
+			<li>*AudioURL*、*VideoURL*、*ImageURL*(選用)<br/>當欄位名稱包含「AudioURL」、「VideoURL」或是「ImageURL」時(如：「StimuliAudioURL」)，該欄位內容將會視為網址，而非純文字。當該欄位資訊在「字謎」實驗中使用時，「字謎」會試著讀取網址所連結的「聲音」、「影片」、或「圖片」。(詳見下述「網址欄位說明」)</li>
+			<li>Length(選用)<br/>你可以使用此欄位包含每個實驗刺激項目呈現的持續時間(秒)。此欄位只能包含介於「-1」與「3600」之間的數字。</li>
+			<li>Delay(選用)<br/>你可以使用這此欄位包含每個實驗刺激項目延遲呈現的長度(秒)。此欄位只能包含介於「0」與「3600」之間的數字。</li>
+			<li>PosX、PosY(選用)<br/>你可以使用這此欄位包含每個視覺實驗刺激項目呈現的位置。此欄位只能包含介於「-10000」與「10000」之間的數字。這裡的數字代表視覺實驗刺激項目本身長寬的比例。舉例來說，PosX若為「-50」，就代表實驗刺激項目會從中心點向左移動該項目長度的50%。</li>
+		</ul>
+	</article>
+</section>
+
+<section>
+	<h3>網址欄位說明</h3>
+	<article>
+		<p>網址欄位中所使用的網址<span class="textWarning">必須</span>以「http://」或「https://」開頭，且必須直接連接至.wav聲音檔、.mp4影片檔、或是.jpg及.png圖片檔。範例連結如下：</p>
+		<ul>
+			<li><a href="https://lngproc.fl.nthu.edu.tw/enigmaTest/test.wav" target="blank">https://lngproc.fl.nthu.edu.tw/enigmaTest/test.wav</a></li>
+			<li><a href="https://lngproc.fl.nthu.edu.tw/enigmaTest/test.png" target="blank">https://lngproc.fl.nthu.edu.tw/enigmaTest/test.png</a></li>
+		</ul>
+		<p>在每個網址欄位中，請不要混合含有不同檔案類型的網址。舉例來說，若你在包含「AudioURL」名稱的欄位中同時輸入含有.wav以及.jpg的網址時，你就會得到「字謎」提示的錯誤訊息。此外，由於瀏覽器的相容性問題，「AudioURL」相關欄位只能使用連結至.wav檔案的網址，「VideoURL」相關欄位只能使用連結至.mp4檔案的網址，同時.mp4檔案建議使用H.264或H.265編碼。「ImageURL」相關欄位可使用常用的網頁圖形格式如.jpg或.png。</p>
+		<p>大多數的雲端儲存空間(如：Dropbox、Google Drive、OneDrive)提供的分享連結並<span class="textWarning">不適用</span>於「字謎」，因為這些連結通常是連至分享檔案的「頁面」，而非直接連至分享的檔案。因此，我們建議你將檔案上傳至你的學術機構所提供的網頁空間，才能以直接連結的方式存取你需要在「字謎」中使用的多媒體實驗刺激項目。</p>
+		<p>當點選頁面上的「測試刺激項目網址」時，「字謎」會協助確認你使用的網址是否可以正常存取。這個功能主要的目的是避免你輸入錯誤的網址，而非測試你的網址是否可以直接連結到你需要使用的檔案。因此，若「字謎」提示你的所有網址測試沒有問題時，僅代表所有的網址皆可正常開啟，但並<span class="textWarning">不表示</span>這些網址是直接連接到你需要存取的檔案。</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="關閉" />
+	</p>
+</section>

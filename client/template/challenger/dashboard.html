@@ -1,0 +1,164 @@
+<template name="dashboard_cha">
+	<style>
+		em > img {
+			max-height: 3.5vw;
+			vertical-align: text-top;
+		}
+
+		h2 > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		h2 + p {
+			max-width: 100%;
+		}
+
+		h2 + p > span:first-child {
+			width: 2vw;
+		}
+
+		h2 + p > span.rolling {
+			animation: rolling 10s linear infinite;
+		}
+
+		@keyframes rolling {
+			from {
+				left: 100%;
+			}
+			to {
+				left: -150%;
+			}
+		}
+
+		@media only screen and (min-width: 1200px) {
+			em > img {
+				max-height: 1.2vw;
+			}
+
+			h2 > img {
+				max-height: 2.4vw;
+			}
+
+			h2 + p {
+				margin-left: 0;
+			}
+
+			h2 + p > span:first-child {
+				width: 17vw;
+			}
+
+			h2 + p > span.rolling {
+				animation: rolling 20s linear infinite;
+			}
+		}
+	</style>
+	<section>
+		<h2><em>{{username}}</em></h2>
+		<h2>{{chaTranslation "welcomeback"}}<img src="{{iconURL}}welcome-smile.png" /><sub><a id="chaDashboardHelp" href="">{{chaTranslation "help"}}</a></sub></h2>
+		<p style="overflow: hidden; text-overflow: clip; white-space: nowrap;">
+			<span style="position: absolute; z-index: 1; left: 0; background-color: white; color: white;">;</span>
+			<em style="position: relative; z-index: 2; padding: 0 2px; background-color: #f0b326; border-radius: 2px;">{{chaTranslation "languagefacts"}}</em> <span style="position: relative; visibility: hidden; z-index: 0;">{{randomLanguageFact.fact}}</span>
+		</p>
+	</section>
+	<section class="flexPanel">
+		{{#if notVerified}}
+			<div style="background-color: rgba(207, 19, 19, 0.8); color: #2e2e2e; width: 100%;">
+				<div style="background-color: rgba(207, 19, 19);"></div>
+				<em>{{chaTranslation "unverified"}} <img src="{{iconURL}}unverified-warning.png" /></em>
+				<h3>{{chaTranslation "unverifiednote"}}</h3>
+				<em>{{chaTranslation "deletedate"}}{{deleteDate}}</em>
+			</div>
+		{{else}}
+			<div style="background-color: rgba(87, 117, 144, 0.8); width: 100%;">
+				<div style="background-color: rgba(87, 117, 144);"></div>
+				<em>{{chaTranslation "ongoingchallenge"}} <img src="{{iconURL}}hot-flame.png" /></em>
+				{{#if challengeState "noChallenge"}}
+					<h3>
+						{{chaTranslation "nochallenge"}}
+					</h3>
+					<input type="button" id="explore" value="{{chaTranslation "explorechallenge"}}" />
+				{{else}}{{#if challengeState "withChallenge"}}
+					<h3>
+						{{expTitle}}
+					</h3>
+					{{#if challengeType "repeat"}}
+						<em>{{chaTranslation "endtime"}} {{endTime}}</em> <em>{{chaTranslation "challengenum"}} {{sessionN}}/{{targetN}}</em>
+						{{#if passTimeLimit}}
+							<p>
+								<input type="button" id="repeatChallenge" value="{{chaTranslation "repeatchallenge"}}" />
+							</p>
+						{{else}}
+							<p>
+								<em>{{chaTranslation "timetonext"}}<span class="textWarning">{{countDown}}</span> {{chaTranslation "sec"}}</em> <input type="button" id="withdraw" value="{{chaTranslation "withdraw"}}" />
+							</p>
+						{{/if}}
+					{{else}}{{#if challengeType "abnormal"}}
+						<em>{{chaTranslation "abnormalquit"}}</em> <input type="button" id="withdraw" value="{{chaTranslation "withdraw"}}" />
+						
+					{{/if}}{{/if}}
+				{{/if}}{{/if}}
+			</div>
+			<div style="background-color: rgba(249, 65, 68, 0.8);">
+				<div style="background-color: rgba(249, 65, 68);"></div>
+				<em>{{chaTranslation "currentlogin"}} <img src="{{iconURL}}login.png" /></em>
+				<h3>{{currentLogin}}</h3>
+				<em>{{currentLoginTime}}</em>
+			</div>
+			<div style="background-color: rgba(243, 114, 44, 0.8);">
+				<div style="background-color: rgba(243, 114, 44);"></div>
+				<em>{{chaTranslation "completedsessions"}} <img src="{{iconURL}}diagram-up.png" /></em>
+				<h3>{{statsNum "session"}}</h3>
+				<em>{{chaTranslation "siteranking"}}{{siteRanking "session"}}</em>
+			</div>
+			<div style="background-color: rgba(248, 150, 30, 0.8);">
+				<div style="background-color: rgba(248, 150, 30);"></div>
+				<em>{{chaTranslation "correctresps"}} <img src="{{iconURL}}target-correct.png" /></em>
+				<h3>{{statsNum "correctRespN"}}</h3>
+				<em>{{chaTranslation "siteranking"}}{{siteRanking "correctRespN"}}</em>
+			</div>
+			<div style="background-color: rgba(249, 199, 79, 0.8);">
+				<div style="background-color: rgba(249, 199, 79);"></div>
+				<em>{{chaTranslation "correctrtmean"}} <img src="{{iconURL}}rt-clock.png" /></em>
+				<h3>{{statsNum "allCorrRTMean"}}</h3>
+				<em>{{chaTranslation "siteranking"}}{{siteRanking "allCorrRTMean"}}</em>
+			</div>
+			<div style="background-color: rgba(144, 190, 109, 0.8);">
+				<div style="background-color: rgba(144, 190, 109);"></div>
+				<em>{{chaTranslation "workingmemoryrec"}} <img src="{{iconURL}}brain-head.png" /></em>
+				<h3>{{wmStats "record"}}</h3>
+				<em>{{chaTranslation "wmrecage"}}{{wmStats "age"}}</em> <input type="button" id="runWM" value="{{chaTranslation "runwm"}}" /> <input type="button" id="wmHistory" value="{{chaTranslation "wmhistory"}}" />
+			</div>
+			{{#if sideNotes "fastCompletion"}}
+				<div style="background-color: rgba(207, 19, 19, 0.8); color: #2e2e2e; width: 100%;">
+					<div style="background-color: rgba(207, 19, 19);"></div>
+					<em>{{chaTranslation "specialnote"}} <img src="{{iconURL}}special-note.png" /></em>
+					<h3>{{chaTranslation "fastcompletion"}}</h3>
+					<em>{{chaTranslation "date"}}{{sideNotesDate "fastCompletion"}}</em>
+				</div>
+			{{/if}}
+			{{#if sideNotes "frequentQuitter"}}
+				<div style="background-color: rgba(207, 19, 19, 0.8); color: #2e2e2e; width: 100%;">
+					<div style="background-color: rgba(207, 19, 19);"></div>
+					<em>{{chaTranslation "specialnote"}} <img src="{{iconURL}}special-note.png" /></em>
+					<h3>{{chaTranslation "frequentquitter"}}</h3>
+					<em>{{chaTranslation "date"}}{{sideNotesDate "frequentWithdraw"}}</em>
+				</div>
+			{{/if}}
+			{{#if sideNotes "daydreamer"}}
+				<div style="background-color: rgba(207, 19, 19, 0.8); color: #2e2e2e; width: 100%;">
+					<div style="background-color: rgba(207, 19, 19);"></div>
+					<em>{{chaTranslation "specialnote"}} <img src="{{iconURL}}special-note.png" /></em>
+					<h3>{{chaTranslation "daydreamer"}}</h3>
+					<em>{{chaTranslation "date"}}{{sideNotesDate "daydreamer"}}</em>
+				</div>
+			{{/if}}
+			<!--
+				<div style="position: relative; background-color: rgba(67, 170, 139, 0.8);">
+					<div style="background-color: rgba(67, 170, 139);"></div>
+				</div>
+			-->
+		{{/if}}
+	</section>
+	<div id="instructionContainer"></div>
+</template>

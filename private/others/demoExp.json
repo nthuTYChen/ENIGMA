@@ -1,0 +1,372 @@
+{
+        "user" : "XXXXXXXX",
+        "coordinators" : [ ],
+        "status" : {
+                "state" : "demo",
+                "activated" : true,
+                "currentSubj" : 0
+        },
+        "basicInfo" : {
+                "title" : "Demo Exp",
+                "keywords" : "Demo Exp",
+                "researchers" : "Tsung-Ying Chen",
+                "affiliations" : "National Tsing Hua University",
+                "email" : "chen.ty@mx.nthu.edu.tw",
+                "website" : "https://lngproc.fl.nthu.edu.tw",
+                "ethics" : "NTHU REB 10805HS050",
+                "subjNum" : 20,
+                "age" : 20,
+                "screening" : {
+                        "fastCompletion" : true,
+                        "frequentQuitter" : true,
+                        "hacking" : true
+                },
+                "estTime" : {
+                        "hour" : 0,
+                        "min" : 5
+                },
+                "gapHour" : 24,
+                "multiple" : false,
+                "multipleN" : 2,
+                "multipleTrain" : false
+        },
+        "orientation" : {
+                "descriptions" : {
+                        "en-us" : "This is just a demo showing how an ENIGMA challenge could be done, and it's going to be very simple.",
+                        "zh-tw" : "這個示範主要是呈現在「字謎」中進行挑戰的流程，所以整個挑戰非常的簡單。"
+                },
+                "consentForms" : {
+                        "en-us" : "This is just a very simple demo that takes a few minutes to complete, and the risk of doing this demo is not higher than the risks encountered in real life. There will also be no data stored into the ENIGMA server during the entire process. To continue this demo means you understand all these explanations and agree to participate in this challenge.",
+                        "zh-tw" : "本流程只是一個簡單的示範，只需數分鐘即可完成，而進行本示範的風險不高於存在於日常生活中的一般風險，而進行本示範挑戰也不會將任何的資料儲存於「字謎」的伺服器中。進行本示範代表你了解這些說明且同意進行挑戰。"
+                },
+                "compensations" : {
+                        "en-us" : "This is just a very simple demo, so your time will only be compensated for with the fun you will experience in this demo :)",
+                        "zh-tw" : "這只是一個簡單的示範挑戰，而你的實驗補償就是你將會體驗到的樂趣:)"
+                },
+                "trainingInstructions" : {
+                        "en-us" : "In this training stage, you will be exposed to 20 visually presented alphabetical strings from some real languages in the world. Your task is simply to try your best memorizing these alphabetical sequences.\n\nOn each trial, you will first see a cross '+' for one second as a hint to the next string. Then, a string will show up and last for 5 seconds, and the challenge will move automatically to the next trial. During this stage, you don't have to take any action other than reading the strings at the center of the screen. You can try to read the items aloud, though!",
+                        "zh-tw" : "在訓練階段中，你會看到20個以羅馬文字呈現的字母組合，而這些都是來自世界上的某個語言。你所要做事情非常地簡單，也就是在這些組合出現時，盡可能的記住它們。 \n\n在每一題訓練開始時，你會看見一個十字符號「+」，而這個符號會在螢幕中間持續出現1秒鐘，代表下一個字母組合即將出現。 接著，你會在螢幕中央看到某個字母組合，而這個組合會持續5秒鐘。5秒鐘過後，訓練階段會自動進行下一個訓練題, 所以在訓練階段中你不用採取任何的動作。不過你可以試看看把這些字母組合唸出來。"
+                },
+                "testInstructions" : {
+                        "en-us" : "In the 20 alphabetical strings you saw in the training stage, there are some hidden rules that help create these strings, so this test session aims to investigate if you have learned these rules consciously or accidentally. In this test session, you will see 10 alphabetical strings that you didn't see in the training stage, and your task is to judge if each of them complies with the hidden rules. If you think the new strings are consistent with the hidden rules, then they are 'Good' strings. If not, then they are 'Bad' strings. If you're not sure what the hidden rules are, just follow your intuition and guess!\n\nOn each trial, you will first see a cross '+' for one second as a hint, then a new string will appear at the center of the screen for 5 seconds. Within 5 seconds, you have to press (A) on your keyboard (or the bottom-left button on your mobile device) for a 'Good' string and (L) (or the bottom-right button) for a 'Bad' string. With a valid response or without a valid response after 5 seconds, the test session will move to the next trial automatically.",
+                        "zh-tw" : "你在訓練階段看到的20組字母組合是透過某些隱藏的規則所建立的，而這個測試階段的目的就是要測試你是不是有意識或無意識的學習到了這些規則。在這個測試階段中，你會看到10個你沒有在訓練階段見過的字母組合，而你要做的就是判斷這10個組合是否符合那些隱藏的規則。如果你的判斷是「符合隱藏的規則」，那麼就是「Good」的字母組合。如果你的判斷是「不符合隱藏的規則」，那麼就是「Bad」的字母組合。如果你不確定隱藏的規則是什麼，那麼就根據你的直覺用猜的去判斷即可。\n\n每個測驗題開始時會出現十字符號「+」，並持續1秒鐘做為提示。接著一組新的字母組合會出現在螢幕中央，並持續5秒鐘。在5秒鐘內，你必須按下鍵盤上的「A」鍵(或是行動裝置螢幕上左下角的按鍵)做為「Good」的判斷，或是按下「L」鍵(或是行動裝置螢幕右下角的按鍵)做為「Bad」的判斷。在你做出判斷後或是經過5秒鐘且沒有做出判斷，測驗就會自動跳到下一個測驗題。"
+                }
+        },
+        "training" : {
+                "skip" : false,
+                "random" : false,
+                "threshold" : {
+                        "apply" : false,
+                        "pass" : 1
+                },
+                "stimuli" : {
+                        "StimuliID" : [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "14",
+                                "15",
+                                "16",
+                                "17",
+                                "18",
+                                "19",
+                                "20"
+                        ],
+                        "TextStimuli" : [
+                                "badap",
+                                "tumit",
+                                "sifub",
+                                "kumig",
+                                "fohet",
+                                "masad",
+                                "posen",
+                                "gisuk",
+                                "tagaf",
+                                "repom",
+                                "tenos",
+                                "bazah",
+                                "linip",
+                                "dubur",
+                                "sanav",
+                                "zigib",
+                                "fumut",
+                                "beted",
+                                "rodor",
+                                "sowob"
+                        ],
+                        "Block" : [
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training",
+                                "Training"
+                        ],
+                        "nRows" : 20,
+                        "nCols" : 3
+                },
+                "blocks" : [
+                        {
+                                "id" : 0,
+                                "elements" : [
+                                        {
+                                                "type" : "presentation",
+                                                "id" : 0,
+                                                "order" : 1,
+                                                "title" : "Cross",
+                                                "pos" : {
+                                                        "x" : "0",
+                                                        "y" : "0"
+                                                },
+                                                "stimuli" : {
+                                                        "type" : "text",
+                                                        "content" : "+"
+                                                },
+                                                "start" : "0",
+                                                "length" : 1,
+                                                "resp" : {
+                                                        "collect" : false,
+                                                        "type" : "binary",
+                                                        "check" : false,
+                                                        "keyTexts" : "yes,no",
+                                                        "keys" : "a,l",
+                                                        "correctResp" : "",
+                                                        "feedback" : {
+                                                                "show" : false,
+                                                                "texts" : "✓,✗",
+                                                                "length" : 0.5
+                                                        }
+                                                }
+                                        },
+                                        {
+                                                "type" : "presentation",
+                                                "id" : 1,
+                                                "order" : 2,
+                                                "title" : "Target",
+                                                "pos" : {
+                                                        "x" : "0",
+                                                        "y" : "0"
+                                                },
+                                                "stimuli" : {
+                                                        "type" : "text",
+                                                        "content" : "[[TextStimuli]]"
+                                                },
+                                                "start" : "0",
+                                                "length" : 5,
+                                                "resp" : {
+                                                        "collect" : false,
+                                                        "type" : "binary",
+                                                        "check" : false,
+                                                        "keyTexts" : "yes,no",
+                                                        "keys" : "a,l",
+                                                        "correctResp" : "",
+                                                        "feedback" : {
+                                                                "show" : false,
+                                                                "texts" : "✓,✗",
+                                                                "length" : 0.5
+                                                        }
+                                                }
+                                        }
+                                ],
+                                "title" : "Block Training",
+                                "label" : "Training",
+                                "rep" : 1,
+                                "random" : true
+                        }
+                ]
+        },
+        "test" : {
+                "random" : false,
+                "stimuli" : {
+                        "StimuliID" : [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                                "10"
+                        ],
+                        "TextStimuli" : [
+                                "sudom",
+                                "nadit",
+                                "kefib",
+                                "putan",
+                                "dorus",
+                                "faham",
+                                "gitud",
+                                "luwig",
+                                "mezok",
+                                "hobep"
+                        ],
+                        "Correct" : [
+                                "l",
+                                "l",
+                                "l",
+                                "l",
+                                "l",
+                                "a",
+                                "a",
+                                "a",
+                                "a",
+                                "a"
+                        ],
+                        "Block" : [
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test",
+                                "Test"
+                        ],
+                        "nRows" : 10,
+                        "nCols" : 4
+                },
+                "blocks" : [
+                        {
+                                "id" : 0,
+                                "elements" : [
+                                        {
+                                                "type" : "presentation",
+                                                "id" : 0,
+                                                "order" : 1,
+                                                "title" : "Cross",
+                                                "pos" : {
+                                                        "x" : "0",
+                                                        "y" : "0"
+                                                },
+                                                "stimuli" : {
+                                                        "type" : "text",
+                                                        "content" : "+"
+                                                },
+                                                "start" : "0",
+                                                "length" : 1,
+                                                "resp" : {
+                                                        "collect" : false,
+                                                        "type" : "binary",
+                                                        "check" : false,
+                                                        "keyTexts" : "yes,no",
+                                                        "keys" : "a,l",
+                                                        "correctResp" : "",
+                                                        "feedback" : {
+                                                                "show" : false,
+                                                                "texts" : "✓,✗",
+                                                                "length" : 0.5
+                                                        }
+                                                }
+                                        },
+                                        {
+                                                "type" : "presentation",
+                                                "id" : 1,
+                                                "order" : 2,
+                                                "title" : "TargetResp",
+                                                "pos" : {
+                                                        "x" : "0",
+                                                        "y" : "150"
+                                                },
+                                                "stimuli" : {
+                                                        "type" : "text",
+                                                        "content" : "Good (A) / Bad (L)"
+                                                },
+                                                "start" : "0",
+                                                "length" : 5,
+                                                "resp" : {
+                                                        "collect" : true,
+                                                        "type" : "binary",
+                                                        "check" : true,
+                                                        "keyTexts" : "Good,Bad",
+                                                        "keys" : "a,l",
+                                                        "correctResp" : "[[Correct]]",
+                                                        "feedback" : {
+                                                                "show" : false
+                                                        }
+                                                }
+                                        },
+                                        {
+                                                "type" : "presentation",
+                                                "id" : 2,
+                                                "order" : 2,
+                                                "title" : "Target",
+                                                "pos" : {
+                                                        "x" : "0",
+                                                        "y" : "0"
+                                                },
+                                                "stimuli" : {
+                                                        "type" : "text",
+                                                        "content" : "[[TextStimuli]]"
+                                                },
+                                                "start" : "0",
+                                                "length" : 5,
+                                                "resp" : {
+                                                        "collect" : false,
+                                                        "type" : "binary",
+                                                        "check" : false,
+                                                        "keyTexts" : "yes,no",
+                                                        "keys" : "a,l",
+                                                        "correctResp" : "",
+                                                        "feedback" : {
+                                                                "show" : false,
+                                                                "texts" : "✓,✗",
+                                                                "length" : 0.5
+                                                        }
+                                                }
+                                        }
+                                ],
+                                "title" : "Block Test",
+                                "label" : "Test",
+                                "rep" : 1,
+                                "random" : true
+                        }
+                ]
+        },
+        "debriefing" : {
+                "en-us" : "The rules hidden in the training items are simple. In every word, regardless of the order of vowels, the vowel [a] never goes with [i], [e], [o], and [u], the vowel [i] never goes with [e] or [o], and the vowel [e] never goes with [i] and [u]. Have you figured this out?",
+                "zh-tw" : "訓練階段中呈現的字母組合的隱藏規則很簡單。在每一個組合中，無論母音的順序為何，母音[a]從來不會與[i]、[e]、[o]和[u]同時出現，而母音[i]從來不會與[e]和[o]同時出現。最後，母音[e]從來不會與[i]和[u]同時出現。你有學到這些規則嗎？"
+        },
+        "availableLang" : [
+                "en-us",
+                "zh-tw"
+        ],
+        "stats" : {
+                "correctPerc" : "NA",
+                "allRTMean" : "NA",
+                "correctRTMean" : "NA"
+        },
+        "completedAt" : "",
+        "activateCheck" : {
+                "done" : true,
+                "pass" : true,
+                "failList" : [ ]
+        }
+}

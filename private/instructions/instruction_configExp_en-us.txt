@@ -1,0 +1,102 @@
+<section>
+	<article>
+		There are multiple sections of experiment information and settings, including basic information (the current page), orientation, training session, test session, and debriefing. On this page, you can review and change basic experiment information and settings such as experiment title and keywords. After the first time you activate this experiment, however, you won't be able to change these settings. This constraint helps you keep a consistent experiment procedure  for every participant. You can also perform other actions such as activate, delete, and copy the experiment, which will be explained in great detail below.
+	</article>
+</section>
+
+<section>
+	<h3>Challenge Code</h3>
+	<article>
+		<p>On this page, you will see a "Challenge Code" column in addition to other basic information you entered when you created this experiment. This is useful after you "activate" this experiment, which you can share with your participants for them to quickly find and participate in your experiment. Before you activate this experiment, this information is not important. That said, you should still keep this information to yourself since it is vital to protect your experimental data.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Activate</h3>
+	<article>
+		<p>When you choose to activate an experiment, the experiment will appear in the experiment list available to participants, and all participants can freely participate in active experiments. We highly recommend you to double-check every setting of this experiment before activating it, since you will not be able to change all the settings and information of the experiment. If you find any issue with an active experiment, you can only choose to reset or delete the experiment.</p>
+	</article>
+</section>
+
+<!-- <section>
+	<h3>Deactivate</h3>
+	<article>
+		<p>You can deactivate an experiment at any time to stop data collection. However, you still cannot change any information or setting after you deactivate an experiment.</p>
+	</article>
+</section> -->
+
+<section>
+	<h3>Preview</h3>
+	<article>
+		<p>You can use this function to examine if an experiment runs as you expect. Before you activate an experiment, please use this function to check the settings and the flow of the experiment. The data collected during the training and test sessions in the preview mode will NOT be stored in the ENIGMA server.</p>
+	</article>
+</section>
+
+<!-- <section>
+	<h3>Copy</h3>
+	<article>
+		<p>If you need to re-use the design of an experiment, you can choose to duplicate the experiment. You will need to provide an unused experiment title, and then all the information and settings will be copied to the duplicated experiment. The data collected in the original experiment, however, will NOT be migrated to the duplicated experiment.</p>
+	</article>
+</section> 
+
+<section>
+	<h3>Reset</h3>
+	<article>
+		<p>If you find serious issues with your experiment and you really need to change the settings, you could choose to reset an experiment to its initial state as if it has never been activated before. However, this function will remove <span class="textWarning">all the data</span> collected before you reset the experiment</span>, and this change is <span class="textWarning">irreversible</span>. In addition, those who have participated in the experiment will be allowed to participate again. Thus, we still highly recommend you to double-check everything before activating an experiment. You should not use this function to obtain ideal results either, and all the resetting records will be provided to other researchers downloading your experiment data for their reference.</p>
+	</article>
+</section> -->
+
+<section>
+	<h3>Delete</h3>
+	<article>
+		<p>You can choose to delete an experiment by clicking this button, if this action is extremely necessary. This action can only be executed by the creater of an experiment. Once executed, this action will delete every bit of the data associated with the target experiment, and there's no way to recover the data. Before you take this action, please consider <span class="textWarning">carefully</span> if it is really necessary to remove this experimental data. Every experiment contributes to the sustainability of ENIGMA, so we hope that even if your experiment is complete, you can keep it running on ENIGMA. If it were the case that you're running out of the quota of creating new experiments, please contact us. We can surely figure things out for us.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Edit Collaborators (for main experimenter only)</h3>
+	<article>
+		<p>If you have a research team that helps manage an experiment, you can add the members of your team who register as an ENIGMA experiment as the collaborators of the experiment. Collaborators cannot reset, copy, and delete an experiment and edit collaborators, but will otherwise be able to do whatever you are allowed to do with an experiment, such as running an experiment or downloading the data. Every experiment can have at most five collaborators, and only the experiment who creates an experiment could make changes to the coordinator list.</p>
+	</article>
+</section>
+
+<section>
+	<h3>End Collaboration (for coordinators only)</h3>
+	<article>
+		<p>If you are added as a coordinator of an experiment, you can use this function to end your role as a coordinator in this experiment, and you will no longer see this experiment in your experiment list or manage this experiment.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Exclude Exp</h3>
+	<article>
+		<p>If you have concerns over influences of participating in other experiments on learners' performance in the current experiment, you could choose to exclude participants who have been involved in other experiments from the current experiment. To exclude an experiment, you can simply enter its Challenge Code. If you need to exclude more than one experiment, you could enter multiple Challenge Codes at once by separating every two codes with a semi-colon ";" (although you cannot enter more than 100 characters at a time). Currently, ENIGMA allows you to exclude up to 20 experiments for every experiment, but just in case that you need to exclude more, please let us know.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Change Settings</h3>
+	<article>
+		<p>You can use this option to change the information and settings of an experiment that has never been activated before.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Download</h3>
+	<article>
+		<p>You can download the data hitherto collected in this experiment after it is activated.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Validate Results</h3>
+	<article>
+		<p>You can ask participants to provide their verification codes when they complete experimental sessions, and use this function to validate their participation(s).</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

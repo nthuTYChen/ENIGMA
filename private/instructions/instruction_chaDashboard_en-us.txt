@@ -1,0 +1,63 @@
+<section>
+	<article>
+		In this dashboard, ENIGMA provides a rich body of information for you to see how human languages and language learning are interesting to many people. So, let us explain!
+	</article>
+</section>
+
+<section>
+	<h3>Language Facts</h3>
+	<article>
+		<p>Whenever you visit this page, ENIGMA will present a random language fun fact for you to expand your knowing of the intricacies in human languages. These facts are carefully selected by the ENIGMA team from linguistic research. Should you have some questions about these fact, please feel free to contact us, and we're more than delighted to provide the sources of these facts.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Ongoing Challenge</h3>
+	<article>
+		<p>When you're not doing any challenge, you should only see the message "Let's solve some puzzles!" in this area. And don't hesitate! Just click/tap the "Explore!" button to check the challenges that are avaialble to you.</p>
+		<p>If your previous challenge was interrupted abnormally (for example, you simply closed the browser tab halfway through a challenge), this challenge would remain as an "ongoing" challenge for you. In this case, you would see the title of the "ongoing" challenge as well as the button "End Challenge...", and you will have no choice but clicking the button to terminate the challenge.</p>
+		<p>If you join a challenge that requires you to complete multiple sessions, you will see the title of the ongoing challenge as well as the time before you can move to the next session. You will also see the "End Challenge..." button to terminate the challenge even before you complete all required sessions...but you aren't a quitter, are you? :)</p>
+	</article>
+</section>
+
+<section>
+	<h3>Current Login</h3>
+	<article>
+		<p>This section simply represents your IP address recorded by ENIGMA with your current login. As stated in the Terms and Conditions, ENIGMA records this information in the results of your challenges, which will only be partially shared with experimenters (for instance, 140.114.255.255 could be converted into 1*0.114.2**.255).</p>
+	</article>
+</section>
+
+<section>
+	<h3>Completed Sessions</h3>
+	<article>
+		<p>Whenever you complete a test session of a challenge, this number increases by one, and ENIGMA calculates the ranking with regard to this number for all challengers every 24 hours. This number could be understood in two ways. On the one hand, it means you keep doing different challenges so you offer a vast amount of data extremely useful for scientific research of language learning. On the other hand, you could keep doing the challenges that you have done before to keep exploring your language learning performance. Either way, it means some "achievements". Agree? :)</p>
+	</article>
+</section>
+
+<section>
+	<h3>Correct Responses in Tests</h3>
+	<article>
+		<p>By "correct responses", it means the number of correct responses you have made in "test sessions" of all challenges you have done. While the difficulty of challenges may vary, the growing number suggests that you have been trying really hard to learn some linguistic knowledge in the challenges, and that's a good thing, too! The ranking of this number is also updated every 24 hours.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Correct Response Time Mean</h3>
+	<article>
+		<p>This number represents the average speed of you making each correct response in "test sessions". However, you need to at least make 10 correct responses in a test session for the numbers in this test session to be included in the process of calculating this number. This number has all kinds of different meanings in language learning experiments. One of them is that you make correct responses quickly because you are very confident that you have correct answers. Another is that when you "unconsciously" use some linguistic knowledge acquired from a training session, your responses would be faster. Which is more like your case? This number is calculated and ranked for every 24 hours.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Working Memory High Score</h3>
+	<article>
+		<p>This number is the highest score you have ever got in a Working Memory test, followed by the age at which the score is recorded. But what's Working Memory? All the details are in the instruction of this test, so how about click "Test WM" and find out?</p>
+		<p>One more thing. There must be an interval of 30 days at least between every two Working Memory tests. After all, your Working Memory measure should not change drastically overnight.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

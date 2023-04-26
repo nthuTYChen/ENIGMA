@@ -1,0 +1,125 @@
+<section>
+	<article>
+		In this form for creating a new experiment, only Website and Multiple Participations are optional, and you're required to fill the rest of required fields.
+	</article>
+</section>
+
+<section>
+	<h3>Exp Title</h3>
+	<article>
+		<p>The title of your experiment will be presented for participants' reference, so we suggest to choose a title that is interesting enough but also comply with research ethics guidelines to attract your participants. The title must not be longer than <span class="textWarning">50 characters</span>.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Keywords</h3>
+	<article>
+		<p>Keywords are for other researchers in ENIGMA to search for the experimental data shared by you when an experiment is done. Please separate each keyword with a comma, such as <span class="textWarning">Mandarin, phonology, vowel harmony</span>. All keywords together include commas must not be longer than <span class="textWarning">100 characters</span>.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Researcher(s)</h3>
+	<article>
+		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment, including the names of core members such as the (Co-)Principle Investigators. This information is provided to participants for them to decide whether to participate in your experiment. You can fill the name for just the Principle Investigator or for all core members. If there are multiple names, please separate the names with a comma, such as "Tsung-Ying Chen, Chao-Ting Chou". All the names together including commas should be no longer than <span class="textWarning">200 characters</span>, and the names should be consistent with those in your research ethics approval.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Affiliation(s)</h3>
+	<article>
+		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment, including the affiliations of core members such as the (Co-)Principle Investigators. This information is provided to participants for them to decide whether to participate in your experiment. You can fill the affiliation for just the Principle Investigator or for all core members. If there are multiple affiliations, please separate the names with a comma, such as "National Tsing Hua University (Taiwan), National Chiao Tung University (Taiwan)". All affiliations together including commas should be no longer than <span class="textWarning">400 characters</span>, and the affiliations should be consistent with those in your research ethics approval.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Contact E-mail</h3>
+	<article>
+		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment, including the e-mail of the main contact person of the research team. This information is necessary for participants to contact researchers, and you can just provide one e-mail of the main contact person here. The length of the e-mail address should be no longer than <span class="textWarning">100 characters</span>.</p>
+		<p>Note that if we receive any complaint with regard to an invalid e-mail, the ENIGMA administrators have the right to terminate your ENIGMA experiment. Therefore, you are advised to provide a valid e-mail in this column.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Website (Optional)</h3>
+	<article>
+		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment. One type of helpful information would be the website of the Principle Investigation or the research team (e.g., a lab or a research center). If you are able to provide this information, it will be easier for participants to validate your identity and research background, which might make your ENIGMA experiment more trustworthy and attractive to participants. The website address should be no longer than <span class="textWarning">100 characters</span> and should start with "http://" or "https://". This information, if available, should also be consistent with that in your research ethics approval.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Research Ethics Info</h3>
+	<article>
+		<p>The research ethics guidelines require you to have your ENIGMA experiment approved by an Institution Review Board or Research Ethics Board prior to its activation in ENIGMA. If you do not have the approval available, you can provide the name of the institution that will be reviewing your research, and change it to the accurate information after your research is officially approved, such as "">Research Ethics Offices, National Tsing Hua University, No. 10805HS050". The length of the info should be no longer than <span class="textWarning">200 characters</span>.</p>
+		<p>Any ENIGMA experiment that does not provide the proper information with regard to its research ethics approval might be deleted without notice by the ENIGMA administrators.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Participant Number</h3>
+	<article>
+		<p>The target participant number for each ENIGMA experiment could be between <span class="textWarning">1 and 1,000</span>. The target number should also be consistent with that in your research ethics approval. If you need to recruit more than 1,000 participants, please contact an ENIGMA administrator, and explain your request possibly with the proper research ethics approval for the ENIGMA administrator to manually adjust the target number for you. You can end your ENIGMA experiment before the number is reached, and ENIGMA will terminate your experiment automatically and categorize it into the "Completed Experiment" group.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Age Threshold</h3>
+	<article>
+		<p>In each ENIGMA experiment, you can follow your research as well as the research ethics guidelines you need to follow to set up an age threshold. Every participant in ENIGMA is required to provide their Date of Birth when signing up for an ENIGMA account, and ENIGMA will help them automatically exclude the experiments they are not allowed to participate in. We are certainly unable to assure you that every participant provides the correct information, but at least your participants' rights are already maximally protected when you properly set an age threshold following the research ethics guidelines.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Screening</h3>
+	<article>
+		<p>When participants in ENIGMA behave abnormally, the system will marks the participants automatically, and you can choose if these participants are excluded from your experiment. "Fast RT" means these participants on average respond within <span class="textWarning">350 ms</span>, which may be interpreted as not taking an experiment seriously. "No Response" suggests that the participants didn't respond to test trials for more than <span class="textWarning">50%</span> of the time in some other experiment, which may likewise imply their lack of seriousness when taking part in an experiment. "Multiple Withdraws" means these participants withdraw from experiments and remove their data for at least <span class="textWarning">10 times</span>. While it is participants' right to remove their data and withdraw from an experiment if they consider an experiment questionable, multiple withdraws might also represent deliberate actions to remove data after participants complete the goals set by the experimenters. If you check these boxes, participants marked with these labels won't be able to see or take part in your experiment.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Estimated Time</h3>
+	<article>
+		<p>Please provide the estimated time for completing an experimental session for your participants' reference.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Gap Hours</h3>
+	<article>
+		<p>Since every participant could participate in more than one ENIGMA experiment, their learning of other artificial languages might affect their performance in your experiment. Therefore, you can set gap hours so your participants need to wait X hours after their last experimental session before they can participate in your ENIGMA experiment. This setting applies to participants who are allowed to participate your experiment multiple times (see below). Since ENIGMA automatically terminates the participation of participants if they do not continue their repeated experimental session within 14 days, this setting could be 336 hours at maximum.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Exp Description</h3>
+	<article>
+		<p>You can add a simple description for each of your ENIGMA experiment so participants could understand the procedure of the experiment and the time needed for it. Since every experiment is a game for the participants to solve a language puzzle, so you need to strike a balance between providing academic contents and using a vivid description to attract participants. A description should be no longer than <span class="textWarning">1,000 characters</span>.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Multiple Participations</h3>
+	<article>
+		<p>In case that you want to study the last effect of learning an artificial language, you can choose to allow your participants to participate in the same experiment again. ENIGMA is also GAMIFIED to encourage participants to play with the same experiment. If your experiment does not allow multiple participations, the settings below will not be considered. When participants have not completed all the experimental sessions, ENIGMA will not take them into consideration when calculating the number of participants of an experiment. When participants do not continue their next participation in 14 days, ENIGMA will terminate their participation automatically. In this case, data in their previous participations can still be downloaded, and these participants will be counted in the calculation of the number of participants.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Number of Multiple Participations</h3>
+	<article>
+		<p>If your ENIGMA experiment allows for multiple participations, you can set the upper limit, which is up to 10 times for each participant at most.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Multiple Training</h3>
+	<article>
+		<p>If your ENIGMA experiment allows multiple participations, you can choose to force your participants to go through its training session again. If this option is not checked, participants will directly skip to the test phase when they participate again.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

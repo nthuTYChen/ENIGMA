@@ -1,0 +1,249 @@
+<template name="expPanels">
+    <style>
+        div.trialPresent {
+            min-width: max-content;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+    {{#if expSession "loadingSettings"}}
+        {{> expLoadingSettings}}
+    {{else}}{{#if expSession "loadingMultimedia"}}
+        {{> expLoadingMultimedia}}
+    {{else}}{{#if expSession "trainingInstruction"}}
+        {{> expTrainingInstruction}}
+    {{else}}{{#if expSession "lowAccuracy"}}
+        {{> expLowAccuracy}}
+    {{else}}{{#if expSession "training"}}
+        {{> expTrainingTrial}}
+    {{else}}{{#if expSession "testInstruction"}}
+        {{> expTestInstruction}}
+    {{else}}{{#if expSession "test"}}
+        {{> expTestTrial}}
+    {{else}}{{#if expSession "noResp"}}
+        {{> noResp}}
+    {{else}}{{#if expSession "fastResp"}}
+        {{> fastResp}}
+    {{else}}{{#if expSession "debriefing"}}
+        {{> expDebriefing}}
+    {{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}
+</template>
+
+<template name="expLoadingSettings">
+    <style>
+        
+        section {
+            text-align: center;
+        }
+
+        section > p, section > article {
+            text-align: left;
+        }
+
+        article > section {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        article > section:last-of-type {
+            display: none;
+        }
+
+        article > section > h3 {
+            text-align: center;
+        }
+
+        ul {
+            text-align: left;
+            list-style-position: inside;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+    </style>
+    <section>
+        <h1>{{expBasicInfo "title"}}</h1>
+        <h3>{{translation "estimatetime"}} {{hour}} H {{min}} M</h3>
+        {{translation "explang"}} 
+        <select id="changeExpLang">
+            {{#each availableLang}}
+                <option value="{{code}}" {{defaultLang code}}>{{name}}</option>
+            {{/each}}
+        </select>
+        <div style="text-align: left; background-color: #d19c21;">
+            {{#each value in loadLongTexts "descriptions"}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+            {{/each}}
+        </div>
+        <article style="background-color: #d4d4d4; padding: 5px 2px;">
+            <sub>
+                <em>{{translation "creator"}}</em><a href="mailto:{{expBasicInfo "email"}}?subject=Inquiries about {{expBasicInfo "title"}}">{{creator}}</a><br/>
+                <em>{{translation "researchers"}}</em>{{expBasicInfo "researchers"}}<br/>
+                <em>{{translation "affiliation"}}</em>{{expBasicInfo "affiliations"}}<br/>
+                <em>{{translation "website"}}</em><a href="{{expBasicInfo "website"}}" target="blank">{{expBasicInfo "website"}}</a><br/>
+                <em>{{translation "contactemail"}}</em><a href="mailto:{{expBasicInfo "email"}}?subject=Inquiries about {{expBasicInfo "title"}}">{{expBasicInfo "email"}}</a><br/><em>{{translation "ethics"}}</em>{{expBasicInfo "ethics"}}<br/>
+            </sub>
+        </article>
+        {{#if expCompleted}}
+            <p>
+                <span style="color: red"><em>{{translation "statuscomplete"}}</em></span>
+            </p>
+        {{/if}}
+        <ul>
+            <li><span style="color: red"><em>{{translation "beforeagree"}}</em></span> <a href="" id="consentForm">{{translation "consentform"}}</a> {{#unless expCompleted}}<a href="" id="compensation">{{translation "compensation"}}</a>{{/unless}} <a href="" id="termsAndCondition">{{translation "termandcondition"}}</a></li>
+            <li><span style="color: red"><em>{{translation "ageconfirm"}}{{expBasicInfo "age"}}{{translation "yearsold"}}</em></span></li>
+        </ul>
+        <article id="consentFormBlock" style="display: none; text-align: left; background-color: #d19c21;">
+            <p><em>{{translation "consentform"}}</em></p>
+            {{#each value in loadLongTexts "consentForms"}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+            {{/each}}
+        </article>
+        {{#unless expCompleted}}
+            <article id="compensationBlock" style="display: none; text-align: left; background-color: #d19c21;">
+                <p><em>{{translation "compensation"}}</em></p>
+                <p><em>{{translation "compensationnote"}}</em></p>
+                {{#each value in loadLongTexts "compensations"}}
+                    <p style="padding: 5px 2px;">{{value}}</p>
+                {{/each}}
+            </article>
+        {{/unless}}
+        <article id="termsAndConditionBlock" style="display: none; text-align: left; background-color: #d19c21; padding: 5px 2px;">
+            <h2>{{translation "termsandcondition"}}</h2>
+            {{{termsAndCondition}}}
+        </article>
+        <p>
+            <span style="color: red"><em>{{translation "signconsent"}}</em></span> <input type="text" id="signature" maxlength="100" /><br/>
+            <span style="color: red"><em>{{translation "agreestatement"}}</em></span> <input type="button" id="agreeAndContinue" value="{{translation "continue"}}" /> <input type="button" id="stopAndBack" value="{{translation "back"}}" />
+        </p>
+    </section>
+</template>
+
+<template name="expLoadingMultimedia">
+    <div id="expPresentParent" style="position: fixed; top: 50%; left: 50%; width: 100%;">
+        <div id="expPresentChild" style="position: relative; text-align: center;">
+            {{#if preloading}}
+                <h1>{{loadingPercentage}}%</h1>
+            {{else}}
+            <!-- Change the paths below -->
+                <img src="https://your.server.dns/imageFolder/illustrations/wear_headphone.svg" /> 
+                {{#if audioFiles}}
+                    <img src="https://your.server.dns/imageFolder/illustrations/exp_speaker.svg" /> 
+                {{/if}}
+            {{/if}}
+            {{#if preloading}}
+                <p>{{translation "downloading"}}</p>
+                <input type="button" id="reloadStimuli" value="{{translation "reloadstimuli"}}" /> 
+            {{else}}
+                <p style="margin-left: 10%; width: 80%; text-align: center;">
+                    {{translation "headphone"}}
+                    {{#if audioFiles}}
+                        <span style="color: red"><em>{{translation "volume"}}</em> <input type="button" id="playSample" value="{{translation "playsample"}}" /></span>
+                        <video style='display: none;' preload="auto"></video>
+                    {{/if}}
+                    {{#if mediaFiles}}
+                        <span style="color: red"><em>{{translation "downloadmedia"}}</em></span>
+                    {{/if}}
+                </p>
+                <input type="button" id="continue" value="{{translation "continue"}}" /> 
+            {{/if}}
+            <input type="button" id="back" value="{{translation "back"}}" />
+        </div>
+    </div>
+</template>
+
+<template name="expTrainingInstruction">
+    <section style="text-align: center;">
+        <h3>{{translation "traininginstruction"}}</h3>
+        <div style="text-align: left; background-color: #d19c21;">
+            {{#each value in expTrainingInstruction}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+             {{/each}}
+        </div>
+        <p>
+            {{translation "beforestart"}}
+        </p>
+        <p>
+            <input type="button" id="start" value="{{translation "start"}}" /> 
+            <input type="button" id="back" value="{{translation "back"}}" />
+        </p>
+    </section>
+</template>
+
+<template name="expTrainingTrial">
+    <div class="trialPresent">
+        <h3 style="position: relative; margin: 0; transform: translate(-50%, -100%);">{{translation "trainingphase"}}</h3>
+        <h3 style="position: relative; margin: 0; text-align: center; transform: translate(-50%, -100%);"></h3>
+    </div>
+    {{> respButtons}}
+</template>
+
+<template name="expLowAccuracy">
+    <div class="trialPresent" style="text-align: center; transform: translate(-50%, -50%);">
+        <h3>{{translation "youraccuracy"}}{{accRate}}%</h3>
+        <p>{{translation "lowaccuracy"}}</p>
+        <p>{{translation "verifycode"}}{{verifyCode}}</p>
+        <input type="button" id="endExp" value="{{translation "endexp"}}" />
+    </div>
+</template>
+
+<template name="expTestInstruction">
+    <section style="text-align: center;">
+        <h3>{{translation "testinstruction"}}</h3>
+        <div style="text-align: left; background-color: #d19c21;">
+            {{#each value in expTestInstruction}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+            {{/each}}
+        </div>
+        <p>
+            {{translation "beforestart"}}
+        </p>
+        <p>
+            <input type="button" id="start" value="{{translation "start"}}" /> 
+        </p>
+    </section>
+</template>
+
+<template name="expTestTrial">
+    <div class="trialPresent">
+        <h3 style="position: relative; margin: 0; transform: translate(-50%, -100%);">{{translation "testphase"}}</h3>
+        <h3 style="position: relative; margin: 0; text-align: center; transform: translate(-50%, -100%);"></h3>
+    </div>
+    {{> respButtons}}
+</template>
+
+<template name="noResp">
+    <div class="trialPresent" style="text-align: center; transform: translate(-50%, -50%);">
+        <h3>{{translation "responserate"}}{{respRate}}%</h3>
+        <p>{{translation "noresp"}}</p>
+        <input type="button" id="endExp" value="{{translation "endexp"}}" />
+    </div>
+</template>
+
+<template name="fastResp">
+    <div class="trialPresent" style="text-align: center; transform: translate(-50%, -50%);">
+        <h3>{{translation "avgrt"}}: {{meanRT}} {{translation "ms"}}</h3>
+        <p>{{translation "fastcompletion"}}</p>
+        <input type="button" id="endExp" value="{{translation "endexp"}}" />
+    </div>
+</template>
+
+<template name="respButtons">
+    <div class="respButtons" id="unary">
+        <div></div>
+    </div>
+    <div class="respButtons" id="binary">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="respButtons" id="likert">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</template>

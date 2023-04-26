@@ -1,0 +1,23 @@
+<template name="experimenterMenu">
+	<h3>{{genTranslation "experimenter"}}</h3>
+	<a id="manageAccount">{{expTranslation "manageaccount"}}</a>
+	<!-- <a id="messages">{{expTranslation "messages"}}</a> -->
+	{{#if verified}}
+		<a id="manageExp">{{expTranslation "manageexp"}}</a>
+	{{/if}}
+	<a id="backToHome">{{genTranslation "userhome"}}</a>
+	<a id="aboutSite">{{genTranslation "aboutenigma"}}</a>
+	<a id="logout">{{genTranslation "logout"}}</a>
+</template>
+
+<template name="configExpMenu">
+	<h3>{{expTranslation "configexp"}}</h3>
+	<a id="basicConfig">{{expTranslation "basicinfo"}}</a>
+	<a class="desktopOnly" id="orientation">{{expTranslation "orientation"}}</a>
+	<a class="desktopOnly" id="trainingConfig">{{expTranslation "training"}}</a>
+	<a class="desktopOnly" id="testConfig">{{expTranslation "test"}}</a>
+	<a class="desktopOnly" id="debriefing">{{expTranslation "debriefing"}}</a>
+	<a id="manageExp">{{expTranslation "manageexp"}}</a>
+	<a id="backToHome">{{genTranslation "userhome"}}</a>
+	<a id="logout">{{genTranslation "logout"}}</a>
+</template>

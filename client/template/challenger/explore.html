@@ -1,0 +1,202 @@
+<template name="explore">
+	<style>
+		h2 > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		legend > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		legend ~ div {
+			position: relative;
+			margin: 10px 0;
+			padding: 1px 1vw;
+			border-radius: 1vw;
+			text-align: left;
+			filter: brightness(95%);
+		}
+
+		legend ~ div:hover {
+			filter: brightness(100%);
+			transition: all 0.3s ease-out;
+		}
+
+		legend ~ div > p {
+			overflow-x: hidden;
+			width: 88vw;
+			font-family: 'Share Tech Mono', 'Noto Sans TC', sans-serif;
+			font-size: 70%;
+			text-shadow: 1px 1px white;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		legend ~ div > p:first-of-type {
+			width: calc(88vw * 0.75);
+		}
+
+		input[type="button"], input[type="text"], input[type="submit"] {
+			font-size: 60%;
+		}
+
+		legend ~ div:hover > p {
+			position: relative;
+			top: -2px;
+			left: -2px;
+			text-shadow: 1px 1px white,
+						 2px 2px white,
+				 		3px 3px white;
+			filter: brightness(100%);
+			transition: all 0.3s ease-out;
+		}
+
+		legend ~ div > input {
+			position: absolute;
+			z-index: 1;
+			top: 6px;
+			right: 1vw;
+		}
+
+		p > span {
+			display: none;
+		}
+
+		span.textWarning {
+			text-shadow: 0 0;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			input[type="button"], input[type="text"], input[type="submit"] {
+				font-size: 100%;
+			}
+
+			h2 > img {
+				max-height: 2.4vw;
+			}
+
+			legend > img {
+				max-height: 1.8vw;
+			}
+
+			legend ~ div > p {
+				width: 58vw;
+				font-size: 100%;
+			}
+
+			legend ~ div > p:first-of-type {
+				width: calc(58vw * 0.75);
+			}
+		}
+	</style>
+	<h2>{{chaTranslation "explorechallenge"}} <img src="{{iconURL}}explore-exp.png" /><sub><a id="exploreHelp" href="">{{chaTranslation "help"}}</a></sub></h2>
+	<section>
+		<form>
+			<fieldset>
+				<legend style="line-height: 1.8vh;"><img src="{{iconURL}}recommended-exp.png" /> {{chaTranslation "recommended"}}
+				</legend>
+				{{#each recommendedExps}}
+					<div style="background-color: {{recommendedColors}};">
+						{{#unless notPassedTimeGap basicInfo.gapHour}}
+							<input type="button" id="run_{{_id}}" value="{{chaTranslation "letsgo"}}" />
+						{{/unless}}
+						<p style="margin: 5px 0;">
+							{{chaTranslation "exptitle"}}{{basicInfo.title}}
+						</p>
+						<p style="margin: 5px 0;">
+							{{chaTranslation "estimatedlength"}} {{basicInfo.estTime.hour}}{{chaTranslation "hours"}} {{basicInfo.estTime.min}}{{chaTranslation "minutes"}}
+						</p>
+						<p style="margin: 5px 0;">
+							{{chaTranslation "recruiting"}}<span class="textWarning">{{recruiting status.state}}</span>
+						</p>
+						{{#if notPassedTimeGap basicInfo.gapHour}}
+							<p style="margin: 5px 0;">
+								{{chaTranslation "waitfortimegap"}}{{timeGapCalc basicInfo.gapHour}}
+							</p>
+						{{/if}}
+					</div>
+				{{else}}
+					<h3 style="text-align: center;">
+						{{chaTranslation "allparticipated"}}
+					</h3>
+				{{/each}}
+				<p>
+					<input type="button" class= 'switchOnOffset' id="recommendedPrev" value="{{chaTranslation "prev10"}}" /> 
+					<input type="button" class= 'switchOnOffset' id="recommendedNext" value="{{chaTranslation "next10"}}" />
+        			<input type="button" id="enterExpId" value="{{chaTranslation "enterexpid"}}" /> 
+        			<span>
+        				<input style="width: 50%;" type="text" name="expId" id="expId" placeholder="{{chaTranslation "inputexpid"}}" /> 
+        				<input type="submit" id="submitExpId" value="{{genTranslation "submit"}}" /> 
+        				<input type="button" id="cancelSubmitExpId" value="{{genTranslation "cancel"}}" />
+        			</span>
+				</p>
+			</fieldset>
+			<fieldset style="margin: 20px 0;">
+				<legend style="line-height: 1.8vh;"><img src="{{iconURL}}participated-exp.png" /> {{chaTranslation "completedchallenge"}}
+				</legend>
+				{{#each participatedExps}}
+					<div style="background-color: {{participatedColors}};">
+						{{#unless notPassedTimeGap basicInfo.gapHour}}
+							<input type="button" id="run_{{_id}}" value="{{chaTranslation "letsgo"}}" />
+						{{/unless}}
+						<p style="margin: 5px 0;">
+							{{chaTranslation "exptitle"}}{{basicInfo.title}}
+						</p>
+						<p  style="margin: 5px 0;">
+							{{chaTranslation "estimatedlength"}} {{basicInfo.estTime.hour}}{{chaTranslation "hours"}} {{basicInfo.estTime.min}}{{chaTranslation "minutes"}}
+						</p>
+						{{#if notPassedTimeGap basicInfo.gapHour}}
+							<p style="margin: 5px 0;">
+								{{chaTranslation "waitfortimegap"}}{{timeGapCalc basicInfo.gapHour}}
+							</p>
+						{{/if}}
+					</div>
+				{{else}}
+					<h3 style="text-align: center;">
+						{{chaTranslation "noparticipated"}}
+					</h3>
+				{{/each}}
+				<p>
+					<input type="button" class= 'switchOnOffset' id="participatedPrev" value="{{chaTranslation "prev10"}}" /> 
+					<input type="button" class= 'switchOnOffset' id="participatedNext" value="{{chaTranslation "next10"}}" />
+				</p>
+			</fieldset>
+			<fieldset style="margin: 10px 0;">
+				<legend style="line-height: 1.8vh;"><img src="{{iconURL}}other-exp.png" /> {{chaTranslation "otherchallenge"}}
+				</legend>
+				{{#each othersExp}}
+					<div style="color: #5c5c5c; background-color: {{othersColors}};">
+						{{#unless notPassedTimeGap basicInfo.gapHour}}
+							<input type="button" id="run_{{_id}}" value="{{chaTranslation "letsgo"}}" />
+						{{/unless}}
+						<p style="margin: 5px 0;">
+							{{chaTranslation "exptitle"}}{{basicInfo.title}}
+						</p>
+						<p  style="margin: 5px 0;">
+							{{chaTranslation "estimatedlength"}} {{basicInfo.estTime.hour}}{{chaTranslation "hours"}} {{basicInfo.estTime.min}}{{chaTranslation "minutes"}}
+						</p>
+						<p style="margin: 5px 0;">
+							{{chaTranslation "recruiting"}}<span class="textWarning">{{recruiting status.state}}</span>
+						</p>
+						{{#if notPassedTimeGap basicInfo.gapHour}}
+							<p style="margin: 5px 0;">
+								{{chaTranslation "waitfortimegap"}}{{timeGapCalc basicInfo.gapHour}}
+							</p>
+						{{/if}}
+					</div>
+				{{else}}
+					<h3 style="text-align: center;">
+						{{chaTranslation "noothers"}}
+					</h3>
+				{{/each}}
+				<p>
+					<input type="button" class= 'switchOnOffset' id="otherLangPrev" value="{{chaTranslation "prev10"}}" /> 
+					<input type="button" class= 'switchOnOffset' id="otherLangNext" value="{{chaTranslation "next10"}}" />
+				</p>
+			</fieldset>
+		</form>
+	</section>
+	<div id="instructionContainer"></div>
+</template>

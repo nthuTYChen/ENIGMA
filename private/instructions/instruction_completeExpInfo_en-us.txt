@@ -1,0 +1,32 @@
+<section>
+	<article>
+		When the number of participants reaches the target of an experiment, the experiment is automatically marked as "complete", and you can share the link to this page to anyone (such as attach the link in your research articles) to distribute the results of this study. Only a user with a verified "experimenter" account in ENIGMA can download your experimental results, and in the meantime, their e-mail will be recorded in your Activity Logs so you can track the users who have downloaded your results. The results that can be downloaded by a user including all the text information in <span class="textWarning">English</span> (i.e., description, training/test instructions, and debriefing), block and element settings in the training/test phase, and delinked participant profiles and experimental results.
+	</article>
+</section>
+
+<section>
+	<h3>Experimental Information</h3>
+	<article>
+		<p>When someone visits this page, they will see part of the basic information of this study, such as its status, the time of completion, the link to this page, participation number, researchers, researchers' affiliation(s), and the primary contact information (and that's why you need to provide the accuracy information).</p>
+	</article>
+</section>
+
+<section>
+	<h3>Complete Exp Info</h3>
+	<article>
+		<p>In this column, you can use up to 2,000 characters to write a brief abstract of this study to help users on this page understand your study. More importantly, you should specify <span class="textWarning">how to cite this study</span> in this column. Since you cannot provide this information in multiple languages here, we strongly advise you to provide this information in English to facilitate your communication with the entire research community. You can update this information at any time, and when you finish updating this information, do not forget to click on the "Update" button to save the changes.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Basic Settings</h3>
+	<article>
+		<p>If you want to check the settings of a completed experiment or download the results, you can simply click on the "Basic Settings" button to navigate to the Basic Info page of this experiment, and then you can switch between different sections to find the information you need, as usual.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

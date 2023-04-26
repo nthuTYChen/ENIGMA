@@ -1,0 +1,75 @@
+<template name="login">
+	<form>
+    <fieldset>
+      <legend>{{translation "userlogin"}}</legend>
+		  <p>
+        <label for="userId">{{translation "email"}}</label>
+        <span><input type="email" name="userId" id="userId" placeholder="" required /></span>
+      </p>
+      <p>
+        <label for="passwd">{{translation "password"}}</label>
+		    <span><input type="password" name="passwd" id="userPW" requried /></span>
+      </p>
+      <p>
+        <label for="userCat">{{translation "usertype"}}</label>
+        <span><input type="text" name="userCat" title="{{translation "usertypenochange"}}" value="{{dynamic_trans "userCat"}}" readonly /></span>
+      </p>
+      <p>
+        <input type="submit" id="userLogin" value="{{translation "signin"}}" />
+        <input type="button" id="userForgotPW" value="{{translation "forgotPW"}}" />
+        <input type="button" id="signup" value="{{translation "signup"}}" />
+        <p>
+          <input type="checkbox" id="rememberMe" /><label for="checkbox"><sub>{{translation "rememberme"}}</sub></label>
+        </p>
+      </p>
+    </fieldset>
+	</form>
+</template>
+
+<template name="forgotPW">
+  <form>
+    <fieldset>
+      <legend>{{translation "resetPW"}}</legend>
+      <p>
+        <label>{{translation "email"}}</label>
+        <span><input type="email" id="forgotPWEmail" required /></span>
+      </p>
+      <p>
+        <label for="userCat">{{translation "usertype"}}</label>
+        <span><input type="text" name="userCat" title="{{translation "usertypenochange"}}" value="{{dynamic_trans "userCat"}}" readonly /></span>
+      </p>
+      <p>
+        <input type="submit" id="submitForgotPW" value="{{translation "submit"}}" />
+      </p>
+    </fieldset>
+  </form>
+</template>
+
+<template name="forgotPWSent">
+  <p>{{translation "dontforgetPW"}}</p>
+  <!-- Change the path below -->
+  <img id="mailSent" src="https://your.server.dns/imageFolder/icons/mail.png" />
+</template>
+
+<template name="resetPW">
+  <form>
+    <fieldset>
+      <legend>{{translation "resetPW"}}</legend>
+      <p>
+        <label>{{translation "enterverifycode"}}</label>
+        <span><input type="text" id="verifyCode" value="{{verifyCode}}" required /></span>
+      </p>
+      <p>
+        <label>{{translation "newpassword"}}</label>
+        <span><input type="password" id="newPW" placeholder="{{translation "pwlength"}}" required /></span>
+      </p>
+      <p>
+        <label>{{translation "pwretype"}}</label>
+        <span><input type="password" id="newPWReType" required /></span>
+      </p>
+      <p>
+        <input type="submit" id="submitResetPW" value="{{translation "submit"}}" />
+      </p>
+    </fieldset>
+  </form>
+</template>

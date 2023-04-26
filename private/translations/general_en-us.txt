@@ -1,0 +1,85 @@
+accountdeleted#Account deleted
+about#About
+aboutenigma#About "ENIGMA"
+back#Back
+beforeyougo#Before you go...
+both#Both
+cancel#Cancel
+challenger#Challenger
+changed#Changed.
+changedandlogin#Changed and logged out.
+copyright#<p>Copyright 2023 Tsung-Ying Chen</p> <p>National Tsing Hua University, Hsinchu, Taiwan</p> <p>Project Funded by the Ministry of Science and Technology, Taiwan</p>
+confirm#Confirm
+deleteaccount#Delete Account
+deleteaccounte#Wrong password. It's a sign - stay with us!
+deleting#Deleting...
+demoexp#Demo Challenge
+dob#Date of Birth
+dontforgetPW#The instruction on password reset was send to your registered e-mail (don't forget to check the junkmail folder, too). Hope you won't need this help again in the future!
+email#E-mail
+emailexiste#E-mail already existed.
+emailformate#Wrong email format.
+emailnotexiste#E-mail does not exist.
+emailunacceptable#Unacceptable e-mail domain.
+enigma#ENIGMA
+enterverifycode#Enter Code
+enUs#English (US)
+experimenter#Experimenter
+expnotexist#Challenge does not exist
+female#Female
+firstLang#Native Language
+forgotPW#forgot PW
+formvalide#Please complete all fields.
+gender#Gender
+handedness#Handedness
+haveanaccount#Have an account?
+home#Home
+left#Left
+loggingfailed#Wrong username or password.
+loggingin#Logging in...
+loggingsuccess#Logged in. Welcome back!
+logout#Log out
+male#Male
+newpassword#New Password
+none#None
+other#Other
+password#Password
+pwlength#8 characters at minimum.
+pwresetok#Password reset successful.
+pwretype#Re-type Password
+pwshorte#Password too short.
+pwinconsistente#Inconsistent passwords
+reginfonochange#The info below cannot be changed afterwards.
+rememberme#Remember Me
+researchethics#Research Ethics
+resetPW#Reset Password
+right#Right
+secondLang#Second Language
+selectlang#Select Language
+shortresend#Please wait for 5 minutes.
+signin#Sign In
+signup#Sign Up
+signupagree#By signing up for an ENIGMA accounts, you agree with our 
+siteSubtitle#When it comes to solving language puzzles...
+siteTitle#ENIGMA
+slowdown#Slow down!
+support#Support
+submit#Submit
+submitting#Submitting. Do not repeat.
+termandcondition#Terms and Conditions
+thankyoureg#A verification letter was sent to your e-mail. Let's hope you won't find it in the junkmail folder!
+tokenexpired#Possibly expired code.
+userhome#User Home
+userlang#Language Interface
+userlogin#User Log In
+usertype#User Type
+usertypenochange#User type cannot be changed.
+vitale#Please don't do bad things...
+verify#Verify
+verifyagain#Didn't get the code?
+verifydelete#...and accounts that are not verified within 72 hours will be deleted. Sorry!
+verifye#Incorrect Code
+verifying#Verifying...
+verifyresend#Verify Again
+verifysuccess#Account verified. Congrats!
+zhTw#Traditional Chinese (TW)

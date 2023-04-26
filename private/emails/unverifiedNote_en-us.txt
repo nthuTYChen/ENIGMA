@@ -1,0 +1,11 @@
+Dear ENIGMA user,
+
+Your ENIGMA account created using this e-mail has not been verified, and the account and its associated data will be removed automatically by the time specified below. If you have not received the verification letter, please log back into ENIGMA and resend another letter on the "Manage Account" page, or change your e-mail address to re-initiate the verification process. Once your account is deleted for its unverified status, we will not be responsible for restoring your account. If you didn't create any account in ENIGMA, please ignore this message.
+
+Account Deletion Time: [deleteTime]
+
+ENIGMA Team
+enigma.nthu [at] gmail.com
+https://lngproc.hss.nthu.edu.tw/ENIGMA
+
+*** This is an automatically delivered message. Please do not reply directly. ***

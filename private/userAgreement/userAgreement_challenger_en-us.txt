@@ -1,0 +1,65 @@
+<section>
+	<article>
+		<b>ENIGMA</b> is the Controller of the personal information the user (you) provide to ENIGMA and other users of ENIGMA in this User Terms and Conditions, and ENIGMA will collect your basic information according to our needs.
+	</article>
+</section>
+
+<section>
+	<h3>What information will you need to provide? Why does ENIGMA need your information?</h3>
+	<article>
+		<p>When you sign up for a Challenger account in ENIGMA, you need to provide your E-mail account, gender, date of birth, native language, second language, handedness, and part of your IP address. This collection of your information will not be linked to a specific individual, which helps retain your full anonimity in ENIGMA. Researchers in ENIGMA will not be able to track your real identity in their experiments based on your information either. That is, all your personal information and experimental data stored in the ENIGMA server located in National Tsing Hua University of Taiwan (ROC) will be "delinked" from your real-life identity. This is also the procedure required by all research ethics guidelines. Meanwhile, you also have the right to refuse to provide any additional information requested privately by other ENIGMA users (including ENIGMA administrators).</p>
+	</article>
+</section>
+
+<section>
+	<h3>Legal basis for processing your data</h3>
+	<article>
+		<p>ENIGMA is a research project funded by the Ministry of Science and Techonology of Taiwan (ROC) (A Comprehensive Examination of Evidence and Methodology in Artificial Grammar Learning: 108-2410-H-007-030-MY3) approved by the Research Ethics Office at National Tsing Hua University of Taiwan (ROC) (10805HS050). ENIGMA therefore strictly follows Human Subjects Research Act and Computer-Processed Personal Data Protection Law of Taiwan (ROC) to fully protect your online privacy and the rights of your participation in experiments run in ENIGMA.</p>
+		<p>ENIGMA also strictly follows the above guidelines in using your information provided to ENIGMA, and doesn't allow your information to be transferred by any means to a third party from ENIGMA, unless in cases where your delinked experimental data is published in any academic work (see below).</p>
+	</article>
+</section>
+
+<section>
+	<h3>What does ENIGMA do with your data?</h3>
+	<article>
+		<p>When you sign up for a Challenger account, you agree to provide anonymous personal information, except your e-mail address, to experiments run in ENIGMA for scientific research. You also agree ENIGMA experiments, during an experimental session, automatically record your responses and their reaction time and response accuracy also for scientific research. As noted above, your experimental data will remain fully anonymous, and researchers will not be able to track your real-life identity with your delinked experimental data. Your data in ENIGMA will be stored/used according to the following policies:</p>
+		<ul>
+			<li>E-mail - This information will NOT be provided to other users in ENIGMA.</li>
+			<li>Gender, native language, second language, and handedness - This information will be automatic recorded in an experiment you participate in.</li>
+			<li>Date of birth - This information will NOT be directly provided to other users in ENIGMA. Instead, it will be automatically converted into your age and recorded in an experiment you participate in.</li>
+			<li>IP address - This information will be PARTIALLY recorded in an experiment you participate in. For example, an address like 192.168.1.1 could be converted into 19x.xxx.1.1. This information is provided to ENIGMA researchers to help them identify possibly same participants using different accounts.</li>
+			<li>Device screen resolution - ENIGMA will record the screen resolution of the device you use to participate in a challenge, which is vital to experimenters' understanding of the environmental settings of challengers' participation in a challenge.</li>
+			<li>Response - An ENIGMA experiment would require to press a key on a computer keyboard or tap an option on the screen of your mobile device to respond, and each of your response will be recorded as part of your experimental data.</li>
+			<li>Reaction time - Every time you make a response in an ENIGMA experiment, your response time will be measured in millisecond and recorded as part of your experimental data.</li>
+			<li>Accuracy rate - After you complete an experimental session, ENIGMA will caculate the overall accuracy rate of your responses for your reference and store the accurate rate as part of your experimental data.</li>
+			<li>Working memory measures - If you have completed any working memory test in ENIGMA, ENIGMA will record the score of your most recent working memory test as well as your age at the time of the test as part of your experimental data. This record will help experimenters to analyze challengers' language learning performance.</li>
+		</ul>
+		<p>As you choose to sign up for a Challenger account in ENIGMA and use the services that ENIGMA provides, you agree researchers in ENIGMA to publish your delinked experimental data in academic conference papers, academic journal articles, or academic monographs. You also agree that your delinked data is made publicly available in ENIGMA.</p>
+		<p>In some special cases where we must comply with the laws of Taiwan (ROC), ENIGMA might have to share your anonymous data with domestic and foreign governmental organizations for judicial investigations.</p>
+	</article>
+</section>
+
+<section>
+	<h3>How long is your data kept in ENIGMA?</h3>
+	<article>
+		<p>Your personal and experimental data stored in ENIGMA will be PERMANENTLY perserved, provided that you don't choose to remove your data from ENIGMA actively. The primary reason for perserving your data in ENIGMA is to continuously accumulate and support scientific findings in the field of language acquisition to advance our understanding of how natural and unnatural languages are acquired by human beings. If your data is only stored for a short period, there will be no meaning for ENIGMA to exist. Since your personal and experimental data will be delinked, you will not risk the chance of revealing yourself to the general public online. This method of managing and storing your data is also approved by the Research Ethics Office at National Tsing Hua University of Taiwan (ROC).</p>
+	</article>
+</section>
+
+<section>
+	<h3>What are your rights and responsibilities in ENIGMA?</h3>
+	<article>
+		<p>As a Challenger, you have full control of your own personal and experimental data. You could choose to withdraw from an experiment you have participated in and remove all the data you have contributed, or even terminate your Challenger account and remove ALL your data in ENIGMA. These actions will not require any assistance or approval from ENIGMA administrators and researchers. However, since your experimental data is extremely valuable to our scientific research, as mentioned earlier, we sincerely hope you could think twice before removing your data, and we will always try out best protecting your online privacy.</p>
+		<p>In ENIGMA, we, as researchers, will greatly benefit from the valuable language learning data you provide in our own scientific research, so we really cannot ask for more from you. However, we still hope that you can try your best following our suggestions below for our (including you) best interest. First, upon signing up for a Challenger account, it will be greatly appreciated if you choose to provide genuine personal information. This step is necessary for us since it not only helps researchers analyze your experimental data but also allows ENIGMA to fully protect your right. For instance, most of our research ethics guidelines require us to set the threshold for participants' age, and ENIGMA helps researchers exclude participants below the age threshold from experiments that are not appropriate to them. If you give false information about your age, ENIGMA may not be able to fully protect your rights as a Challenger. We have no rights to review or even validate the personal information you provide since our goal is to help you deal with online privacy, but your anonymous personal information is really vital to make our scientific research and research ethics guidelines work. Second, we hope that you can follow each step of an experiment carefully. This includes carefully reading the information in the consent form uploaded to each experiment and following the instruction of each experiment, for two obvious reasons: You need to make sure that the consent form gives you enough information about the experiment, its researchers, and its research ethics, and that your experimental data genuinely reflects your learning performance. Finally, while we are certain that all of you are here just for fun, we would still make a note that any action trying to sabbotage the operation of ENIGMA is strictly prohibited. These actions include (but are not limited to) illegal access to the ENIGMA server, database, and user accounts, which, at worse, could lead to violations against the Criminal Code of Taiwan (ROC) and enusing lawful investigations.</p>
+		<p>If you have any doubt or question with regard to how ENIGMA or ENIGMA experiments process your personal or experimental data, please feel free to contact the Principle Investigator Prof. Tsung-Ying Chen (chen.ty at mx.nthu.edu.tw) of the Department of Foreign Languages and Literation at National Tsing Hua University, or contact the Research Ethics Office at National Tsing Hua University of Taiwan (ROC) (+886-3-5715131 ext. 35133).</p>
+	</article>
+	<article>
+		<sub>Last Updated on Jan 24, 2021</sub>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="acceptAgreement" value="Accept & Close" />
+	</p>
+</section>

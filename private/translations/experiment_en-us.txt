@@ -1,0 +1,65 @@
+ageconfirm#Please confirm again that you are at least 
+agreestatement#When you click "Continue", it means that you fully understand the consent form, match the age criterion, and thus agree to participate in the current experiment.
+affiliation#Affiliation(s): 
+anothersession#Don't forget to come back and challenge again!
+avgcorrrt#Average Correct RT
+avgcorrrtnote#"Average Correct RT" means the average reaction time in millisecond for you to respond correctly in the test phase.
+avgrt#Average RT
+avgrtnote#"Average RT" means the average reaction time in millisecond for you to respond in the test phase.
+back#Back
+backhome#Back to Home
+beforeagree#Please double-check the crucial information: 
+beforestart#After a challenge session begins, you can withdraw simply by closing the brower window.
+challengeN#This is your #%N challenge, and %M more to go! Don't forget to challenge again later!
+compensation#Compensation
+compensationnote#Note: The compensation is not provided by ENIGMA. If you have any question regarding the information, please contact the experimenter directly. However, if there's any clearly false and suspicious information, please do not hesitate to inform us via enigma.nthu [at] gmail.com.
+consentform#Consent Form
+contactemail#Contact E-mail: 
+continue#Continue
+creator#Creator: 
+datecomplete#Date of Completion: 
+debriefing#Debriefing
+debriefingnote#To help researchers complete their scientific research and allow each challenger to obtain the most precise results in their challenge, please avoid sharing the debriefing information. However, if you don't get enought debriefing information, please contact ENIGMA administrators as well as the researchers to protect your own rights.
+downloading#Downloading...keep a good internet connection. The next page will show up automatically when the process is complete.
+downloadmedia#After you click "Continue", the challenge will preload multimedia files used in this challenge. If you are currently connecting via a mobile network and your plan is not unlimited, we recommend you to connect via Wi-Fi.
+endexp#End Challenge
+endreview#End Preview
+endtest#End Test
+estimatetime#Total Estimated Time: 
+ethics#Research Ethics Info: 
+expavg#Exp Avg.
+expcomplete#You just completed a language learning challenge!!!
+explang#Challenge Info Language
+exptitle#Name of Challenge: 
+fastcompletion#You responded too quickly on average.
+group#Group: 
+headphone#Do you have a headphone? Wear it so you can focus on this challenge! :)
+lowaccuracy#Your response accuracy during the training phase is too low, so you can't proceed to the test phase.
+ms#ms
+newachievements#New Achievements
+nodebriefing#You have not completed all required sessions or you participated this challenge again, so the debriefing information is not provided.
+none#None
+noresp#Response rate <= 50% in the test session.
+playsample#Play Sample
+quitexp#Quit Challenge
+reloadstimuli#Reload
+researchers#Researcher(s): 
+responserate#Response Rate: 
+resultsnotfounde#Challenge records unavailable
+signconsent#Please enter your full name to sign the consent form: 
+signup#Sign Up as a Challenger
+start#Start Exp
+statuscomplete#Note: You have participated in this challenge or the current challenge has already stopped recruiting more challengers. Therefore, YOU WON'T RECEIVE ANY COMPENSATION FOR YOUR PARTICIPATION, and your data in this participation WILL NOT be recorded as part of the challenge data available to the researchers. You can take on this challenge (again) just for fun and for understanding more about the nature of language learning. If you have any question regarding participating in this challenge, please contact the researchers or the ENIGMA administrators before moving on.
+termandcondition#Terms and Conditions
+testaccurate#Test Accuracy Rate
+testinstruction#Test Instruction
+testphase#Test phase is about to start
+traininginstruction#Training Instruction
+trainingphase#Training phase is about to start
+verifycode#Verification Code: 
+verifycodenote#Researchers may ask you for this verification code to make sure that you completed this challenge.
+volume#Audios will be played in this challenge, so please lower the volume to a comfortable level.
+website#Website: 
+yearsold# years old
+youraccuracy#Your response accuracy is 
+yourlearning#Your Language Learning Performance

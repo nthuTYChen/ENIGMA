@@ -1,0 +1,26 @@
+<template name="emptyMenu">
+</template>
+
+<template name="loginMenu">
+	<h3>{{translation "signin"}}</h3>
+	<a id="aboutSite">{{translation "aboutenigma"}}</a>
+	<a id="backToHome">{{translation "home"}}</a>
+</template>
+
+<template name="registerMenu">
+	<h3>{{translation "signup"}}</h3>
+	<a id="aboutSite">{{translation "aboutenigma"}}</a>
+	<a id="backToHome">{{translation "home"}}</a>
+</template>
+
+<template name="aboutMenu">
+	<h3>{{translation "about"}}</h3>
+	<a id="aboutChallenger" href="#aboutChallenger">{{translation "challenger"}}</a>
+	<a id="aboutExperimenter" href="#aboutExperimenter">{{translation "experimenter"}}</a>
+	{{#if currentUser}}
+		<a id="backToHome">{{translation "userhome"}}</a>
+		<a id="logout">{{translation "logout"}}</a>
+	{{else}}
+		<a id="backToHome">{{translation "home"}}</a>
+	{{/if}}
+</template>

@@ -1,0 +1,84 @@
+<template name="expWMPanels">
+    {{#if expSession "wmInstruction"}}
+        {{> wmInstruction}}
+    {{else}}{{#if expSession "wmTrial"}}
+        {{> wmTrial}}
+    {{else}}{{#if expSession "wmRecall"}}
+        {{> wmRecall}}
+    {{/if}}{{/if}}{{/if}}
+</template>
+
+<template name="wmInstruction">
+    <section style="text-align: center;">
+        <h1>{{chaTranslation "wmtest"}}</h1>
+        <h3>{{expTranslation "estimatetime"}} 0 H 20 M</h3>
+        <p>
+            {{expTranslation "explang"}} 
+            <select id="changeExpLang">
+                {{#each availableLang}}
+                    <option value="{{code}}" {{defaultLang code}}>{{name}}</option>
+                {{/each}}
+            </select>
+        </p>
+        <div style="text-align: left; background-color: #d19c21;">
+            {{#each value in wmInstruction}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+            {{/each}}
+        </div>
+        <p>
+            <input type="button" id="startWM" value="{{chaTranslation "startwm"}}" />
+        </p>
+    </section>
+</template>
+
+<template name="wmTrial">
+    <style>
+        h3 {
+            margin: 0;
+        }
+    </style>
+    <div class="trialPresent" style="position: fixed; top: 50%; left: 50%;">
+        <h3 style="transform: translate(-50%, -120%);">{{chaTranslation "wmphase"}}</h3>
+        <h3 style="text-align: center; transform: translate(-50%, -80%);"></h3>
+    </div>
+    <div class="respButtons" id="binary">
+        <div style="width: 15vw;" id="yes">{{chaTranslation "wmyes"}}</div>
+        <div style="width: 15vw;" id="no">{{chaTranslation "wmno"}}</div>
+    </div>
+</template>
+
+<template name="wmRecall">
+    <style>
+        section > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: calc(25% - 10px);
+            width: calc(25% - 10px);
+            margin: 5px;
+            color: white;
+            background-color: rgb(124, 181, 24);
+            text-align: center;
+        }
+
+        section > div.selected {
+            background-color: #2e2e2e;
+            transition: all 0.3s ease-out;
+        }
+
+        section > div:hover {
+            cursor: pointer;
+        }
+
+        h2, h3 {
+            margin: 0;
+        }
+    </style>
+    <h3 style="position: relative; top: 20px; text-align: center;">{{chaTranslation "remainedrecall"}}{{targetSelectNum}}</h3>
+    <section style="display: flex; width: 90%; height: 60%; margin: 5% 5%; flex-wrap: wrap; justify-content: center; align-content: center;">
+        {{#each value in recallGrid}}
+            <div id="recall_{{value}}"><h2>{{value}}</h2></div>
+        {{/each}}
+    </section>
+    <h3 style="text-align: center;">{{chaTranslation "remainedrecalltime"}}{{wmRecallCounter}}</h3>
+</template>

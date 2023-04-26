@@ -1,0 +1,13 @@
+Dear ENIGMA user,
+
+You have just changed your e-mail address of your ENIGMA account. Please log in your newly changed e-mail account to verify your ENIGMA account with the verification letter delivered by ENIGMA within 72 hours. If you do not verify your account within 72 hours, your account and its associated information will be deleted automatically. If you do not remember having requested for this change, please contact us immediately, and try to log into your ENIGMA account using the e-mail specified below to recover your e-mail setting and change your password.
+
+Changed e-mail address: [newEmail]
+Time: [time]
+IP Address: [ipAddress]
+
+ENIGMA Team
+enigma.nthu [at] gmail.com
+https://lngproc.hss.nthu.edu.tw/ENIGMA
+
+*** This is an automatically delivered message. Please do not reply directly. ***

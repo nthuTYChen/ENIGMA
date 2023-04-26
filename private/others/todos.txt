@@ -1,0 +1,4 @@
+2. Check conditions. Store conditions in a separate field...?
+3. Make it possible to have Correct for different conditions...?
+4. Change stimulus file checking to check the string type of each cell.
+8. Remove all records for participated results

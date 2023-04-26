@@ -1,0 +1,141 @@
+<template name="manageExp">
+	<section>
+		<h3>{{translation "expquota"}}{{allExp}}/{{allExpQuota}}</h3>
+		<div class="expGrid" id="createExp">{{translation "createnewexp"}}</div>
+    <sub class="mobileNotes">{{translation "limitedexpmanage"}}</sub>
+	</section>
+	<section>
+		<h3><span style="color: #d19c21">&#9724;</span> {{translation "runningexps"}}{{runningExps}}/{{runningExpQuota}}
+			<sub><a id="hideActiveExpGrid">{{translation "hide"}}</a></sub><sub><a id="showActiveExpGrid">{{translation "show"}}</a></sub>
+		</h3>
+    {{#each allRunningExp}}
+      <div class="expGrid ActiveExpGrid" title="{{basicInfo.title}}" id="{{_id}}">{{basicInfo.title}}</div>
+    {{/each}}
+	</section>
+	<section>
+		<h3><span style="color: #cf1313">&#9724;</span> {{translation "inactiveexps"}}
+			<sub><a id="hideInactiveExpGrid">{{translation "hide"}}</a></sub><sub><a id="showInactiveExpGrid">{{translation "show"}}</a></sub>
+		</h3>
+    {{#each allInactiveExp}}
+      <div class="expGrid InactiveExpGrid" title="{{basicInfo.title}}" id="{{_id}}">{{basicInfo.title}}</div>
+    {{else}}
+      {{translation "none"}}
+    {{/each}}
+	</section>
+	<section>
+		<h3>&#9724; {{translation "completedexps"}}
+			<sub><a id="hideCompletedExpGrid">{{translation "hide"}}</a></sub><sub><a id="showCompletedExpGrid">{{translation "show"}}</a></sub>
+		</h3>
+    {{#each allCompletedExp}}
+      <div class="expGrid CompletedExpGrid" title="{{basicInfo.title}}" id="{{_id}}">{{basicInfo.title}}</div>
+    {{else}}
+      {{translation "none"}}
+    {{/each}}
+	</section>
+  <section>
+    <h3><span style="color: #0066cc;">&#9724;</span> {{translation "coordinateexps"}}
+      <sub><a id="hideCoordinateExpGrid">{{translation "hide"}}</a></sub><sub><a id="showCoordinateExpGrid">{{translation "show"}}</a></sub>
+    </h3>
+    {{#each allCoordinateExp}}
+      <div class="expGrid CoordinateExpGrid" title="{{basicInfo.title}}" id="{{_id}}">{{basicInfo.title}}</div>
+    {{else}}
+      {{translation "none"}}
+    {{/each}}
+  </section>
+</template>
+
+<template name="createExp">
+	<section>
+		<form>
+    		<fieldset>
+      		<legend>{{translation "newexp"}}<sub><a id="createExpIns">{{translation "instruction"}}</a></sub></legend>
+				    <p>
+        			<label for="title">{{translation "exptitle"}}</label>
+        			<span><input type="text" name="title" id="title" placeholder="" required /></span>
+      			</p>
+      			<p>
+        			<label for="keywords">{{translation "keywords"}}</label>
+        			<span><input type="text" name="keywords" id="keywords" placeholder="" required /></span>
+      			</p>
+      			<p>
+        			<label for="researcher">{{translation "researcher"}}</label>
+		    		<span><input type="text" name="researcher" id="researcher" placeholder="" requried /></span>
+      			</p>
+      			<p>
+        			<label for="affiliation">{{translation "affiliation"}}</label>
+        			<span><input type="text" name="affiliation" id="affiliation" placeholder="" required /></span>
+      			</p>
+     			  <p>
+      				<label for="email">{{translation "contactemail"}}</label>
+        			<span><input type="email" name="email" id="email" required /></span>
+      			</p>
+      			<p>
+      				<label for="website">{{translation "website"}}</label>
+        			<span><input type="text" name="website" id="website" value="http://" /></span>
+      			</p>
+      			<p>
+      				<label for="ethics">{{translation "ethics"}}</label>
+        			<span><input type="text" name="ethics" id="ethics" placeholder="" required /></span>
+      			</p>
+      			<p>
+      				<label for="subjNum">{{translation "subjnum"}}</label>
+        			<span><input type="number" name="subjNum" id="subjNum" min="1" value="20" required /></span>
+      			</p>
+      			<p>
+      				<label for="age">{{translation "agethreshold"}}</label>
+          			<span><input type="number" name="age" id="age" min="6" max="120" value="20" required /></span>
+        		</p>
+            <p>
+              <label for="age">{{translation "screening"}}</label>
+                <span>
+                  {{translation "fastcompletion"}}<input type="checkbox" id="fastCompletion" checked /> 
+                  {{translation "frequentquitter"}}<input type="checkbox" id="frequentQuitter" checked />
+                  {{translation "daydreamer"}}<input type="checkbox" id="daydreamer" checked />
+                </span>
+            </p>
+            <p>
+              <label for="estTime">{{translation "estimatetime"}}</label>
+                <span>
+                  <input type="number" name="estTime" id="hour" min="0" max="10" value="0" required />H
+                  <input type="number" name="estTime" id="min" min="0" max="59" value="0" required />M
+                </span>
+            </p>
+            <p>
+              <label for="gapHour">{{translation "gaphour"}}</label>
+                <span><input type="number" name="gapHour" id="gapHour" min="1" max="336" value="24" required /></span>
+            </p>
+      			<p>
+      				<label for="multiple">{{translation "multiple"}}</label>
+          			<span><input type="checkbox" id="multiple" /></span>
+        		</p>
+        		<p>
+      				<label for="multipleN">{{translation "multiplen"}}</label>
+          			<span><input type="number" name="multipleN" id="multipleN" min="1" max="10" value="2" /></span>
+        		</p>
+            <p>
+              <label for="multipleTrain">{{translation "multipletrain"}}</label>
+                <span><input type="checkbox" id="multipleTrain" /></span>
+            </p>
+      			<p>
+        			<input type="submit" id="createExpSubmit" value="{{translation "create"}}" />
+        			<input type="reset" id="createExpReset" value="{{translation "reset"}}" />
+              <input type="button" id="cancelCreateExp" value="{{translation "cancel"}}" />
+      			</p>
+    		  </fieldset>
+		  </form>
+	</section>
+	<div id="instructionContainer"></div>
+</template>
+
+<template name="deleteExp">
+  <h2>Delete an Exp</h2>
+  <img src="https://your.server.dns/imageFolder/illustrations/delete_exp.svg" style="max-width: 128px;" />
+  <p>
+    <em>{{translation "deleteexpwarn"}}</em>
+  </p>
+  <h3>{{expTitle}}</h3>
+  <p>
+    <input type="button" id="proceedDelete" value="{{translation "proceed"}}" />
+    <input type="button" id="cancelDelete" value="{{translation "noooo"}}" />
+  </p>
+</template>

@@ -1,0 +1,161 @@
+<template name="expResults">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0" nonce="77dHm37B"></script>
+    <script>window.twttr = (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        t._e = [];
+        t.ready = function(f) {
+            t._e.push(f);
+        };
+        return t;
+    }(document, "script", "twitter-wjs"));
+    </script>
+    <style>
+        h3 ~ div {
+            display: inline-block;
+        }
+
+        h3 ~ div > div {
+
+        }
+
+        h2 > img {
+            max-height: 6vw;
+            vertical-align: text-top;
+        }
+
+        div > h3 {
+            line-height: 6vw;
+        }
+
+        div > h3 > img {
+            max-height: 6vw;
+        }
+
+        @media only screen and (min-width: 1200px) {
+            h2 > img {
+                max-height: 2.4vw;
+            }
+
+            div > h3 {
+                line-height: 2.4vw;
+            }
+
+            div > h3 > img {
+                max-height: 2.4vw;
+            }
+        }
+    </style>
+    <article style="text-align: center;">
+        <h2>{{translation "expcomplete"}}</h2>
+        <!-- Change this path -->
+        <img src="https://your.server.dns/imageFolder/illustrations/complete_challenge.svg" />
+        <p>
+            <sub>{{translation "exptitle"}}
+                {{#if isDemo}}
+                    Demo Exp
+                {{else}}
+                    {{resultsData "expTitle"}}
+                {{/if}}
+            </sub><br/>
+            <sub>{{translation "datecomplete"}}{{resultsData "date"}}</sub>
+        </p>
+        {{#if repeatExp}}
+            <h3>{{challengeN}}</h3>
+        {{/if}}
+        <table>
+            <thead style="background-color: #004e9c; color: white;">
+                <tr>
+                    <th colspan="3"><em>{{translation "yourlearning"}}</em></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 33.3%; background-color: #eaba2f;">
+                        <em>{{translation "testaccurate"}}</em>
+                        <p>{{correctPerc}}%</p>
+                        <sub>{{translation "expavg"}} {{resultsData "expCorrPerc"}} %</sub>
+                    </td>
+                    <td style="width: 33.3%; background-color: #ff6e6e;">
+                        <em>{{translation "avgrt"}}</em>
+                        <p>{{allRTMean}} {{translation "ms"}}</p>
+                        <sub>{{translation "expavg"}} {{resultsData "expAllRTMean"}} {{translation "ms"}}</sub>
+                    </td>
+                    <td style="background-color: #39a4cd;">
+                        <em>{{translation "avgcorrrt"}}</em>
+                        <p>{{correctRTMean}} {{translation "ms"}}</p>
+                        <sub>{{translation "expavg"}} {{resultsData "expCorrRTMean"}} {{translation "ms"}}</sub>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr style="text-align: left; background-color: #d4d4d4;">
+                    <td colspan="3">{{translation "avgrtnote"}}</td>
+                </tr>
+                <tr style="text-align: left; background-color: #d4d4d4;">
+                    <td colspan="3">{{translation "avgcorrrtnote"}}</td>
+                </tr>
+                {{#unless checkStage ""}}
+                    {{#unless isDemo}}
+                        <tr style="text-align: left; background-color: #d4d4d4;">
+                            <td colspan="3">
+                                <em>{{translation "verifycode"}}{{resultsData "verifyCode"}}</em><br/>
+                                {{translation "verifycodenote"}}
+                            </td>
+                        </tr>
+                    {{/unless}}
+                {{/unless}}
+                <tr style="text-align: left; background-color: #d4d4d4;">
+                    <td colspan="3">{{translation "contactemail"}}{{resultsData "contact"}}</td>
+                </tr>
+                <tr style="text-align: left;">
+                    {{#unless isDemo}}
+                        <td colspan="3">
+                        </td>
+                    {{/unless}}
+                </tr>
+            </tfoot>
+        </table>
+        <!-- Debriefing info shows up only when it really ends -->
+        <h2>{{translation "debriefing"}}</h2>
+        {{#unless checkStage "repeat"}}
+            {{translation "group"}} {{condition}}
+            <div style="text-align: left; background-color: #d19c21; margin: 0 10%;">
+                {{#each value in resultsData "debriefing"}}
+                    <p style="padding: 5px 2px;">{{value}}</p>
+                {{/each}}
+            </div>
+            <p style="text-align: left; margin: 0 10%;">
+                <sub>{{translation "debriefingnote"}}</sub>
+            </p>
+        {{else}}
+            <p>
+                {{translation "nodebriefing"}}
+            </p>
+        {{/unless}}
+        <h3>{{translation "newachievements"}}</h3>
+        {{#each achievements}}
+            <div style="background-color: rgba(124, 181, 24, 0.8); color: #2e2e2e; opacity: 1;">
+                <div style="background-color: rgba(124, 181, 24);"></div>
+                <em>{{chaTranslation type}}</em>
+                <h3><img title="{{iconNote type}}" src="{{iconURL}}achievements/{{type}}.png" /></h3>
+                <em>{{getDate}}</em>
+            </div>
+        {{else}}
+            <p>{{translation "none"}}</p>
+        {{/each}}
+        <p>
+            {{#if currentUser}}
+                <input type="button" id="backHome" value="{{translation "backhome"}}" />
+            {{else}}
+                <input type="button" id="signUp" value="{{translation "signup"}}" />
+            {{/if}}
+        </p>
+    </article>
+</template>

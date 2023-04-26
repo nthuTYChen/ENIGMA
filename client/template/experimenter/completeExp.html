@@ -1,0 +1,63 @@
+<template name="completeExpInfo">
+  <h2>{{expBasicInfo "title"}}<p>{{#if isOwner}}<sub><a id="completeExpInfoIns">{{translation "instruction"}}</a></sub>{{/if}}</p></h2>
+  <section>
+    <form>
+      <p>
+        <span>{{translation "status"}}</span>
+        <span>{{expStatusInfo "state"}}</span>
+      </p>
+      <p>
+        <span>{{translation "completedat"}}</span>
+        <span>{{expGenInfo "completedAt"}}</span>
+      </p>
+      <p>
+        <span>{{translation "resultlink"}}</span>
+        <span>{{resultLink}}</span>
+      </p>
+      <p>
+        <span>{{translation "participants"}}</span>
+        <span>{{expStatusInfo "currentSubj"}}</span>
+      </p>
+      <p>
+        <span>{{translation "researcher"}}</span>
+        <span>{{expBasicInfo "researchers"}}</span>
+      </p>
+      <p>
+        <span>{{translation "affiliation"}}</span>
+        <span>{{expBasicInfo "affiliations"}}</span>
+      </p>
+      <p>
+        <span>{{translation "contactemail"}}</span>
+        <span>{{expBasicInfo "email"}}</span>
+      </p>
+    </form>
+  </section>
+  <section>
+    <fieldset>
+      <legend>{{translation "completeexpinfo"}}</legend>
+      <p>
+        <label><span style="color: red">{{completeExpInfoNum}}</span> / 2,000</label>
+        <span><textarea style="height: 40vh;" id="completeExpInfo" maxlength="2000" {{notOwnerReadonly}}>{{expGenInfo "completeExpInfo"}}</textarea></span>
+      </p>
+      <p>
+        {{#if isOwner}}
+          <input type="button" class="desktopOnly" id="updateCompleteExpInfo" value="{{translation "update"}}" />
+          <input type="button" id="goToBasicSettings" value="{{translation "basicsettings"}}" />
+        {{/if}}
+        {{#if isExperimenter}}
+          <p style="text-align: left;">
+            {{{translation "completeexpdownloadnote"}}}
+          </p>
+          <input type="button" class="desktopOnly" id="downloadExp" value="{{translation "download"}}" />
+        {{else}}
+          {{#unless currentUser}}
+            <p>
+              {{translation "completeexpregnote"}}
+            </p>
+          {{/unless}}
+        {{/if}}
+      </p>
+    </fieldset>
+  </section>
+  <div id="instructionContainer"></div>
+</template>

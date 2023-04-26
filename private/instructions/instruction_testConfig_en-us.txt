@@ -1,0 +1,81 @@
+<section>
+	<article>
+		<p>The experimental settings in the test phase are similar to those in the test phase, but some of them are not applicable to the test phase.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Stimuli List File</h3>
+	<article>
+		<p>In this stage, you <span class="textWarning">must</span> upload a stimuli list file, and the blocks in this stage will be created based on the values of the <span class="textWarning">"Block"</span> column, and each block can have access only to the stimuli assigned to the block as specified in the "Block" column. For a more detailed instruction on how to organize your stimuli list file, please see <span class="textWarning">"List Instruction"</span> in this item.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Current Stimuli List</h3>
+	<article>
+		<p>Once you have uploaded a stimuli list file that is consistent with the format required by ENIGMA, the item "Stimuli List File" will change to "Current Stimuli List", in which you will see the number of columns, rows, and blocks that ENIGMA automatically calculate for your reference. In addition, you can click "Download" to store the current stimuli list as a text file, click "Replace stimuli..." to update your stimuli list, or click "Test Stimuli URLs" to check the availability of the links to your multimedia stimuli (if any; see "List Instruction") to avoid typos that lead to invalid URLs.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Random Block Order</h3>
+	<article>
+		<p>If you check this box, the blocks in the test stage will be ordered randomly for each test session. If you don't, the test blocks will be presented in order <span class="textWarning">from top to bottom</span>.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Check Rapid Responses</h3>
+	<article>
+		<p>When you check this item, ENIGMA will help check if more than half of the trials have valid responses and these responses are on average shorter than <span class="textWarning">350 ms</span> (i.e., a reasonable response latency for making proper linguistic judgments). Such rapid responses might suggest that the participant does not take the test session seriously and could simply respond randomly and potentially interfere with your experimental results. When rapid responses are provided, ENIGMA will neither record the results in your experiment and nor provide the verification code to the participant. We suggest you to keep this item checked, unless your experimental design is very likely to elicit responses with a latency shorter than 350 ms.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Block List</h3>
+	<article>
+		<p>ENIGMA will retrieve the values from the "Block" column in your stimuli list, identify all unique values, and create corresponding blocks, and you <span class="textWarning">cannot </span> create or delete a block by yourself.</p>
+		<p>All blocks will be automatically created with a title "Block XXX" on this page. When you upload a new stimuli list, ENIGMA will update the list of blocks based on the "Block" column in the new list. Blocks that do not exist in the new list will be removed, and new blocks specified in the "Block" column will be created. Blocks that still have the same values in the "Block" column will remain unchanged.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Block Settings</h3>
+	<article>
+		<p>Once blocks are automatically created, you will see "Edit", "Add an Element", "↑" and "↓" for each block.</p>
+		<p>By clicking "Edit", you can change the basic settings of a block, such as "Block Title" (<span class="textWarning">20</span> characters at most), "Num of Repetition" (repeat a block for N times), and "Random Trial Order" (present stimuli in random order). "Block Label" is assigned automatically based on the values in the "Block" column of the stimuli list, which <span class="textWarning">cannot</span> be changed. After you complete your changes, please click the "Update" button to save the changes <span class="textWarning">temporarily</span>. If you need to <span class="textWarning">apply</span> the changes, click the <span class="textWarning">"Save"</span> button at the bottom of the page.</p>
+		<p>Click "Add an Element" can add a new element in a particular block to present stimuli or collect responses (see instructions below).</p>
+		<p>Click the two arrows can adjust the block order.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Block Elements</h3>
+	<article>
+		<p>When you click "Add an Element" in a particular block, a new experimental element named "Element XXX" will be added to the block, and click on each element will show you the element's settings as follows:</p>
+		<ul>
+			<li>Element Title: You can customize the title of an element (at most <span class="textWarning">20</span> characters). However, to make sure that your experiment runs smoothly, <span class="textWarning">initial numbers, spaces, and special symbols</span> are not allowed. In addition, elements assigned to have the same order (see below) must have a different title after excluding the aforementioned characters.</li>
+			<li>Element Onset: In this setting, you can choose when an element is initiated. In other words, you can set a delay (in second) for an element when a trial proceeds to the  element. If you give a number "0", en element is initiated immediately. This setting must be a number between 0 and 3600. You can also put <span class="textWarning">[[Delay]]</span> here to retrieve numbers from the Delay column in your stimuli list.</li>
+			<li>Element Length: This setting determines the length (in second) of an element after it is initiated. If the stimulus presented by the element is neither an audio nor a video, a length of "-1" means "infinity". If this is the case, you might want to collect a response in this element or in another element of the same element order to force this element to end so the experiment can move on after a valid response. If the stimulus in the current element is an audio/video, a length of "-1" means the length of the audio/video. That is, the length of the presentation of the stimulus will vary based on the audio/video stimulus. If you want the length of an element to be synced to other audio/video stimuli from the stimuli list, you can just fill in the name of the column (case-sensitive) from your stimuli list including URLs linking to the audios/videos (e.g., <span class="textWarning">[[AudioURL]]</span>.</li>
+			<li>Stimuli Type: You could choose "Text", "Audio", "Video", or "Image" as the type of stimuli presented in the current element. If the texts or URLs are from a certain column in your stimuli list, you could enclose the name of the column in double square brackets (e.g., <span class="textWarning">[[AudioURL]]</span>), so the presented stimuli vary across different trials.</li>
+			<li>Stimuli Position (X/Y): In this setting, you could choose the relative position of a visual stimulus on the X/Y axis. The two values are by default "0", which means a stimulus is aligned to the center of the screen both vertically and horizontally. When a positive value is given to X or Y, the stimulus will be moved upward or rightward; when a negative value is given, the stimulus will be moved downward or leftward. The unit of movement is the <span class="textWarning">"percentage of the width/height of the stimulus"</span> - If X is "2", the stimulus will be moved rightward by 2% of its width; if Y is "-3", the stimulus will be moved upward by 3% of its height. You can also have by-trial movement values from the stimuli list if you enclose column names in double square brackets in these settings (e.g., <span class="textWarning">[[PosX]]</span>). Of course, this setting is useless for auditory stimuli.</li>
+			<li>Element Order: A smaller number means a higher order. Multiple elements can have the same order so you can present multiple stimuli at the same time. For instance, when you need to present both auditory and visual stimuli, you can add two elements to the same block, one for auditory stimuli and one for visual stimuli, and set the same order for the two elements.</li>
+			<li>Collect Responses: When you check this option, you can collect responses in this element. In the test phase, there should be <span class="textWarning">at least one element</span> collecting participants' responses in all blocks to assess participants' artificial grammar learning performance.</li>
+			<li>Response Type & Keys: When you choose to collect responses, you can choose the type of responses (unary/binary/Likert (3-7 points)). Depending on the type of responses, you need to have the corresponding response texts and keys in the second and third fields of this setting. Supposed that you choose to collect unary response, your second field might be "Continue" (the text prompt) and the third field might be "g" (the actual response key). Or, if you choose "binary", the second field might be "yes,no", and the third field might be "a,l" (use a comma to separate different texts and keys). Of course, when you choose to collect responses on a Likert scale, you need to have three to seven corresponding text prompts and response keys. Note that if you need to set <span class="textWarning">the space key</span> as the response key, you should specify <span class="textWarning">space</span> in the third field.</li>
+			<li>Check Response Accuracy: If you want ENIGMA to help check if participants' respond correctly according your setting above, you can check this box. Response accuracy will then be stored as part of the experimental results. If the element type is set to "Random Recall Test", response accuracy is always checked.</li>
+			<li>Correct Response: You can set the correct response of the response key(s), and ENIGMA will code response correctness automatically for you. Your correct response could be a fixed key, or could vary by trial accordiging to a column from your stimuli list(e.g., <span class="textWarning">[[Correct]]</span>). If none of your elements is set to have correct responses, your participants will always get "0%" as their response accuracy. Thus, to protect your participants' right, <span class="textWarning">please</span> set correct response properly to allow your participants to know their learning performance. Your correct response(s) in an element must also be the response keys chosen for the element.</li>
+			<li>Show Response Feedback: If you want to give your participants feedback on the correctness of their response instantly, you can choose this option.</li>
+			<li>Feedback Texts: When you choose to show response feedback, you have to provide text prompts corresponding to "Correct" and "Incorrect" and separate the two prompts with <span class="textWarning">a period</span>, such as "✓,✗".</li>
+			<li>Feedback Length: When you choose to show response feedback, you can decide the length (sec) of the feedback.</li>
+		</ul>
+		<p>After you change any setting, you can click on the "Update" button to save the settings of the element temporarily. Or, if you choose not to update the element settings, you can click on the "Hide" button to go back to the list of elements. You can also choose to "Delete" an element temporarily.</p>
+		<p>When you "Update" or "Delete", all the changes <span class="textWarning">won't be applied</span> until you click on the <span class="textWarning">"Save"</span> button at the bottom of this page.</p>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="closeInstruction" value="Close" />
+	</p>
+</section>

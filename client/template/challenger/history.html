@@ -1,0 +1,91 @@
+<template name="history">
+	<style>
+		em > img {
+			max-height: 3.5vw;
+			vertical-align: text-top;
+		}
+
+		h2 > img {
+			max-height: 6vw;
+			vertical-align: text-top;
+		}
+
+		div > h3 {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		div#removeHistConfirm {
+			display: none;
+			position: fixed;
+			z-index: 999;
+			bottom: 15vh;
+			right: 1vw;
+			max-width: 98vw;
+			padding: 5px 10px;
+			border: 1px solid #5c5c5c;
+			border-radius: 5px;
+			background-color: white;
+			opacity: 0.95;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			em > img {
+				max-height: 1.2vw;
+			}
+			
+			h2 > img {
+				max-height: 2.4vw;
+			}
+
+			div#removeHistConfirm {
+				max-width: 25vw;
+			}
+		}
+	</style>
+	<h2>{{chaTranslation "history"}} <img src="{{iconURL}}history.png" /><sub><a id="historyHelp" href="">{{chaTranslation "help"}}</a></sub></h2>
+	<h3>{{chaTranslation "historynum"}}{{respsStatsLen}}</h3>
+	<section class="flexPanel">
+		{{#each respsStats}}
+			<div style="background-color: rgba({{historyColor lowAcc noResp}}, 0.8); color: #2e2e2e; width: 100%; opacity: 1;">
+				<div style="background-color: rgba({{historyColor lowAcc noResp}});"></div>
+				<em>{{chaTranslation "time"}}{{statsDate date}} {{chaTranslation "challengenum"}}{{sessionN}}</em>
+				<h3>{{chaTranslation "exptitle"}}{{expTitle}}</h3>
+				<em>{{chaTranslation "accuracy"}}{{correctPerc}}% {{#if lowAcc}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "lowacc"}}" />{{else}}{{#if noResp}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "noresp"}}" />{{else}}{{#if fastComplete}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "fastcompletion"}}" />{{/if}}{{/if}}{{/if}} {{chaTranslation "meanrt"}}{{allRTMean}}{{chaTranslation "ms"}} {{#unless noResp}}{{#unless fastComplete}}{{chaTranslation "verifycode"}}{{verifyCode}}{{/unless}}{{/unless}}</em>
+				{{#if challenging expId}}
+					<span class="textWarning" style="text-shadow: 0 0;">{{chaTranslation "challenging"}}</span>
+				{{/if}}
+				{{#unless lowAcc}}
+					{{#unless noResp}}
+						<input type="button" id="statsCheck_{{_id}}" value="{{chaTranslation "view"}}" />
+					{{/unless}}
+				{{/unless}}
+				<input type="button" id="getConsent_{{_id}}" value="{{chaTranslation "consent"}}" />
+				{{#unless challenging expId}}
+					<input type="button" id="statsRemove_{{_id}}" value="{{chaTranslation "remove"}}" />
+				{{/unless}}
+			</div>
+		{{else}}
+			<div style="background-color: rgba(207, 19, 19, 0.8); color: #2e2e2e; width: 100%;">
+				<div style="background-color: rgba(207, 19, 19);"></div>
+				<em>{{chaTranslation "nohistory"}} <img src="{{iconURL}}no-history.png" /></em>
+				<h3>{{chaTranslation "nohistorynote"}}</h3>
+			</div>
+		{{/each}}
+	</section>
+	{{#if anyStats}}
+		<input type="button" id="historyPrev" value="{{chaTranslation "prev10"}}" /> 
+		<input type="button" id="historyNext" value="{{chaTranslation "next10"}}" />
+	{{/if}}
+	<div id="instructionContainer"></div>
+	<div id="removeHistConfirm">
+		<figure>
+			<!-- Need to change the link -->
+			<img src="https://your.server.dns/iconURL/illustrations/delete_exp.svg" />
+		</figure>
+		<p>{{chaTranslation "removehistconfirm"}}</p>
+		<input type="button" id="confirmRemove" value = "{{chaTranslation "yes"}}"/>
+		<input type="button" id="cancelRemove" value = "{{chaTranslation "no"}}"/>
+	</div>
+</template>

@@ -1,0 +1,13 @@
+Hello!
+
+How's everything going? It has been 30 days since your last working memory test in ENIGMA. Why not try it again and see how your working memory may have changed?
+
+Date of Your Previous Test: [wmDate]
+Your Last Score: [wmScore]
+Your High Score: [wmHighScore]
+
+ENIGMA Team
+enigma.nthu [at] gmail.com
+https://lngproc.hss.nthu.edu.tw/ENIGMA
+
+*** This is an automatically delivered message. Please do not reply directly. ***

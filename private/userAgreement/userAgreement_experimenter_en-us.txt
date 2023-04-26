@@ -1,0 +1,72 @@
+<section>
+	<article>
+		<b>ENIGMA</b> is the Controller of the personal information the user (you) provide to ENIGMA and other users of ENIGMA in this User Terms and Conditions, and ENIGMA will collect your basic information according to our needs.
+	</article>
+</section>
+
+<section>
+	<h3>What information will you need to provide? Why does ENIGMA need your information?</h3>
+	<article>
+		<p>When you sign up for an Experimenter account in ENIGMA, you agree to provide your real name, affiliation, E-mail address, and your IP address, which will be stored in the ENIGMA server located in National Tsing Hua University of Taiwan (ROC). All the above information is required to have your identity as a researcher verified by participants and ENIGMA administrators (see below for more details). In particular, in the ENIGMA system, your real name and affiliation will always be fully disclosed to participants and external researchers (when you choose to share your data) in ENIGMA as part of the research ethics guidelines that ENIGMA strictly follows. While ENIGMA is carefully designed to protect its users' online privacy, full anonymity is only guaranteed for participants. That said, the information you, as an Experimenter, are requested to provide to ENIGMA already excludes sensitive personal data that is unrelated to our research purposes.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Legal basis for processing your data</h3>
+	<article>
+		<p>ENIGMA is a research project funded by the Ministry of Science and Techonology of Taiwan (ROC) (A Comprehensive Examination of Evidence and Methodology in Artificial Grammar Learning: 108-2410-H-007-030-MY3) approved by the Research Ethics Office at National Tsing Hua University fo Taiwan (ROC) (10805HS050). ENIGMA therefore strictly follows Human Subjects Research Act and Computer-Processed Personal Data Protection Law of Taiwan (ROC) to manage your personal and experiment data provided to or collected in ENIGMA. Your personal information provided to ENIGMA and experiment data collected using ENIGMA will not, and cannot, be transferred by any means to a third party from ENIGMA.</p>
+	</article>
+</section>
+
+<section>
+	<h3>What does ENIGMA do with your data?</h3>
+	<article>
+		<p>As you choose to sign up for an Experimenter account in ENIGMA, you agree that the aforementioned personal data will be stored in the ENIGMA server and used for the following purposes:</p>
+		<ul>
+			<li>E-mail - This information will be used to verify your account and will be disclosed to registered and verified participants in each experiment you create in ENIGMA. The latter is necessary since participants should be able to contact at least the researcher who creates an experiment for any question they have. We suggest you <em>NOT</em> to provide a private e-mail address.</li>
+			<li>Name and affiliation - This information will be disclosed to registered and verified participants in each experiment you create in ENIGMA for a similar reason based on research ethics.</li>
+			<li>IP Address - This information, while recorded in the ENIGMA server, will <em>NOT</em> be made publicly available to any user but ENIGMA administrators, who need this information for internal analyses of site statistics and user management.</li>
+		</ul>
+		<p>You remain full control of your experiment data collected in stored in ENIGMA and own its copyright. ENIGMA will not make your data available to other users without your consent, and will not remove your data actively. However, we will take off your experiments or experiment data published in ENIGMA if they seriously violate the research ethics guidelines that ENIGMA strictly follows, or even the laws of Taiwan (ROC). In the latter case, we might have to share your personal and experiment data with domestic and foreign governmental organizations for judicial investigations, which could eventually lead to the removal of all your data in ENIGMA.</p>
+	</article>
+</section>
+
+<section>
+	<h3>How long is your data kept in ENIGMA?</h3>
+	<article>
+		<p>Your personal and experimental data stored in ENIGMA will be PERMANENTLY perserved, provided that you don't choose to remove your data from ENIGMA actively or violate research ethics guidelines or even the laws of Taiwan (ROC), as stated previously. The primary reason for perserving your data in ENIGMA is to continuously accumulate and support scientific findings in the field of language acquisition to advance our understanding of how natural and unnatural languages are acquired by human beings. If your data is only stored for a short period, there will be no meaning for ENIGMA to exist. Since your experimental data will be fully delinked from your participants, there will be very little chance of affecting your participants' online privacy. This method of data management and storage is approved by the Research Ethics Office at National Tsing Hua University of Taiwan (ROC).</p>
+	</article>
+</section>
+
+<section>
+	<h3>What are your rights and responsibilities in ENIGMA?</h3>
+	<article>
+		<p>As an Experimenter in ENIGMA, you will benefit from our free online experiment and data hosting service, full controllable data storage and management, and an experimental system that is equipped with elements designed following fundamental research ethics guidelines, as stated in the previous sections. In addition, you will have our full support in assisting you with the design of a fully ethical artificial language/grammar learning experiment in ENIGMA. Should you need any technical and non-technical support, please do not hesitate contacting the Principle Investigator of the project, Prof. Tsung-Ying Chen of the Department of Foreign Languages and Literation at National Tsing Hua University at chen.ty [at] mx.nthu.edu.tw. If you have any question regarding the research ethics guidelines of the Research Ethics Office at National Tsing Hua University, which helps supervise the project, you can contact the office by phone at +886-3-5715131 ext. 35133 or by e-mail at nthurec [at] my.nthu.edu.tw.</p>
+		<p>The most important responsibility for an Experimenter in ENIGMA is to follow the research ethics guidelines that your research and ENIGMA are required to strictly conform to. To this end, you should:</p>
+		<ul>
+			<li>Complete the research ethics review process by your Research Ethics Board or Institution Review Board prior to running your experiments in ENIGMA.</li>
+			<li>Make sure that the research ethics guidelines that ENIGMA follows are forwarded to and approved by your Research Ethics Board or Institution Review Board.</li>
+			<li>Consult us if there exists any conflictions between our research ethics guidelines and the requirements from your Research Ethics Board or Instituion Review Board.</li>
+			<li>Keep your experiments working properly in ENIGMA even after the experiments are done, so other ENIGMA participants would have chance to try out your experiments without having their data recorded as part of your experimental data. This would help them understand the nature of language learning.</li>
+			<li><em>Always</em> follow these research ethics guidelines, respect your participants, and protect your participants' rights and full anonymity.</li>
+			<li><em>Never</em> provide false information about your research and the research ethics guidelines it follows.</li>
+			<li><em>Never</em> post your experiment data collected in ENIGMA elsewhere since participants could not track and remove the data they contribute.</li>
+		</ul>
+		<p>In any case we discover or are notified your violation of the research ethics guidelines that ENIGMA strictly follows, we will take down your experiments and remind you to fix the issues. If we continue to receive other complaints about your experiments again, we will very likely ban your Experimenter account, and possibly remove your Experimenter account and its associated data if you fail to justify or fix your experiments.</p>
+		<p>Aside from the responsibilities for being ethical researchers, ENIGMA users are also required to follow the general policies below.</p>
+		<ul>
+			<li>You must not share your Experimenter account with multiple individuals. If you run a research team, all of its members should sign up for an Experimenter account in ENIGMA and manage same experiments via the coordinator system in ENIGMA (see "About ENIGMA" for Experimenters).</li>
+			<li>You must not reuse ENIGMA services in any profitable commercial activities.</li>
+			<li>You must not take any action to try to sabbotage the operation of ENIGMA, which include (but are not limited to) illegal access to the ENIGMA server, database, and user accounts. These actions will force us to stop providing you the ENIGMA services, and at worse, could lead to violations against the Criminal Code of Taiwan (ROC) and enusing lawful investigations.</li>
+		</ul>
+	</article>
+	<article>
+		<sub>Last Updated on Jan 24, 2021</sub>
+	</article>
+</section>
+
+<section>
+	<p>
+		<input type="button" id="acceptAgreement" value="Accept & Close" />
+	</p>
+</section>
