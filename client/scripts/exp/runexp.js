@@ -16,7 +16,7 @@ let expData = new ReactiveVar(null);
 let expTranslation = new ReactiveVar(null);
 let termsAndCondition = new ReactiveVar(null);
 let stimuliByBlock = {}, loadedStimuli = [];
-let blocks, blockCount = 0;
+let blocks, blockCount = 0, trialRecorded = false;
 let preloading = new ReactiveVar(false), preloadedPerc = new ReactiveVar(0);
 let trainingStimuli, testStimuli;
 
@@ -638,6 +638,7 @@ let trialRunner = async function(session, blocks, stimuli, randomBlock) {
 			let ems = blocks[0].elements, blockStimuli = stimuli[0];
 			let currentEms = [];
 			for(let stimuliN = 0 ; stimuliN < blockStimuli.length ; stimuliN++) {
+				trialRecorded = false;
 				presentRT = false;
 				trialN++;
 				stimulus = blockStimuli[stimuliN];
@@ -1066,7 +1067,10 @@ function respAction (listN, resp, stimulus) {
 	}
 	resp.trialInfo.trialLength = 
 			resp.trialInfo.offsetTime - resp.trialInfo.onsetTime;
-	allTrials.push(resp.trialInfo);
+	if(!trialRecorded) {
+		allTrials.push(resp.trialInfo);
+		trialRecorded = true;
+	}
 };
 
 function deactivateResp () {
