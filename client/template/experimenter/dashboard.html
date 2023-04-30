@@ -1,6 +1,7 @@
 <template name="dashboard_exp">
 	<section>
-		<p><em>{{username}}</em>{{translation "welcomeback"}}</p>
+		<!-- Change the URL -->
+		<p><em>{{username}}</em>{{translation "welcomeback"}} <a href="https://yourserver.url/yourusermanual.pdf" target="_blank">{{translation "usermanual"}}</a></p>
 		<sub><span>{{translation "lastlogin"}}{{lastIP}}</span><span>{{translation "runningexps"}}{{runningExps}}/{{runningExpQuota}}</span></sub>
 	</section>
 	<section>

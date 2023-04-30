@@ -40,10 +40,10 @@
 		</p>
 	</section>
 	<section>
-		<h2>Images/Icons</h2>
-		<p>Visual images and icons used in ENIGMA are licensed to Tsung-Ying Chen by <a href="https://www.streamlinehq.com/" target="_blank">Streamline</a>. The images and icons could be found in /icons and /illustrations only for reference. They should not be directly incorporated into any extended work from this official version of ENIGMA, unless the host of the extended version also subscribes to the online image database.</p>
+		<h2>Images/Icons/Files</h2>
+		<p>Visual images and icons used in ENIGMA are licensed to Tsung-Ying Chen by <a href="https://www.streamlinehq.com/" target="_blank">Streamline</a>. The images and icons could be found in /icons and /illustrations only for reference. They should not be directly incorporated into any extended work from this official version of ENIGMA, unless the host of the extended version also subscribes to the online image database. Files like user manuals could be linked to our official document upon request, but you can link to your own files, too.</p>
 		<h3>URLs and Paths</h3>
-		<p>URLs and paths to images and icons could be primarily found in the challenger system, which should be modified to link to the host's own images. The paths have to be modified in the following files:<br/>
+		<p>URLs and paths to images, icons, and other files could be primarily found in the challenger system, which should be modified to link to the host's own images. The paths have to be modified in the following files:<br/>
 			(Check iconURL() in particular)<br/>
 			/client/scripts/challenger/*.js<br/>
 			/client/scripts/exp/expResults.js<br/>
@@ -51,6 +51,7 @@
 			/client/template/challenger/profile.html<br/>
 			/client/template/exp/expResults.html<br/>
 			/client/template/exp/runExp.html<br/>
+			/client/template/experimenter/dashboard.html<br/>
 			/client/template/experimenter/checkExpSettings.html<br/>
 			/client/template/experimenter/manageExp.html<br/>
 			/client/template/experimenter/profile.html<br/>
@@ -63,6 +64,6 @@
 		<p>A default admin account could be added to ENIGMA's user system with the settings in /server/main.js. However, currently ENIGMA doesn't have any function for administration. We are currently maintaining the database directly via the official MongoDB tool.</p>
 	</section>
 	<section>
-		<p><em>Last updated on Apr 26, 2023</em></p>
+		<p><em>Last updated on Apr 30, 2023</em></p>
 	</section>
 </article>

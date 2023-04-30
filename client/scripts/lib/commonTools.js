@@ -47,6 +47,9 @@ export let callErrorHandler = function (err, specificType, userCat) {
 	else {
 		errorMsg = specificType;
 	}
+	if(errorMsg === 'slowdown' || errorMsg === 'vitale') {
+		userCat = '';
+	}
 	if(userCat) {
 		Styling.showWarning(errorMsg, userCat);
 	}

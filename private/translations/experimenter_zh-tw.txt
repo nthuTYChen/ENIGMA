@@ -279,6 +279,7 @@ updatecomexpinfo#更新資訊
 updatecomplete#更新完成
 updateexpbasicok#基本資訊已更新
 urlok#所有檔案連結皆正常
+usermanual#使用者手冊
 validated#已驗證？
 validateresults#驗證實驗結果
 verified#已認證：

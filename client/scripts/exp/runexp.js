@@ -638,7 +638,6 @@ let trialRunner = async function(session, blocks, stimuli, randomBlock) {
 			let ems = blocks[0].elements, blockStimuli = stimuli[0];
 			let currentEms = [];
 			for(let stimuliN = 0 ; stimuliN < blockStimuli.length ; stimuliN++) {
-				trialRecorded = false;
 				presentRT = false;
 				trialN++;
 				stimulus = blockStimuli[stimuliN];
@@ -657,6 +656,7 @@ let trialRunner = async function(session, blocks, stimuli, randomBlock) {
 				}
 				randomTracking.beforeRandomN += 1;
 				while(orderCount !== 0) {
+					trialRecorded = false;
 					for(let i=0 ; i<emsLen ; i++) {
 						let em = ems[i];
 						if(em.order === orderCount) {

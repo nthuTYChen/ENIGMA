@@ -277,6 +277,7 @@ updatecomexpinfo#Update Info
 updatecomplete#Update Completed
 updateexpbasicok#Basic Settings Updated
 urlok#All URLs are OK
+usermanual#User Manual
 validated#Validated?
 validateresults#Validate Results
 verified#Verified: 
