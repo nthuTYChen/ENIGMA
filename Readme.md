@@ -12,6 +12,7 @@
 		<p>ENIGMA is a free and open-source Web application specifically designed to run online experiments based on the artificial grammar learning paradigm. The application is built with Meteor v2.11 (<a href="https://meteor.com" target="_blank">https://meteor.com</a>), a JavaScript-based open-source package for Web application development. Users could clone the source codes in this repository and compile it using Meteor v2.11 or above to run the application on their own server, or to simply use the official version. The application is the research outcome of the project "A Comprehensive Examination of Evidence and Methodology in Artificial Grammar Learning" funded by the National Council of Science and Technology, Taiwan.</p>
 		<p>ENIGMA is built with the following Meteor packages (in addition to the core, build-in Meteor packages): <em>accounts-base, ddp-rate-limiter, email, fetch, kadira:blaze-layout, mongo, ostrio:flow-router-extra, reactive-var, session, templating, tracker, udondan:jszip</em></p>
 		<p>ENIGMA is built with the following NPM packages (in addition to the core, build-in NPM packages for Node.js): <em>file-saver</em></p>
+		<p>Note that to deploy ENIGMA as a Meteor application in the production mode, an independent database building on <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> (version >= 5.0) is necessary.</p>
 	</section>
 	<section>
 		<h2>Critical Settings</h2>
@@ -64,6 +65,6 @@
 		<p>A default admin account could be added to ENIGMA's user system with the settings in /server/main.js. However, currently ENIGMA doesn't have any function for administration. We are currently maintaining the database directly via the official MongoDB tool.</p>
 	</section>
 	<section>
-		<p><em>Last updated on Apr 30, 2023</em></p>
+		<p><em>Last updated on May 2, 2023</em></p>
 	</section>
 </article>
