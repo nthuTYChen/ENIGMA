@@ -8,7 +8,7 @@ cancel#Cancel
 challenger#Challenger
 changed#Changed.
 changedandlogin#Changed and logged out.
-copyright#<p>Copyright 2023 Tsung-Ying Chen</p> <p>National Tsing Hua University, Hsinchu, Taiwan</p> <p>Project Funded by the Ministry of Science and Technology, Taiwan</p>
+copyright#<p>Copyright 2023 Tsung-Ying Chen</p> <p>National Tsing Hua University, Hsinchu, Taiwan</p> <p>Project Funded by the National Science and Technology Council, Taiwan</p>
 confirm#Confirm
 deleteaccount#Delete Account
 deleteaccounte#Wrong password. It's a sign - stay with us!

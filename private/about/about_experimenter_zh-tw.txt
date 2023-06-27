@@ -3,7 +3,7 @@
 	<h3>什麼是「字謎」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_enigma.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whats_enigma.svg" />
 		</figure>
 		<p>「字謎」是提供世界各地的<em>語言學家</em>設計並執行以<em>人工語言/語法學習實驗</em>的線上工具(但不限於此類實驗)，而最終的目標是回答<em>「存在於我們大腦中的語言系統究竟如何運作？」</em>這個極其重要的研究問題。「字謎」的這個名稱靈感是來自於德國軍隊在第二次世界大戰時使用的密碼編譯機器，而這個機器使用的密碼系統稍後則由西方盟軍成功解碼。語言學習與溝通就像是說話者與聽者輪流進行語言編碼與解碼的過程。「字謎」是一個完全免費的網頁應用程式，其目標是聚集語言學家使用人工語言學習或以此為基礎的實驗測試不同語言面向的可學習性(learnability)，以及探索內在和外在影響語言學習者在此類實驗中學習成效的因素。身為「字謎」中的「實驗者」，你可以充份利用以下的優勢。第一、「字謎」中彈性的實驗設計允許你建立各種不同的人工語法學習實驗。 第二、「字謎」的設計針對線上大規模實驗研究進行最佳化，期望能夠協助你快速地蒐集大量來自背景迥異的研究參與者的實驗資料，以便進行複雜的行為資料分析。最後、「字謎」將同時做為保存你的實驗資料的線上資料庫，讓其他的研究者可以快速地存取你發佈的實驗資料，甚至試著重覆你的實驗。
 		</p>
@@ -13,14 +13,14 @@
 <section>
 	<h3>是誰在負責「字謎」的運作？</h3>
 	<article>
-		<figure><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/nthu-emblem.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/most-logo.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/meteor-logo.svg" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/steamline-icon.png" /></figure>
-		<p>「字謎」是一個由台灣國立清華大學<a href="http://www.fl.nthu.edu.tw" target="_blank">外國語文學系</a>的<a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">陳宗穎 助理教授</a>(加拿大亞伯達大學語言學博士)執行，並於2019年八月至2022年七月期間獲中華民國科技部補助的科學研究計畫(人工語法習得實驗證據暨研究方法之深度檢討；108-2410-H-007-030-MY3)。本線上實驗平台使用以Node.js為基礎架構的<a href="https://www.meteor.com/" target="_blank">Meteor</a>套件進行開發，而各類圖示由<a href="https://streamlineicons.com/">Streamline Icons</a>授權使用。</p>
+		<figure><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/nthu-emblem.png" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/nstc-logo.png" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/meteor-logo.svg" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/steamline-icon.png" /></figure>
+		<p>「字謎」是一個由台灣國立清華大學<a href="http://www.fl.nthu.edu.tw" target="_blank">外國語文學系</a>的<a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">陳宗穎 副教授</a>(加拿大亞伯達大學語言學博士)執行，並於2019年八月至2022年七月期間獲中華民國國家科學及技術委員會補助的科學研究計畫(人工語法習得實驗證據暨研究方法之深度檢討；108-2410-H-007-030-MY3)。本線上實驗平台使用以Node.js為基礎架構的<a href="https://www.meteor.com/" target="_blank">Meteor</a>套件進行開發，而各類圖示由<a href="https://streamlineicons.com/">Streamline Icons</a>授權使用。</p>
 	</article>
 	<article>
 		<p><em>研究團隊成員</em></p>
 		<p>計畫主持人：陳宗穎 博士</p>
-		<p>現任助理：張思涵、羅惟馨、楊伯廷</p>
-		<p>前任助理：曾子軒、林意珊</p>
+		<p>現任助理：林意珊、羅惟馨、王泓懿、張瑋芩</p>
+		<p>前任助理：曾子軒、張思涵、楊伯廷</p>
 	</article>
 </section>
 
@@ -28,7 +28,7 @@
 	<h3>研究倫理規範</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_ethical_approval.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_ethical_approval.svg" />
 		</figure>
 		<p>本研究計畫已獲國立清華大學研究倫理辦公室審核通過(10805HS050)以確保「字謎」的有著適當的設計，並且能清楚地告知研究參與者的權利和保障他們的線上隱私(詳見下文)。「字謎」獲得的研究倫理審查通過證明並不能自動延伸至你在「字謎」上進行的實驗。由於語言學研究與實驗性質變動程度很大，你在「字謎」上進行的實驗必須獨立地通過你的研究倫理審查機構的審查程序。「字謎」也要求你在每一個實驗中載明通過研究倫理審查的明確資訊，並提供給研究參與者作為參考。我們強烈建議你在「字謎」中正式進行你的實驗前獲得研究倫理審查通過的證明。若「字謎」管理者接獲任何報告，指明你的實驗未提供研究倫理審查資訊，或是提供錯誤資訊，這些實驗將會被暫時移除。如果你在尚未改正或補足相關資訊前，試圖再次啟用並進行這些實驗，而「字謎」管理員又再次接獲相關的報告，你的「實驗者」帳號將會被永久停權。並了協助你準備申請你的研究倫理審查程序，我們在以下段落中進一步解釋「字謎」的核心系統。</p>
 		<p>下列「字謎」中的系統是基於遵守研究倫理規範所設計而成，因此我們無法變動這些部份以配合你的要求。第一、「字謎」中的研究參與者資料以及實驗資料一律都是以「去連結」的方式存放於「字謎」的伺服器中。除了實驗資料，你的實驗也會記錄研究參與者的性別、年齡、慣用手、母語/第二語言、以及部份的IP位址，但你無法透過這些資訊連結至研究參與者的真實世界身份。第二、即便在完成實驗之後，研究參與者也可以選擇不再參與你的研究，並且可以在未經你或「字謎」管理員的同意及協助下，移除他們的實驗資料(你仍然會被告知他們的選擇)。第三、「字謎」也不會在你的實驗或實驗資料未違反「字謎」使用者協議的情況下，主動移除你的實驗或隱藏你已經發佈的實驗資料。當你選擇在「字謎」中發佈你的資料時，這些資料將會永久地在「字謎」公開。最後，你在「字謎」中註冊「實驗者」帳號時所提供姓名、單位、以及電子郵件，都將提供給研究參與者做參考。</p>
@@ -40,7 +40,7 @@
 	<h3>你的權利與義務</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_exp_right.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_exp_right.svg" />
 		</figure>
 		<p>「字謎」中的每一位「實驗者」擁有他們個人與實驗資料的完整控制權與著作權。你提供給「字謎」或是在「字謎」上蒐集的任何實驗資料為會在未經你(或是研究參與者)的同意的情況下揭露、分享、甚至是轉移至任何第三方。唯在有必要配合台灣(中華民國)的法治單位的合法調查的情況下，「字謎」將有限地提供有關法治單位相關資料。如前文所述，「字謎」將不會在你未違反使用者條款或是你所在國家以及台灣(中華民國)法律的情況下，主動移除或更動任何屬於你的任何資料。然而在違反前述條文最糟的情況下，將導致你的「實驗者」帳號以及相關資料從「字謎」中完全移除。我們也保證「實驗者」可以免費的使用「字謎」中的完整功能，但我們<em>嚴格禁止</em>「實驗者」利用「字謎」提供的服務在任何形式的商業活動中獲取利益。</p>
 		<p>「實驗者」需遵守的義務的完整列表可參閱你在「字謎」中註冊「實驗者」帳號時同意的使用者條款(你會仔細地閱讀它的，對吧？)。在此我們只重覆一些最關鍵的條文：
@@ -57,7 +57,7 @@
 	<h3>「實驗者」系統</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_exp.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whats_exp.svg" />
 		</figure>
 		<p>每一個「字謎」中的「實驗者」可以建立最多30個實驗，且同時進行最多10個實驗。每個實驗可以包含任意數量的實驗情境(experimental condition)，而「字謎」會自動協助你隨機分配研究參與者至不同的實驗情境。因此，你無須為每一個實驗情境建立個別的實驗，否則你的實驗額度可能很快就會用罄。若你需要增加實驗額度，可以透過電子郵件附上理由聯繫「字謎」團隊，而你的申請會由「字謎」管理員審查。我們無法保證你的申請一定可以通過，而「字謎」管理員會根據你在「字謎」中的活動紀錄以及「字謎」伺服器的資源分配做出決定。我們會優先提供額外的實驗額度給遵守「字謎」使用者條款，且已經將透過「字謎」蒐集的實驗結果發表於學術研討會或學術期刊的「實驗者」。</p>
 		<p>如同「字謎」使用者條款所記載，「實驗者」不應與多人共享帳號。如果你的研究是由一個研究團隊共同執行，那麼所有的團隊成員皆應該在「字謎」中註冊個別的「實驗者」帳號。「字謎」的「協作者」(coordinator)系統允許你為每一個實驗加入最多五名「協作者」，以便協助管理實驗。「協作者」在實驗中除了啟用/刪除實驗和新增/移除其他協作者之外，擁有和建立實驗的「實驗者」相同的權限。任何人做的實驗變更與或是實驗狀態更新都會告知實驗中的每一個成員。</p>
@@ -69,7 +69,7 @@
 	<h3>「挑戰者」系統</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_challenger.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_challenger.svg" />
 		</figure>
 		<p>你的研究參與者在「字謎」中皆註冊為「挑戰者」的身份，並處於一個「遊戲化」(gamified)的系統之中。這個系統主要是為了鼓勵研究參與者在「字謎」中進行複數的實驗，讓「字謎」中的實驗可以更快速的蒐集大量的實驗資料。對「挑戰者」來說，每一個實驗都是一個「遊戲」。「挑戰者」會參與多個實驗獲得不同的分數與成就、透過測驗正確率或反應時間了解他們的語言學習表現、並且可以在排名系統中和其他「挑戰者」的表現進行比較。因此，如果你可以為你的實驗提供一個活潑有趣(但仍然遵守研究倫理規範)的實驗描述，將有利於你在「字謎」中招募研究參與者。</p>
 		<p>每一位研究參與者在註冊為「挑戰者」時皆必須同意提供出生日期、性別、慣用手、母語/第二語言、以及部份IP位址做為研究使用。這些資訊會在他們選擇參與你的實驗時，自動記錄為研究參與者資訊的一部份(出生日期將會自動轉換為年齡)提供你進行實驗結果分析。當然，根據「字謎」所遵照的研究倫理規範，這些資訊無法讓你連結至研究參與者的現實真實身份。</p>
@@ -88,12 +88,12 @@
 	<h3>如何引用「字謎」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_cite.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_cite.svg" />
 		</figure>
 		<p>如果你發表以「字謎」蒐集實驗資料的研究，你可以根據以下型式引用「字謎」：</p>
-		<q>Chen, T.-Y. (2022). ENIGMA: An online research tool for artificial language/grammar learning. https://lngproc.hss.nthu.edu.tw/ENIGMA</q>
+		<q>Chen, T.-Y. (2023). ENIGMA: An online research tool for artificial language/grammar learning. https://lngproc.hss.nthu.edu.tw/ENIGMA</q>
 	</article>
 	<article>
-		<sub>最後更新：Mar 15, 2022</sub>
+		<sub>最後更新：Jun 27, 2023</sub>
 	</article>
 </section>

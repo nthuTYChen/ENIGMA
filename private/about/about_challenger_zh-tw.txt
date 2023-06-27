@@ -3,7 +3,7 @@
 	<h3>什麼是「字謎」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_enigma.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whats_enigma.svg" />
 		</figure>
 		<p>「字謎」是提供世界各地的<em>語言學家</em>設計並執行<em>語言/語法學習實驗</em>的線上工具，而最終的目標是回答<em>「存在於我們大腦中的語言系統究竟如何運作？」</em>這個極其重要的研究問題。「字謎」的這個名稱靈感是來自於德國軍隊在第二次世界大戰時使用的密碼編譯機器，而這個機器使用的密碼系統稍後則由西方盟軍成功解碼。語言學習與溝通就像是說話者與聽者輪流進行語言編碼與解碼的過程。身為「挑戰者」，你在「字謎」裡扮演的角色是盡量參與語言學習實驗，提供你的<em>行為實驗數據</em>幫助語言學家回答前述的研究問題，並且為我們大腦中的語言編碼與解碼系統建立一個模型。太多術語了嗎？似懂非懂？讓我們在以下的段落做進一步的解說。
 		</p>
@@ -13,14 +13,14 @@
 <section>
 	<h3>是誰在負責「字謎」的運作？</h3>
 	<article>
-		<figure><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/nthu-emblem.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/most-logo.png" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/meteor-logo.svg" /><img style="max-height: 60px;" src="https://your.server.dns/imageFolder/steamline-icon.png" /></figure>
-		<p>「字謎」是一個由台灣國立清華大學<a href="http://www.fl.nthu.edu.tw" target="_blank">外國語文學系</a>的<a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">陳宗穎 助理教授</a>(加拿大亞伯達大學語言學博士)執行，並於2019年八月至2022年七月期間獲中華民國科技部補助(108-2410-H-007-030-MY3)的科學研究計畫。此計畫也經國立清華大學研究倫理辦公室審查通過(10805HS050)以確保本計畫適當的執行過程、完整告知的研究參與者(也就是你)權利、以及全面的線上隱私保障措施。換言之，你可以安心地在「字謎」中提供匿名的研究資料，幫助語言學家在語言科學研究中有所進展。本線上實驗平台使用以Node.js為基礎架構的<a href="https://www.meteor.com/" target="_blank">Meteor</a>套件進行開發，而各類圖示由<a href="https://streamlineicons.com/">Streamline Icons</a>授權使用。</p>
+		<figure><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/nthu-emblem.png" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/nstc-logo.png" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/meteor-logo.svg" /><img style="max-height: 60px;" src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/steamline-icon.png" /></figure>
+		<p>「字謎」是一個由台灣國立清華大學<a href="http://www.fl.nthu.edu.tw" target="_blank">外國語文學系</a>的<a href="https://lngproc.hss.nthu.edu.tw/" target="_blank">陳宗穎 副教授</a>(加拿大亞伯達大學語言學博士)執行，並於2019年八月至2022年七月期間獲中華民國國家科學及技術委員會補助(108-2410-H-007-030-MY3)的科學研究計畫。此計畫也經國立清華大學研究倫理辦公室審查通過(10805HS050)以確保本計畫適當的執行過程、完整告知的研究參與者(也就是你)權利、以及全面的線上隱私保障措施。換言之，你可以安心地在「字謎」中提供匿名的研究資料，幫助語言學家在語言科學研究中有所進展。本線上實驗平台使用以Node.js為基礎架構的<a href="https://www.meteor.com/" target="_blank">Meteor</a>套件進行開發，而各類圖示由<a href="https://streamlineicons.com/">Streamline Icons</a>授權使用。</p>
 	</article>
 	<article>
 		<p><em>研究團隊成員</em></p>
 		<p>計畫主持人：陳宗穎 博士</p>
-		<p>現任助理：張思涵、羅惟馨、楊伯廷</p>
-		<p>前任助理：曾子軒、林意珊</p>
+		<p>現任助理：林意珊、羅惟馨、王泓懿、張瑋芩</p>
+		<p>前任助理：曾子軒、張思涵、楊伯廷</p>
 	</article>
 </section>
 
@@ -28,7 +28,7 @@
 	<h3>誰是「語言學家」？什麼是「語言學」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whos_linguist.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whos_linguist.svg" />
 		</figure>
 		<p>雖然這兩個問題沒有辦法透過三言兩語就能完整地回答，我們還是對你有這樣的疑問感到非常的開心，也會盡力提供包括一些核心概念的基本介紹。</p>
 		<p>你或許知道這世界上有超過七千種的人類語言，但絕大多數的語言尚未被完整的記錄與分析，同時也有許多語言進入了接近滅絕的階段(也就是再也沒有人以這些語言為母語了)。「語言學家」就是透過研究這些人類語言的複雜架構以及我們的大腦如何學習這些架構的科學家，而整個學科便稱做「語言學」(這樣的定義當然是過度簡化的)。身為語言學家，我們蒐集且分析語言資料，對建構大腦「語言心智」(Language Mind)的理論做出貢獻，並試圖解釋我們與生俱來的大腦心理系統如何以我們目前在這個星期上觀察到的人類語言進行溝通，或是甚至研究這個系統為什麼可能沒辦法用目前尚未發現的語言系統進行溝通。對某些人來說可能出乎意料的是，語言學家也會以各種不同的實驗方法探索這些研究問題，而「語言/語法學習實驗」就是其中的一種。</p>
@@ -39,7 +39,7 @@
 	<h3>什麼是「語言/語法學習實驗」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_exp.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whats_exp.svg" />
 		</figure>
 		<p>當我們試圖回答「人類怎麼學習一個語言？」這個問題時，我們可以提出大方向的理論假設，但在更多的情況下我們通常不是從宏觀的角度來進行解答。如上所述，任何一個人類語言都是一個高度複雜的系統，其中包含許多各式各樣的語言溝通面向，而每一個面向都值得徹底深入的探討。所以我們通常會上述的研究問題分解成更細微的研究問題，像是「人類如何學習一個語言的聲音？」或是「人類如何學習這樣的句子結構？」等等(我們當然繼續往下分解成更細小但同等重要的問題)。因此，要回答「人類怎麼學習一個語言」這樣的問題時，我們不會帶著一本厚重的文法書看看你怎麼學會每一個元素(或是分析所有嬰幼兒的語言輸出或理解過程)，而是試著透過觀察一部份的語言現象，回答細微的研究問題，以期能夠回答前述主要研究問題的答案，或是測試宏觀理論假設的證據。</p>
 		<p>在這樣的方向之下，語言學家發展了「語言/語法學習實驗」以測試某一個語言面向是否能夠被人類學習(有些語言學家甚至已經把這樣的實驗延伸至測試其他非人類的物種)。在這些實驗中，你會聽到的語料通常都是一個語言的「縮影」，而這些語料通常只由一些少數的詞彙、句子等包含我們想要研究的語言面向組成。這些詞彙或句子可能是來自某一個真實的語言，也可能是基於某個語言針對我們的研究目的而創造出來的。在這樣的實驗中，你通常不會在實驗結束前就被告知我們期望你學習到的語言面向。這是由於對許多語言學家來說，我們想要觀察你是否能夠運用你的「語言本能」學習到這些面向(就像是嬰幼兒也不會被告知他們需要學習的語言面向，甚至不知道他們正在學習語言，但他們總是有辦法自行「成功解碼」)。在某些情況下，我們也好奇某個語言面向是否比另一個語言面向更容易被我們的大腦所學習，那麼一個語言/語法學習實驗可能就會讓兩組研究參與者分別學習不同的面向，並在最後進行比較。</p>
@@ -50,7 +50,7 @@
 	<h3>什麼是「行為實驗資料」？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_whats_behavdata.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_whats_behavdata.svg" />
 		</figure>
 		<p>「行為實驗」在心理學與語言學領域裡非常常見的實驗設計。在這樣的實驗中，我們的目的是觀察你在經歷某種情境後的行為模式。「字謎」裡的語言/語法學習實驗中通常會要求你按下電腦鍵盤的按鍵，或是點選行動裝置螢幕上的選項，而這就是「字謎」會蒐集的「行為實驗資料」，其中包含你的選擇以及你做出反應的時間。不多也不少。神經語言學家會試著在你的頭上安裝感應器以直接測量你的腦波反應，或是把你放進機器裡直接掃描你的大腦，但在「字謎」裡我們不會這麼做。不過不要會錯意了。我們是很感激神經語言學家在這個領域裡做出的貢獻的，而且如果我們有辦法遠端測量你的腦波，我們可能也會讓「字謎」有辦法這麼做。但即便「字謎」選擇使用這樣的研究方式，也會確保你在參與任何實驗前會被告知，更別說現在的科技並沒有辦法讓「字謎」有這樣的功能了。</p>
 	</article>
@@ -60,7 +60,7 @@
 	<h3>語言事實的內容來源</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_fact_source.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_fact_source.svg" />
 		</figure>
 		<p>你在登入「挑戰者」帳號時，會在你的使用者首頁看到隨機呈現的語言事實，而這些資訊可都不是我們胡謅的。畢竟這是一個嚴謹的學術網站，而不是內容農場。我們的資訊來源主要為以下幾本語言學書籍，而如果你對某些語言事實特別有興趣，想要了解更多的話，歡迎來信詢問。我們會告訴你在哪一本書的哪一頁可以找到這些資訊唷！</p>
 	</article>
@@ -70,13 +70,13 @@
 	<h3>有什麼其他你需要知道的嗎？</h3>
 	<article>
 		<figure>
-			<img src="https://your.server.dns/imageFolder/illustrations/about_more_tips.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_more_tips.svg" />
 		</figure>
 		<p>如果你已經註冊了你的「挑戰者」帳號，我想你已經仔細的閱讀過「字謎」的<em>使用者條款與隱私權政策</em>，並了解所有你需要的細節了。但假設你還沒註冊帳號，或是忽略了那些細節(呃！)，讓我們在此提供一些最基本且重要的資訊，其中包含「字謎」會嚴格遵守的一些政策。</p>
 		<p>首先，在所有的「字謎」實驗中，你將會保持完全匿名的狀態，而實驗者並無法得知誰參與了他們的實驗。這是幾乎所有的研究倫理道德規範要求的標準「去連結」的實驗資料保存方式。同時，實驗者也被告知不得以任何方式要求可以連結至你真實身份的個人資料(當然由於你處於匿名的狀態，他們不太可能有辦法直接聯繫上你)。你也可以在任何時間點選擇中止實驗或是移除已經完成的實驗資料，且無須實驗者或甚至「字謎」管理員的同意或協助。在前者的情況下，你可以選擇關閉瀏覽器或是「字謎」的瀏覽器分頁中止實驗，而在後者的情況下，你可以在你的帳號頁面看到你參與研究的記錄，並從記錄中移除你的資料。當然我們希望你在移除已經完成的實驗資料前再仔細考慮這個決定，畢竟語言資料得來不易，而你的貢獻會幫助我們更了解我們的語言系統，離解答我們主要的研究問題更進一步。</p>
 		<p>如果還有任何對你來說不甚清楚的資訊，請將你的問題與建議寄至enigma.nthu [at] gmail.com，而我們將竭誠地為你解答你的疑問或是處理你遇到的問題。除此之外，我們希望你能享受我們設計包含更種資訊的「挑戰者」系統，在你參與研究的同時幫助你更了解你的語言學習表現以及「語言本能」！</p>
 	</article>
 	<article>
-		<sub>最後更新： Sep 6, 2021</sub>
+		<sub>最後更新： Jun 27, 2023</sub>
 	</article>
 </section>

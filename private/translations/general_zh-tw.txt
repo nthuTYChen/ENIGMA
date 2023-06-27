@@ -9,7 +9,7 @@ challenger#字謎挑戰者
 changed#變更完成
 changedandlogin#變更完成，請重新登入
 confirm#確認
-copyright#<p>著作權 2023 陳宗穎</p> <p>國立清華大學</p> <p>本計畫研究經費由中華民國科技部贊助</p>
+copyright#<p>著作權 2023 陳宗穎</p> <p>國立清華大學</p> <p>本計畫研究經費由中華民國國科會補助</p>
 deleting#刪除中…
 deleteaccount#刪除帳號
 deleteaccounte#密碼錯誤。這是命運 - 留下吧！

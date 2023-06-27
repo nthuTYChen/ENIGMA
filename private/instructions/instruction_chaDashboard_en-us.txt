@@ -52,7 +52,7 @@
 	<h3>Working Memory High Score</h3>
 	<article>
 		<p>This number is the highest score you have ever got in a Working Memory test, followed by the age at which the score is recorded. But what's Working Memory? All the details are in the instruction of this test, so how about click "Test WM" and find out?</p>
-		<p>One more thing. There must be an interval of 30 days at least between every two Working Memory tests. After all, your Working Memory measure should not change drastically overnight.</p>
+		<p>One more thing. There must be an interval of at least 24 hours between every two Working Memory tests. If your performance is not as stellar as you expect, perhaps get a better sleep and give it another try on the very next day?</p>
 	</article>
 </section>
 
