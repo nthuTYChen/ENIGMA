@@ -206,7 +206,7 @@ function deleteAccountNote () {
 		if(!mailLog) {
 			let email = {
 				to: user.username,
-				from: 'ENIGMA Admin <enigma@lngproc.fl.nthu.edu.tw>',
+				from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
 				subject: 'ENIGMA: Your unverified account will be deleted automatically!',
 				text: '',
 				type: 'unverifiednote'
@@ -302,7 +302,7 @@ function sendExpNote (user) {
 	let userLang = user.profile.userLang;
 	let email = {
 		to: user.username,
-		from: 'ENIGMA Admin <enigma@lngproc.fl.nthu.edu.tw>',
+		from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
 		subject: 'ENIGMA: Your next session is ready!',
 		text: '',
 		type: 'expnote'
@@ -318,7 +318,7 @@ function sendExpNote (user) {
 function sendWMNote(username, userLang, wmStats, lastWM) {
 	let email = {
 		to: username,
-		from: 'ENIGMA Admin <enigma@lngproc.fl.nthu.edu.tw>',
+		from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
 		subject: 'ENIGMA: Come back and test your working memory again!',
 		text: '',
 		type: 'wmnote'
