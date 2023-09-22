@@ -34,7 +34,7 @@ Template.configBasicInfo.helpers({
 		if(subfield && expData.get() && expData.get().basicInfo[field][subfield]) {
 			return 'checked';
 		}
-		else if(!subfield && expData.get() && expData.get().basicInfo[field]) {
+		else if(typeof subfield !== 'string' && expData.get() && expData.get().basicInfo[field]) {
 			return 'checked';
 		}
 		return '';
