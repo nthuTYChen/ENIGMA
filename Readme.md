@@ -65,6 +65,6 @@
 		<p>A default admin account could be added to ENIGMA's user system with the settings in /server/main.js. However, currently ENIGMA doesn't have any function for administration. We are currently maintaining the database directly via the official MongoDB tool.</p>
 	</section>
 	<section>
-		<p><em>Last updated on Sep 22, 2023</em></p>
+		<p><em>Last updated on Oct 2, 2023</em></p>
 	</section>
 </article>
