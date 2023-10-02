@@ -48,11 +48,24 @@
 	<h3>{{chaTranslation "historynum"}}{{respsStatsLen}}</h3>
 	<section class="flexPanel">
 		{{#each respsStats}}
-			<div style="background-color: rgba({{historyColor lowAcc noResp}}, 0.8); color: #2e2e2e; width: 100%; opacity: 1;">
-				<div style="background-color: rgba({{historyColor lowAcc noResp}});"></div>
+			<div style="background-color: rgba({{historyColor lowAcc noResp fastComplete}}, 0.8); color: #2e2e2e; width: 100%; opacity: 1;">
+				<div style="background-color: rgba({{historyColor lowAcc noResp fastComplete}});"></div>
 				<em>{{chaTranslation "time"}}{{statsDate date}} {{chaTranslation "challengenum"}}{{sessionN}}</em>
 				<h3>{{chaTranslation "exptitle"}}{{expTitle}}</h3>
-				<em>{{chaTranslation "accuracy"}}{{correctPerc}}% {{#if lowAcc}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "lowacc"}}" />{{else}}{{#if noResp}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "noresp"}}" />{{else}}{{#if fastComplete}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "fastcompletion"}}" />{{/if}}{{/if}}{{/if}} {{chaTranslation "meanrt"}}{{allRTMean}}{{chaTranslation "ms"}} {{#unless noResp}}{{#unless fastComplete}}{{chaTranslation "verifycode"}}{{verifyCode}}{{/unless}}{{/unless}}</em>
+				<em>{{chaTranslation "accuracy"}}{{correctPerc}}% 
+					{{#if lowAcc}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "lowacc"}}" />
+					{{else}}
+						{{#if noResp}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "noresp"}}" />
+						{{else}}
+							{{#if fastComplete}}<img src="{{iconURL}}wrong.png" title="{{chaTranslation "fastcompletion"}}" />{{/if}}
+						{{/if}}
+					{{/if}} 
+					{{chaTranslation "meanrt"}}{{allRTMean}}{{chaTranslation "ms"}} 
+					{{#unless noResp}}
+						{{#unless fastComplete}}{{chaTranslation "verifycode"}}{{verifyCode}}
+						{{/unless}}
+					{{/unless}}
+				</em>
 				{{#if challenging expId}}
 					<span class="textWarning" style="text-shadow: 0 0;">{{chaTranslation "challenging"}}</span>
 				{{/if}}
@@ -81,8 +94,7 @@
 	<div id="instructionContainer"></div>
 	<div id="removeHistConfirm">
 		<figure>
-			<!-- Need to change the link -->
-			<img src="https://your.server.dns/iconURL/illustrations/delete_exp.svg" />
+			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/delete_exp.svg" />
 		</figure>
 		<p>{{chaTranslation "removehistconfirm"}}</p>
 		<input type="button" id="confirmRemove" value = "{{chaTranslation "yes"}}"/>
