@@ -15,6 +15,7 @@ deleteaccounte#Wrong password. It's a sign - stay with us!
 deleting#Deleting...
 demoexp#Demo Challenge
 dob#Date of Birth
+donotdisclose#Do not disclose
 dontforgetPW#The instruction on password reset was send to your registered e-mail (don't forget to check the junkmail folder, too). Hope you won't need this help again in the future!
 email#E-mail
 emailexiste#E-mail already existed.
@@ -41,6 +42,7 @@ loggingsuccess#Logged in. Welcome back!
 logout#Log out
 male#Male
 newpassword#New Password
+nonbinary#Non-binary
 none#None
 other#Other
 password#Password

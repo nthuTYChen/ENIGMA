@@ -15,6 +15,7 @@ deleteaccount#刪除帳號
 deleteaccounte#密碼錯誤。這是命運 - 留下吧！
 demoexp#示範挑戰
 dob#出生日期
+donotdisclose#不揭露
 dontforgetPW#重設密碼的指示已經寄到你的信箱了(別忘了瞧瞧有沒有被當成垃圾信唷！)。希望你不會再用到這個功能囉～
 email#電子郵件
 emailexiste#電子郵件信箱已被使用
@@ -41,6 +42,7 @@ loggingsuccess#登入成功，歡迎回來！
 logout#登出
 male#男
 newpassword#新密碼
+nonbinary#非二元性別
 none#無
 other#其他
 password#密碼

@@ -93,7 +93,7 @@ Accounts.validateNewUser((user)=>{
 		errMsg.push('vitale');
 	}
 	else if(user.profile.userCat === 'challenger' && 
-		(!/^(male|female|other)$/ig.test(user.profile.gender) || 
+		(!/^(male|female|nonbinary|donotdisclose)$/ig.test(user.profile.gender) || 
 			!/^(left|right|both)$/ig.test(user.profile.handedness) ||
 			!dateFormat.test(user.profile.dob))) {
 		errMsg.push('vitale');
