@@ -18,7 +18,7 @@ let termsAndCondition = new ReactiveVar(null);
 let stimuliByBlock = {}, loadedStimuli = [];
 let blocks, blockCount = 0, trialRecorded = false;
 let preloading = new ReactiveVar(false), preloadedPerc = new ReactiveVar(0);
-let trainingStimuli, testStimuli;
+let allStimuli, trainingStimuli, testStimuli;
 
 Tracker.autorun(()=>{
 	expTranslation.set(translationDB.findOne({docType: 'experiment'}));
@@ -186,18 +186,23 @@ Template.expLoadingMultimedia.helpers({
 	audioFiles () {
 		let found = false;
 		if(!Session.equals('expType', 'demo')) {
-			let allStimuli = Meteor.user().runExpRecord.stimuliList;
-			loop1:
-			for(let i=0 ; i<allStimuli.length ; i++) {
-				let stimuli = allStimuli[i];
-				for(let key in stimuli) {
-					if(key.indexOf('URL') > -1) {
-						let col = stimuli[key];
-						for(let j=0 ; j<col.length ; j++) {
-							if(col[j].match(/\.wav$|\.mp3$|\.ogg$|\.avi$|\.mp4$|\.flac$/ig)) {
-								found = true;
-								break loop1;
-							}
+			allStimuli = Meteor.user().runExpRecord.stimuliList;
+		}
+		else {
+			let demoTraining = expData.get() && expData.get().training.stimuli;
+			let demoTest = expData.get() && expData.get().test.stimuli;
+			allStimuli = [demoTraining, demoTest];
+		}
+		loop1:
+		for(let i=0 ; i<allStimuli.length ; i++) {
+			let stimuli = allStimuli[i];
+			for(let key in stimuli) {
+				if(key.indexOf('URL') > -1) {
+					let col = stimuli[key];
+					for(let j=0 ; j<col.length ; j++) {
+						if(col[j].match(/\.wav$|\.mp3$|\.ogg$|\.avi$|\.mp4$|\.flac$/ig)) {
+							found = true;
+							break loop1;
 						}
 					}
 				}
@@ -211,15 +216,20 @@ Template.expLoadingMultimedia.helpers({
 	mediaFiles () {
 		let found = false;
 		if(!Session.equals('expType', 'demo')) {
-			let allStimuli = Meteor.user().runExpRecord.stimuliList;
-			loop1:
-			for(let i=0 ; i<allStimuli.length ; i++) {
-				let stimuli = allStimuli[i];
-				for(let key in stimuli) {
-					if(key.indexOf('URL') > -1) {
-						found = true;
-						break loop1;
-					}
+			allStimuli = Meteor.user().runExpRecord.stimuliList;
+		}
+		else {
+			let demoTraining = expData.get() && expData.get().training.stimuli;
+			let demoTest = expData.get() && expData.get().test.stimuli;
+			allStimuli = [demoTraining, demoTest];
+		}
+		loop1:
+		for(let i=0 ; i<allStimuli.length ; i++) {
+			let stimuli = allStimuli[i];
+			for(let key in stimuli) {
+				if(key.indexOf('URL') > -1) {
+					found = true;
+					break loop1;
 				}
 			}
 		}
@@ -237,7 +247,12 @@ Template.expLoadingMultimedia.events({
 	'touchend #playSample, click #playSample' (event) {
 		if(Tools.swipeCheck(event)) {
 			let sampleAudio = new Audio(), sampleVideo = $('video')[0];
-			let sampleSrc = Meteor.user().runExpRecord.mediaSample;
+			if(!Session.equals('expType', 'demo')) {
+				sampleSrc = Meteor.user().runExpRecord.mediaSample;
+			}
+			else {
+				sampleSrc = 'https://lngproc.hss.nthu.edu.tw/expFiles/Chen2020Rep/Control/pina.wav';
+			}
 			if(sampleSrc.match(/\.mp4$|\.avi$/gi)) {
 				sampleVideo.src = sampleSrc;
 				sampleVideo.play();
@@ -250,12 +265,7 @@ Template.expLoadingMultimedia.events({
 	},
 	'touchend #continue, touchend #reloadStimuli, click #reloadStimuli, click #continue' (event) {
 		if(Tools.swipeCheck(event)) {
-			if(!Session.equals('expType', 'demo')) {
-				preloadStimuli();
-			}
-			else {
-				Session.set('expSession', 'trainingInstruction');
-			}
+			preloadStimuli();
 		}
 	},
 	'touchend #back, click #back' (event) {
@@ -510,7 +520,7 @@ function preloadStimuli () {
 	let mediaColItem = 0, mediaColItemN = 0;
 	let loadedStimuliN = 0, stimuli = null;
 	let userData = Meteor.user();
-	loadedStimuli = userData.runExpRecord.stimuliList;
+	loadedStimuli = allStimuli;
 	for(let i=0 ; i<loadedStimuli.length ; i++) {
 		let stimuliList = loadedStimuli[i], mediaCols = [];
 		for(let key in stimuliList) {
@@ -587,7 +597,7 @@ function preloadStimuli () {
 
 function endPreloadStage () {
 	let exp = expData.get(), userData = Meteor.user();
-	if(exp && (exp.training.skip || 
+	if(exp && !Session.equals('expType', 'demo') && (exp.training.skip || 
 		(userData.runExpRecord && userData.runExpRecord.sessionN > 1 && 
 			!exp.basicInfo.multipleTrain))) {
 		Session.set('expSession', 'testInstruction');
