@@ -1,60 +1,60 @@
 <template name="configBasicInfo">
-	<h2>{{expBasicInfo "title"}}<p><sub><a id="configExpIns">{{translation "instruction"}}</a></sub></p></h2>
-	<section>
-		<form>
+  <h2>{{expBasicInfo "title"}}<p><sub><a id="configExpIns">{{translation "instruction"}}</a></sub></p></h2>
+  <section>
+    <form>
       <p>
         <span>{{translation "challengecode"}}</span>
         <span>{{expGenInfo "_id"}}  {{#if activated}}<a id="copyExpLinks" href="#">{{translation "copyexplinks"}}</a>{{/if}}</span>
       </p>
-			<p>
+      <p>
         <span>{{translation "status"}}</span>
         <span>{{expStatusInfo "state"}}</span>
       </p>
-			<p>
+      <p>
         <span>{{translation "createdat"}}</span>
         <span>{{expGenInfo "createdAt"}}</span>
       </p>
       <p>
         <span>{{translation "participants"}}</span>
-				<span>{{expStatusInfo "currentSubj"}}/{{expBasicInfo "subjNum"}}</span>
+        <span>{{expStatusInfo "currentSubj"}}/{{expBasicInfo "subjNum"}}</span>
       </p>
       <p>
         <span>{{translation "coordinators"}}</span>
-				<span>
-					{{#each value in coordinators}}
-						{{value}}; 
-					{{else}}
-						{{translation "none"}}
-					{{/each}}
-				</span>
+        <span>
+          {{#each value in coordinators}}
+            {{value}}; 
+          {{else}}
+            {{translation "none"}}
+          {{/each}}
+        </span>
       </p>
       <p class="details">
         <span>{{translation "researcher"}}</span>
-				<span>{{expBasicInfo "researchers"}}</span>
+        <span>{{expBasicInfo "researchers"}}</span>
       </p>
       <p class="details">
         <span>{{translation "affiliation"}}</span>
-				<span>{{expBasicInfo "affiliations"}}</span>
+        <span>{{expBasicInfo "affiliations"}}</span>
       </p>
       <p class="details">
         <span>{{translation "contactemail"}}</span>
-				<span>{{expBasicInfo "email"}}</span>
+        <span>{{expBasicInfo "email"}}</span>
       </p>
       <p class="details">
         <span>{{translation "website"}}</span>
-				<span>{{expBasicInfo "website"}}</span>
+        <span>{{expBasicInfo "website"}}</span>
       </p>
       <p class="details">
         <span>{{translation "ethics"}}</span>
-				<span>{{expBasicInfo "ethics"}}</span>
+        <span>{{expBasicInfo "ethics"}}</span>
       </p>
       <p class="details">
         <span>{{translation "keywords"}}</span>
-				<span>{{expBasicInfo "keywords"}}</span>
+        <span>{{expBasicInfo "keywords"}}</span>
       </p>
       <p class="details">
         <span>{{translation "agethreshold"}}</span>
-				<span>{{expBasicInfo "age"}}</span>
+        <span>{{expBasicInfo "age"}}</span>
       </p>
       <p class="details">
         <span>{{translation "screening"}}</span>
@@ -66,28 +66,28 @@
       </p>
       <p class="details">
         <span>{{translation "gaphour"}}</span>
-				<span>{{expBasicInfo "gapHour"}}</span>
+        <span>{{expBasicInfo "gapHour"}}</span>
       </p>
       <p class="details">
-      	<span>{{translation "multiple"}}</span>
-				<span>{{columnYes "multiple"}}</span>
+        <span>{{translation "multiple"}}</span>
+        <span>{{columnYes "multiple"}}</span>
       </p>
       <p class="details">
-      	<span>{{translation "multiplen"}}</span>
-				<span>{{expBasicInfo "multipleN"}}</span>
+        <span>{{translation "multiplen"}}</span>
+        <span>{{expBasicInfo "multipleN"}}</span>
       </p>
       <p class="details">
-      	<span>{{translation "multipletrain"}}</span>
-				<span>{{columnYes "multipleTrain"}}</span>
+        <span>{{translation "multipletrain"}}</span>
+        <span>{{columnYes "multipleTrain"}}</span>
       </p>
       <p><sub><a id="ShowMore">{{translation "showmore"}}</a> <a id="ShowLess">{{translation "showless"}}</a></sub></p>
-    </form>	
+    </form> 
     <article>
-    	{{#unless activated}}
-      	<sub>{{translation "activatenote"}}</sub>
-     	{{/unless}}
+      {{#unless activated}}
+        <sub>{{translation "activatenote"}}</sub>
+      {{/unless}}
     </article>
-	</section>
+  </section>
   <section>
     <form>
       <fieldset>
@@ -232,10 +232,10 @@
       </fieldset>
     </form>
   </section>
-	<p>
-		{{#if expState "inactive"}}
+  <p>
+    {{#if expState "inactive"}}
       {{#if notCoordinator}}
-			  <input type="button" id="activate" value="{{translation "activate"}}" />
+        <input type="button" id="activate" value="{{translation "activate"}}" />
       {{/if}}
     {{else}}
       <input type="button" class="desktopOnly" id="download" value="{{translation "download"}}" />
@@ -250,13 +250,13 @@
     {{/unless}}
     <input type="button" class="desktopOnly" id="excludeExp" value="{{translation "excludeexp"}}" />
     {{#if expState "inactive"}}
-     	<input type="button" class="desktopOnly" id="change" value="{{translation "changesettings"}}" />
+      <input type="button" class="desktopOnly" id="change" value="{{translation "changesettings"}}" />
     {{/if}}
     {{#unless expState "inactive"}}
       <input type="button" class="desktopOnly" id="validate" value="{{translation "validateresults"}}" />
     {{/unless}}
-	</p>
-	<div id="instructionContainer"></div>
+  </p>
+  <div id="instructionContainer"></div>
 </template>
 
 <template name="orientation">
@@ -289,6 +289,12 @@
               <label for="compensations">{{translation "compensation"}}<br/>
               <span style="color: red">{{compensationNum}}</span> / 1,000</label>
               <span><textarea name="compensations" id="compensations" maxlength="1000">{{compensation}}</textarea></span>
+            </p>
+            <p>
+              <label for="customQuestion">{{translation "customquestionuse"}} <input type="checkbox" id="useCustomQuestion" {{customQuestionChecked}} /><br/>
+                {{translation "customquestion"}}<br/>
+              <span style="color: red">{{customQuestionNum}}</span> / 500</label>
+              <span><textarea name="customQuestion" id="questionnaire" maxlength="500">{{customQuestion}}</textarea></span>
             </p>
             <p>
               <label for="trainingInstructions">{{translation "exptraininstruction"}}<br/>
@@ -459,6 +465,12 @@
                 </select> 
                 <input type="text" name="emRespKeysTexts" id="emRespKeysTexts" value="{{emValue "resp" "keyTexts"}}" />
                 <input type="text" name="emRespKeys" id="emRespKeys" value="{{emValue "resp" "keys"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emTerminate">{{translation "terminate"}}</label>
+              <span>
+                <input type="checkbox" name="emTerminate" class="emTerminate" id="emTerminate_{{id}}" {{boxChecked "terminate"}} {{boxDisabled "terminate"}} />
               </span>
             </p>
             <p>
@@ -666,6 +678,12 @@
                 </select> 
                 <input type="text" name="emRespKeysTexts" id="emRespKeysTexts" value="{{emValue "resp" "keyTexts"}}" />
                 <input type="text" name="emRespKeys" id="emRespKeys" value="{{emValue "resp" "keys"}}" />
+              </span>
+            </p>
+            <p>
+              <label for="emTerminate">{{translation "terminate"}}</label>
+              <span>
+                <input type="checkbox" name="emTerminate" class="emTerminate" id="emTerminate_{{id}}" {{boxChecked "terminate"}} />
               </span>
             </p>
             <p>

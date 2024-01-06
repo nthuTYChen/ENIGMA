@@ -9,9 +9,6 @@ import runExpFunc from './runexpfunc.js';
 
 import '../../template/exp/runexp.html';
 
-Session.setDefault('timeouts', []);
-Session.setDefault('multimedia', []);
-
 let expData = new ReactiveVar(null);
 let expTranslation = new ReactiveVar(null);
 let termsAndCondition = new ReactiveVar(null);
@@ -131,7 +128,8 @@ Template.expLoadingSettings.events({
 			}
 			else {
 				let signature = $('#signature').val();
-				if(!Session.equals('expType', 'demo') && !Meteor.user().runExpRecord) {
+				let runExpRecord = Meteor.user().runExpRecord;
+				if(!Session.equals('expType', 'demo') && !runExpRecord) {
 					Styling.showWarning('slowdown');
 				}
 				else if(signature.length === 0) {
@@ -144,7 +142,18 @@ Template.expLoadingSettings.events({
 						}
 						else {
 							$('#instructionContainer').hide().html('');
-							Session.set('expSession', 'loadingMultimedia');
+							// Update Jan 6
+							let exp = expData.get();
+							let useQuestionnaire = exp.orientation.questionnaire.use;
+							if(useQuestionnaire && runExpRecord.sessionN === 1 &&
+								(Meteor.user().profile.userCat === 'challenger' && 
+									!Meteor.user().profile.exp.participated.includes(Session.get('expId'))) &&
+								exp.status.state !== 'complete') {
+								Session.set('expSession', 'questionnaire');
+							}
+							else {
+								Session.set('expSession', 'loadingMultimedia');
+							}
 						}
 					});
 				}
@@ -172,6 +181,47 @@ Template.expLoadingSettings.events({
 			Session.set('expType', '')
 			Session.set('expSession', '');
 			Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
+		}
+	}
+});
+
+Template.expCustomQuestionnaire.helpers({
+	expQuestionnaire () {
+		let exp = expData.get();
+		if(exp && exp.orientation) {
+			let questionnaire = exp.orientation.questionnaire[Session.get('expLang')] || exp.orientation.questionnaire['en-us'];
+			return runExpFunc.processLongTexts(questionnaire);
+		}
+		return;
+	},
+	translation (field) {
+		return expTranslation.get() && expTranslation.get()[field];
+	}
+});
+
+Template.expCustomQuestionnaire.events({
+	'touchend #continue, click #continue' (event) {
+		if(Tools.swipeCheck(event)) {
+			let resp = $('#questionResp').val().trim();
+			if(resp.length === 0) {
+				Styling.showWarning('questionrespe', 'challenger');
+			}
+			else {
+				let resp = $('#questionResp').val();
+				Meteor.call('funcEntryWindow', 'exp', 'logQuestionnaireResp', {resp: resp}, (err, res)=>{
+					if(err) {
+						Tools.callErrorHandler(err, 'server');
+					}
+					else {
+						Session.set('expSession', 'loadingMultimedia');
+					}
+				});
+			}
+		}
+	},
+	'touchend #back, click #back' (event) {
+		if(Tools.swipeCheck(event)) {
+			Session.set('expSession', 'loadingSettings');
 		}
 	}
 });
@@ -415,7 +465,6 @@ Template.expTestInstruction.events({
 							if((key.indexOf('AudioURL') > -1 || key.indexOf('VideoURL') > -1) 
 								&& key.indexOf('loaded') > -1) {
 								let currentLoadedStimuli = loadedStimuli[1][key][stimuliIndex];
-								console.log(currentLoadedStimuli);
 								currentLoadedStimuli.volume = 0;
 								currentLoadedStimuli.play();
 								currentLoadedStimuli.pause();
@@ -607,7 +656,7 @@ function endPreloadStage () {
 	}
 };
 
-let resolves = [], timeouts = [], multimedia = [];
+let resolves = [], timeouts, multimedia;
 let keepExpRunning = true, hasRandomTest = false, presentRT = false;
 let randomTracking, trialN, allTrials, blockTitle;
 
@@ -749,7 +798,10 @@ let trialRunner = async function(session, blocks, stimuli, randomBlock) {
 
 const emPresenter = async function(listN, targetEms, stimulus) {
 	let promises = [];
-	resolves = [], timeouts = [], multimedia = [];
+	resolves = [], timeouts = new Array(targetEms.length), multimedia = [];
+	for(let i=0 ; i<timeouts.length ; i++) {
+		timeouts[i] = [];
+	}
 	for(let i=0 ; i<targetEms.length ; i++) {
 		let em = targetEms[i];
 		let start = 0, len = 0, rtPromptLen = 0, rtCorrect = '';
@@ -847,7 +899,7 @@ const emPresenter = async function(listN, targetEms, stimulus) {
 				}
 				else if(stimuliType === 'audio') {
 					newAudio.audio = content;
-					multimedia.push(newAudio);
+					multimedia[i] = newAudio;
 					if(len < 0) {
 						len = content.duration * 1000;
 					}
@@ -943,9 +995,9 @@ const emPresenter = async function(listN, targetEms, stimulus) {
 							$('#expBody > h3.rtPrompt').remove();
 						}
 						if(collectResp) {
-							$(document).on('keydown', respAction.bind(this, listN, respInfo, stimulus));
+							$(document).on('keydown', respAction.bind(this, listN, respInfo, stimulus, i));
 							if(portraitView) {
-								respButtons.on('touchstart', respAction.bind(this, listN, respInfo, stimulus));
+								respButtons.on('touchstart', respAction.bind(this, listN, respInfo, stimulus, i));
 								$('div#'+respType).css('display', 'flex');
 							}
 						}
@@ -960,7 +1012,9 @@ const emPresenter = async function(listN, targetEms, stimulus) {
 							panel.css('display', 'block');
 						}
 						let endTimeout = Meteor.setTimeout(function() {
-							deactivateResp();
+							if(collectResp) {
+								deactivateResp();
+							}
 							respInfo.trialInfo.offsetTime = (new Date()).getTime();
 							if(stimuliType === 'audio') {
 								content.pause();
@@ -975,22 +1029,22 @@ const emPresenter = async function(listN, targetEms, stimulus) {
 								respInfo.trialInfo.offsetTime - respInfo.trialInfo.onsetTime;
 							if(collectResp) {
 								respInfo.withResp = false;
-								respAction(listN, respInfo, stimulus);
+								respAction(listN, respInfo, stimulus, i);
 							}
 							else {
 								resolve('resolved');
 								allTrials.push(respInfo.trialInfo);
 							}
 						}, len);
-						timeouts.push(endTimeout);
+						timeouts[i].push(endTimeout);
 					}, rtPromptLen);
-					timeouts.push(rtTimeout);
+					timeouts[i].push(rtTimeout);
 				}, start);
-				timeouts.push(startTimeout);
+				timeouts[i].push(startTimeout);
 			}
 			else {
-				stopEms();
-				resolveAll();
+				stopEms('all');
+				resolver('all');
 			}
 		}));
 		if(i === targetEms.length - 1) {
@@ -1014,7 +1068,7 @@ function randomTestTrackUpdate (present, used, stimulus) {
 	};
 };
 
-function respAction (listN, resp, stimulus) {
+function respAction (listN, resp, stimulus, emN) {
 	let event, pressedKeyNum, pressedKeyChar, targetKey, correctKey;
 	if(resp.isRandomTest) {
 		correctKey = resp.rtCorrect;
@@ -1049,31 +1103,40 @@ function respAction (listN, resp, stimulus) {
 			if(resp.isRandomTest) {
 				resetRandomTracking();
 			}
-			$('div.'+resp.order).remove();
+			if(resp.elem.resp.terminate) {
+				$('div.'+resp.order).remove();
+			}
+			else {
+				$('div.'+resp.order).eq(emN).remove();
+			}
 			if(correctKeyArray.indexOf(resp.targets[targetKey]) > -1) {
 				if(resp.elem.resp.check) {
 					resp.trialInfo.correct = 'yes';
 				}
-				postRespAction(resp.elem.resp.feedback.show, resp.elem.resp.feedback.length, resp.elem.resp.feedback.texts, true);
+				postRespAction(resp.elem.resp, true, emN);
 			}
 			else {
 				if(resp.elem.resp.check) {
 					resp.trialInfo.correct = 'no';
 				}
-				postRespAction(resp.elem.resp.feedback.show, resp.elem.resp.feedback.length, resp.elem.resp.feedback.texts, false);
+				postRespAction(resp.elem.resp, false, emN);
 			}
 		}
 	}
 	else {
-		$('div.'+resp.order).remove();
+		if(resp.elem.resp.terminate) {
+			$('div.'+resp.order).remove();
+		}
+		else {
+			$('div.'+resp.order).eq(emN).remove();
+		}
 		if(resp.elem.resp.check) {
 			resp.trialInfo.correct = 'no';
 		}
 		if(resp.isRandomTest) {
 			resetRandomTracking();
 		}
-		postRespAction(resp.elem.resp.feedback && resp.elem.resp.feedback.show, 
-			resp.elem.resp.feedback && resp.elem.resp.feedback.length, resp.elem.resp.feedback && resp.elem.resp.feedback.texts, false);
+		postRespAction(resp.elem.resp, false, emN);
 	}
 	resp.trialInfo.trialLength = 
 			resp.trialInfo.offsetTime - resp.trialInfo.onsetTime;
@@ -1095,46 +1158,71 @@ function resetRandomTracking () {
 	randomTracking.currentRandomN = -1;
 };
 
-function postRespAction (showCorrectness, length, correctMessages, correct) {
-	let correctMsg;
-	if(showCorrectness) {
-		if(correctMessages) {
-			correctMsg = correctMessages.split(',');
+function postRespAction (respConfig, correct, emNumber) {
+	let correctMsg, terminate = respConfig.terminate;
+	if(respConfig.feedback && respConfig.feedback.show) {
+		if(respConfig.feedback && respConfig.feedback.texts) {
+			correctMsg = respConfig.feedback.texts.split(',');
 		}
-		$('#expBody').append('<div class="trialPresent" style="position: fixed; top: 50%; left: 50vw; transform: translate(-50%, -50%);"></div>');
+		$('#expBody').append('<div class="trialPresent" id="feedback" style="position: fixed; top: 50%; left: 50vw; transform: translate(-50%, -50%);"></div>');
 		if(correct) {
-			$('.trialPresent').append('<h3>'+correctMsg[0]+'</h3>');
+			$('.trialPresent#feedback').append('<h3>'+correctMsg[0]+'</h3>');
 		}
 		else {
-			$('.trialPresent').append('<h3>'+correctMsg[1]+'</h3>');
+			$('.trialPresent#feedback').append('<h3>'+correctMsg[1]+'</h3>');
 		}
-		stopEms();
+		stopEms('all');
 		Meteor.setTimeout(function() {
 			$('.trialPresent').remove();
-			$('#expBody').css('display', 'none');
-			resolveAll();
-		}, length * 1000);
+			resolver('all');
+		}, respConfig.feedback.length * 1000);
 	}
 	else {
-		stopEms();
-		resolveAll();
+		if(terminate) {
+			resolver('all');
+			stopEms('all');
+		}
+		else {
+			resolver(emNumber);
+			stopEms(emNumber);
+		}
 	}
 };
 
-function stopEms () {
-	for(let i=0 ; i<timeouts.length ; i++) {
-		Meteor.clearTimeout(timeouts[i]);
+function stopEms (index) {
+	if(index === 'all') {
+		for(let i=0 ; i<timeouts.length ; i++) {
+			for(let j=0 ; j<timeouts[i].length ; j++) {
+				Meteor.clearTimeout(timeouts[i][j]);
+			}
+		}
+		for(let i=0 ; i<multimedia.length ; i++) {
+			if(multimedia[i] && multimedia[i].audio) {
+				multimedia[i].audio.pause();
+				multimedia[i].audio.currentTime = 0;
+			}
+		}
 	}
-	for(let i=0 ; i<multimedia.length ; i++) {
-		multimedia[i].audio.pause();
-		multimedia[i].audio.currentTime = 0;
+	else {
+		for(let i=0 ; i<timeouts[index].length ; i++) {
+			Meteor.clearTimeout(timeouts[index][i]);
+		}
+		if(multimedia && multimedia[index] && multimedia[index].audio) {
+			multimedia[index].audio.pause();
+			multimedia[index].audio.currentTime = 0;
+		}
 	}
 	isRandomTest = false;
 };
 
-function resolveAll () {
-	for(let i=0 ; i<resolves.length ; i++) {
-		resolves[i].resolve('resolved');
+function resolver (index) {
+	if(index === 'all') {
+		for(let i=0 ; i<resolves.length ; i++) {
+			resolves[i].resolve('resolved');
+		}
+	}
+	else {
+		resolves[index].resolve('resolved');
 	}
 };
 
@@ -1188,6 +1276,8 @@ function calcDemoRes () {
 
 function endExp () {
 	keepExpRunning = false;
-	stopEms();
-	resolveAll();
+	if(Session.equals('expSession', 'training') || Session.equals('expSession', 'test')) {
+		stopEms('all');
+		resolver('all');
+	}
 };

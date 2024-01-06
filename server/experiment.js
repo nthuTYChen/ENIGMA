@@ -55,7 +55,8 @@ export let createExp = (data, userCheck)=>{
 					consentForms: {},
 					compensations: {},
 					trainingInstructions: {},
-					testInstructions: {}
+					testInstructions: {},
+					questionnaire: {use: false}
 				},
 				training: {
 					skip: false,
@@ -154,7 +155,7 @@ export let downloadExpResults = (data, userCheck)=>{
 		let zip = new JSZip();
 		try {
 			zip = assembleExpResults(data.expId, zip);
-			let publicPath = '/home/enigmabot/enigmaFiles/';
+			let publicPath = '/home/shaferain/enigmaDemoFiles/';
 			let now = new Date();
 			let date = now.getFullYear() + '' + (now.getMonth() + 1) + '' + now.getDate() + '' + 
     	  		now.getHours() + '' + now.getMinutes() + '' + now.getSeconds();
@@ -188,6 +189,10 @@ export let downloadCompleteExpResults = (data, userCheck)=>{
 		zip.file('testInstruction.txt', '\uFEFF' + testIns);
 		let compensation = orientationInfo.compensations['en-us'];
 		zip.file('compensation.txt', '\uFEFF' + compensation);
+		if(orientationInfo.questionnaire.use) {
+			let customQuestion = orientationInfo.questionnaire['en-us'];
+			zip.file('customQuestion.txt', '\uFEFF' + customQuestion);
+		}
 		let debriefing = exp.debriefing['en-us'];
 		zip.file('debriefing.txt', '\uFEFF' + debriefing);
 		let trainingBlocks = '';
@@ -383,7 +388,7 @@ export let addExcludedExps = (data, userCheck)=>{
 		recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
 		errMsg.push('vitale');
 	}
-	else if(experimentDB.findOne({_id: data.expId}).excludedExps.length > 20) {
+	else if(currentExp.excludedExps.length > 20) {
 		recordAdminLog('normal', 'addExcludedExps', data.clientIP, data.expId, 'too many excluded exps '+data.expId, Meteor.user() && Meteor.user().username);
 		errMsg.push('toomanyexcludedexpe');
 	}
@@ -487,7 +492,7 @@ export let changeOrientationInfo = (data, userCheck)=>{
 	let errMsg = [];
 	let exp = experimentDB.findOne({_id: data.expId});
 	if(!(exp && !exp.status.activated && userCheck.verified && (userCheck.owner || userCheck.coordinator))) {
-		recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'exp results downloaded', Meteor.user() && Meteor.user().username);
+		recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'orientation info changed', Meteor.user() && Meteor.user().username);
 		errMsg.push('vitale');
 	}
 	else {
@@ -620,13 +625,15 @@ export let activateCheck = (data, userCheck) => {
 		let failList = [];
 		let checkCorrect = false;
 		let stimuliList, blocks;
-		if(!exp.orientation.descriptions['en-us'] || !exp.orientation.consentForms['en-us'] ||
-			!exp.orientation.trainingInstructions['en-us'] || !exp.orientation.testInstructions['en-us'] ||
-			!exp.debriefing['en-us'] || 
-			exp.orientation.descriptions['en-us'].trim().length === 0 ||
-			exp.orientation.consentForms['en-us'].trim().length === 0 ||
-			exp.orientation.trainingInstructions['en-us'].trim().length === 0 ||
-			exp.orientation.testInstructions['en-us'].trim().length === 0 ||
+		let orient = exp.orientation;
+		if(!orient.descriptions['en-us'] || !orient.consentForms['en-us'] ||
+			!orient.trainingInstructions['en-us'] || !orient.testInstructions['en-us'] ||
+			(orient.questionnaire.use && !orient.questionnaire['en-us']) || !exp.debriefing['en-us'] || 
+			orient.descriptions['en-us'].trim().length === 0 ||
+			orient.consentForms['en-us'].trim().length === 0 ||
+			orient.trainingInstructions['en-us'].trim().length === 0 ||
+			orient.testInstructions['en-us'].trim().length === 0 ||
+			(orient.questionnaire.use && orient.questionnaire['en-us'].trim().length === 0) ||
 			exp.debriefing['en-us'].trim().length === 0) {
 			failList.push({type: 'noenusinfo', note: ''});
 		}
@@ -802,6 +809,19 @@ export let expInitializer = (data, userCheck) => {
 	if(!(exp.status.state === 'active' || exp.status.state === 'complete')) {
 		return {type: 'error', errMsg: ['expnotexist']};
 	}
+	return {type: 'error', errMsg: ['vitale']};
+};
+
+export let logQuestionnaireResp = (data, userCheck) => {
+	let runExpRecord = Meteor.user() && Meteor.user().runExpRecord;
+	if(userCheck.verified && runExpRecord && typeof data.resp === 'string') {
+		if(runExpRecord.sessionN === 1) {
+			let newResp = data.resp.substring(0, 100);
+			Meteor.users.update({_id: Meteor.userId()}, {$set: {'runExpRecord.profile.questionnaire': newResp}});
+		}
+		return {type: 'ok'};
+	}
+	recordAdminLog('warning', 'logQuestionnnaireResp', data.clientIP, data.expId, 'log questionnaire response failed', userData && userData.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
@@ -1574,30 +1594,38 @@ function saveLongTextsInfo (cat, texts, expId) {
 		for(let textType in texts) {
 			if(errMsg.length === 0) {
 				let text = texts[textType];
-				for(let lang in text) {
-					if(!langList.includes(lang)) {
-						errMsg.push('vitale');
-						break;
-					}
-					else {
-						switch(textType) {
-							case 'descriptions':
-								wordLimit = 1000;
-								break;
-							case 'consentForms':
-								wordLimit = 15000;
-								break;
-							case 'compensations':
-								wordLimit = 1000;
-								break;
-							default:
-								wordLimit = 2000;
-						}
-						if(text[lang].length > wordLimit) {
+				if((textType === 'questionnaire' && text.use) || textType !== 'questionnaire') {
+					for(let lang in text) {
+						if(lang !== 'use' && !langList.includes(lang)) {
 							errMsg.push('vitale');
 							break;
 						}
+						else {
+							switch(textType) {
+								case 'descriptions':
+									wordLimit = 1000;
+									break;
+								case 'consentForms':
+									wordLimit = 15000;
+									break;
+								case 'compensations':
+									wordLimit = 1000;
+									break;
+								case 'questionnaire':
+									wordLimit = 500;
+									break;
+								default:
+									wordLimit = 2000;
+							}
+							if(text[lang].length > wordLimit) {
+								errMsg.push('vitale');
+								break;
+							}
+						}
 					}
+				}
+				else if(textType === 'questionnaire' && !text.use) {
+					texts.questionnaire = {use: false};
 				}
 			}
 			else {
@@ -1631,16 +1659,21 @@ function saveLongTextsInfo (cat, texts, expId) {
 		}
 	}
 	let exp = experimentDB.findOne({_id: expId});
-	let longTexts = [exp.orientation.descriptions, exp.orientation.consentForms, exp.orientation.compensations, exp.orientation.trainingInstructions, exp.orientation.testInstructions, exp.debriefing];
+	let orient = exp.orientation;
+	let longTexts = [orient.descriptions, 
+		orient.consentForms, orient.compensations, orient.questionnaire, orient.trainingInstructions, orient.testInstructions, 
+		exp.debriefing];
 	let availableLang = [];
 	for(let i=0 ; i<langList.length ; i++) {
 		let lang = langList[i];
 		for(let j=0 ; j<longTexts.length ; j++) {
-			if(!longTexts[j][lang] || longTexts[j][lang].length === 0) {
-				break;
-			}
-			else if(j === longTexts.length - 1) {
-				availableLang.push(lang);
+			if((j === 3 && longTexts[3].use) || j !== 3) {
+				if(!longTexts[j][lang] || longTexts[j][lang].length === 0) {
+					break;
+				}
+				else if(j === longTexts.length - 1) {
+					availableLang.push(lang);
+				}
 			}
 		}
 	}
@@ -1884,17 +1917,18 @@ function checkElements (ems, type, stimuli, blockId) {
 			newEm.resp = {};
 			if(em.resp.collect === false) {
 				newEm.resp = {
-					collect: false,
-					type: 'binary',
 					check: false,
-					keyTexts: 'yes,no',
-					keys: 'a,l',
+					collect: false,
 					correctResp: '',
 					feedback: {
 						show: false,
 						texts: "✓,✗",
 						length: 0.5
 					},
+					keyTexts: 'yes,no',
+					keys: 'a,l',
+					terminate: true,
+					type: 'binary'
 				};
 			}
 			else {
@@ -1908,10 +1942,11 @@ function checkElements (ems, type, stimuli, blockId) {
 					break;
 				}
 				newEm.resp.type = resp;
-				if(!typeof em.resp.check === 'boolean') {
+				if(!typeof em.resp.check === 'boolean' || !typeof em.resp.terminate === 'boolean') {
 					break;
 				}
 				newEm.resp.check = em.resp.check;
+				newEm.resp.terminate = em.resp.terminate;
 				let keyTexts = em.resp.keyTexts.trim().split(','), keys = em.resp.keys.trim().toLowerCase().split(',');
 				let keyChecked = true;
 				let corrKeys = em.resp.correctResp.split(',');
@@ -1978,6 +2013,7 @@ function checkElements (ems, type, stimuli, blockId) {
 						break;
 					}
 					newEm.resp.feedback.length = em.resp.feedback.length;
+					newEm.resp.terminate = true;
 				}
 				if(newEm.type === 'randomTest' && type === 'training') {
 					newEm.randomTest = {};
@@ -2617,12 +2653,12 @@ function calcAge (dob) {
 function assembleExpResults (expId, zipTemp, getSign = true) {
 	let allData = expResultsDB.find({expId: expId}).fetch();
 	if(allData.length > 0) {
-		let subjectProfile = 'UserId\tSessionN\tExpLang\tGender\tHandedness\tAge\tL1\tL2\tExpParticipateN\tScreenX(px)\tScreenY(px)\tCondition\tExpTitle\tIPAddress\tStartTime\tEndTime\ttotalTime(ms)\tWMTrialN\tWMTrialGroupN\tWMJudgeCorr\tWMRecallANL\tWMRecallPNL\tWMRecallANU\tWMRecallPNU\tWMAge\tWithdrawDate\n';
+		let subjectProfile = 'UserId\tSessionN\tExpLang\tGender\tHandedness\tAge\tL1\tL2\tExpParticipateN\tScreenX(px)\tScreenY(px)\tCondition\tExpTitle\tIPAddress\tStartTime\tEndTime\ttotalTime(ms)\tCustomQuestion\tWMTrialN\tWMTrialGroupN\tWMJudgeCorr\tWMRecallANL\tWMRecallPNL\tWMRecallANU\tWMRecallPNU\tWMAge\tWithdrawDate\n';
 		let informedConsents = 'Signature\tDate\n', signatures = [], signDates = [];
 		for(let i=0 ; i<allData.length ; i++) {
 			let eachData = allData[i];
 			if(eachData.withdrawDate) {
-				subjectProfile += eachData.participantId + '\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\t' + eachData.withdrawDate + '\n';
+				subjectProfile += eachData.participantId + '\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\t' + eachData.withdrawDate + '\n';
 			}
 			else {
 				let user = Meteor.users.findOne({_id: eachData.realUserId});
@@ -2646,6 +2682,7 @@ function assembleExpResults (expId, zipTemp, getSign = true) {
 				subjectProfile += sDate + '\t';
 				subjectProfile += eachData.endTime + '\t';
 				subjectProfile += eachData.endTime - eachData.startTime + '\t';
+				subjectProfile += eachData.profile.questionnaire + '\t';
 				let wmData = wmStatsDB.findOne({userId: eachData.realUserId}, {sort: {endTime: -1}});
 				if(wmData && wmData.researchScores) {
 					let researchScores = wmData.researchScores;

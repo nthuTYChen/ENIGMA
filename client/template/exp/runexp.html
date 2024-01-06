@@ -9,6 +9,8 @@
     </style>
     {{#if expSession "loadingSettings"}}
         {{> expLoadingSettings}}
+    {{else}}{{#if expSession "questionnaire"}}
+        {{> expCustomQuestionnaire}}
     {{else}}{{#if expSession "loadingMultimedia"}}
         {{> expLoadingMultimedia}}
     {{else}}{{#if expSession "trainingInstruction"}}
@@ -27,12 +29,12 @@
         {{> fastResp}}
     {{else}}{{#if expSession "debriefing"}}
         {{> expDebriefing}}
-    {{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}
+    {{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}{{/if}}
 </template>
 
 <template name="expLoadingSettings">
     <style>
-        
+
         section {
             text-align: center;
         }
@@ -116,6 +118,26 @@
         <p>
             <span style="color: red"><em>{{translation "signconsent"}}</em></span> <input type="text" id="signature" maxlength="100" /><br/>
             <span style="color: red"><em>{{translation "agreestatement"}}</em></span> <input type="button" id="agreeAndContinue" value="{{translation "continue"}}" /> <input type="button" id="stopAndBack" value="{{translation "back"}}" />
+        </p>
+    </section>
+</template>
+
+<template name="expCustomQuestionnaire">
+    <section style="text-align: center;">
+        <h3>{{translation "questionnaire"}}</h3>
+        <img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/exp_questionnaire.svg" /> 
+        <div style="text-align: left; background-color: #d19c21;">
+            {{#each value in expQuestionnaire}}
+                <p style="padding: 5px 2px;">{{value}}</p>
+             {{/each}}
+        </div>
+        <textarea id="questionResp" style="height: 10vh; width: 100%;"></textarea>
+        <p style="text-align: left;">
+            <span style="color: red;">{{translation "questionnairenote"}}</span>
+        </p>
+        <p>
+            <input type="button" id="continue" value="{{translation "continue"}}" /> 
+            <input type="button" id="back" value="{{translation "back"}}" />
         </p>
     </section>
 </template>

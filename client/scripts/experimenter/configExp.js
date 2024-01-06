@@ -184,7 +184,7 @@ Template.configBasicInfo.events({
 			else {
 				let windowRef = window.open();
 				let dir = 'Files/';
-				if(urlRootPath === 'ENIGMA/') {
+				if(urlRootPath !== 'enigmaDemo/') {
 					dir = 'enigma' + dir;
 				}
 				else {
@@ -426,6 +426,21 @@ Template.orientation.helpers({
 		}
 		return expData.get().orientation.compensations[lang.get()].length;
 	},
+	customQuestion () {
+		return expData.get() && expData.get().orientation.questionnaire[lang.get()];
+	},
+	customQuestionChecked () {
+		if(expData.get() && expData.get().orientation.questionnaire.use) {
+			return 'checked';
+		}
+		return '';
+	},
+	customQuestionNum () {
+		if(!expData.get() || !expData.get().orientation.questionnaire[lang.get()]) {
+			return 0;
+		}
+		return expData.get().orientation.questionnaire[lang.get()].length;
+	},
 	descriptions () {
 		return expData.get() && expData.get().orientation.descriptions[lang.get()];
 	},
@@ -472,11 +487,17 @@ Template.orientation.events({
 		let newLang = event.target.value;
 		lang.set(newLang);
 	},
-	'keyup #trainingInstructions, keyup #testInstructions, keyup #consentForms, keyup #compensations, keyup #descriptions' (event) {
+	'keyup #trainingInstructions, keyup #testInstructions, keyup #consentForms, keyup #compensations, keyup #descriptions, keyup #questionnaire' (event) {
 		let currentTarget = event.currentTarget.id;
 		let newTexts = $('#'+currentTarget).val();
 		let newExpData = expData.get();
 		newExpData.orientation[currentTarget][lang.get()] = newTexts;
+		expData.set(newExpData);
+	},
+	'click #useCustomQuestion' () {
+		let use = $('#useCustomQuestion').prop('checked');
+		let newExpData = expData.get();
+		newExpData.orientation.questionnaire.use = use;
 		expData.set(newExpData);
 	},
 	'click #orientationSubmit' (event) {
@@ -484,7 +505,9 @@ Template.orientation.events({
 		let orientationTexts = expData.get().orientation;
 		for(let key in orientationTexts) {
 			if(!orientationTexts[key]['en-us']) {
-				orientationTexts[key]['en-us'] = '';
+				if((key === 'questionnaire' && orientationTexts.questionnaire.use) || key !== 'questionnaire') {
+					orientationTexts[key]['en-us'] = '';
+				}
 			}
 		}
 		Meteor.call('funcEntryWindow', 'exp', 'changeOrientationInfo', 
@@ -548,6 +571,9 @@ Template.trainingConfig.helpers({
 		else if(col === 'collectResp' && currentEm.get() && currentEm.get().resp.collect) {
 			return 'checked';
 		}
+		else if(col === 'terminate' && currentEm.get() && currentEm.get().resp.terminate) {
+			return 'checked';
+		}
 		else if(col === 'checkResp' && currentEm.get() && currentEm.get().resp.check) {
 			return 'checked';
 		}
@@ -558,7 +584,7 @@ Template.trainingConfig.helpers({
 	},
 	boxDisabled (box) {
 		if(currentEm.get() && currentEm.get().type === 'randomTest') {
-			if(['emCheckResp', 'emCollectResp', 'emCorrResp', 'emRespType'].indexOf(box) > -1) {
+			if(['emCheckResp', 'emTerminate', 'emCollectResp', 'emCorrResp', 'emRespType'].indexOf(box) > -1) {
 				return 'disabled';
 			}
 		}
@@ -688,7 +714,7 @@ Template.trainingConfig.events({
 		Tools.stopPropDefault(event);
 		let blockId = event.target.id.replace('_edit', '');
 		showEmOpts(blockId, 1, 4);
-		hideEmOpts(blockId, false, 5, 21);
+		hideEmOpts(blockId, false, 5, 22);
 		updateCat.set('Block');
 		$('fieldset#block_' + blockId + ' > div').hide();
 	},
@@ -709,11 +735,14 @@ Template.trainingConfig.events({
 			if(!$('#emCheckResp_'+blockId).prop('checked')) {
 				$('#emCheckResp_'+blockId).click();
 			}
+			if(!$('#emTerminate_'+blockId).prop('checked')) {
+				$('#emTerminate_'+blockId).click();
+			}
 			$('.emRespType').val('binary');
-			showEmOpts(blockId, 19, 21);
+			showEmOpts(blockId, 20, 22);
 		}
 		else {
-			hideEmOpts(blockId, false, 19, 21);
+			hideEmOpts(blockId, false, 20, 22);
 		}
 		setEm(newType, 'type');
 	},
@@ -737,20 +766,32 @@ Template.trainingConfig.events({
 	},
 	'click .emCollectResp' (event) {
 		Tools.stopPropDefault(event);
-		changeEmCollectResp(event, 13, 16, 18);
+		changeEmCollectResp(event, 13, 17, 19);
+	},
+	'click .emTerminate' (event) {
+		event.stopPropagation();
+		let target = event.currentTarget.id;
+		let checked = $('#'+target).prop('checked');
+		setEm(checked, 'resp', 'terminate');
 	},
 	'click .emCheckResp' (event) {
 		event.stopPropagation();
 		let target = event.currentTarget.id;
 		let checked = $('#'+target).prop('checked');
 		setEm(checked, 'resp', 'check');
+		if(!checked) {
+			let emShowFeedback = target.replace('emCheckResp', 'emShowFeedback');
+			if($('#'+emShowFeedback).prop('checked')) {
+				$('#'+emShowFeedback).click();
+			}
+		}
 	},
 	'change .emRespType' (event) {
 		changeEmRespType(event);
 	},
 	'click .emShowFeedback' (event) {
 		Tools.stopPropDefault(event);
-		changeEmShowFeedback(event, 17, 18);
+		changeEmShowFeedback(event, 18, 19);
 	},
 	'click .updateBlock' (event) {
 		Tools.stopPropDefault(event);
@@ -828,6 +869,9 @@ Template.testConfig.helpers({
 			return 'checked';
 		}
 		else if(col === 'collectResp' && currentEm.get() && currentEm.get().resp.collect) {
+			return 'checked';
+		}
+		else if(col === 'terminate' && currentEm.get() && currentEm.get().resp.terminate) {
 			return 'checked';
 		}
 		else if(col === 'checkResp' && currentEm.get() && currentEm.get().resp.check) {
@@ -945,7 +989,7 @@ Template.testConfig.events({
 		Tools.stopPropDefault(event);
 		let blockId = event.target.id.replace('_edit', '');
 		showEmOpts(blockId, 1, 4);
-		hideEmOpts(blockId, false, 5, 17);
+		hideEmOpts(blockId, false, 5, 18);
 		updateCat.set('Block');
 		$('fieldset#block_' + blockId + ' > div').hide();
 	},
@@ -981,17 +1025,29 @@ Template.testConfig.events({
 	},
 	'click .emCollectResp' (event) {
 		Tools.stopPropDefault(event);
-		changeEmCollectResp(event, 12, 15, 17);
+		changeEmCollectResp(event, 12, 16, 18);
+	},
+	'click .emTerminate' (event) {
+		event.stopPropagation();
+		let target = event.currentTarget.id;
+		let checked = $('#'+target).prop('checked');
+		setEm(checked, 'resp', 'terminate');
 	},
 	'click .emCheckResp' (event) {
 		event.stopPropagation();
 		let target = event.currentTarget.id;
 		let checked = $('#'+target).prop('checked');
 		setEm(checked, 'resp', 'check');
+		if(!checked) {
+			let emShowFeedback = target.replace('emCheckResp', 'emShowFeedback');
+			if($('#'+emShowFeedback).prop('checked')) {
+				$('#'+emShowFeedback).click();
+			}
+		}
 	},
 	'click .emShowFeedback' (event) {
 		Tools.stopPropDefault(event);
-		changeEmShowFeedback(event, 16, 17);
+		changeEmShowFeedback(event, 17, 18);
 	},
 	'click .updateBlock' (event) {
 		Tools.stopPropDefault(event);
@@ -1544,6 +1600,16 @@ function changeEmShowFeedback (event, onset, offset) {
 	newFeedback.show = checked;
 	setEm(newFeedback, 'resp', 'feedback');
 	if(checked) {
+		let emCheckResp = target.replace('emShowFeedback', 'emCheckResp');
+		let emTerminate = target.replace('emShowFeedback', 'emTerminate');
+		let checkResp = $('#'+emCheckResp).prop('checked');
+		let terminate = $('#'+emTerminate).prop('checked');
+		if(!checkResp) {
+			$('#'+emCheckResp).click();
+		}
+		if(!terminate) {
+			$('#'+emTerminate).click();
+		}
 		showEmOpts(blockId, onset, offset);
 	}
 	else {
@@ -1572,12 +1638,13 @@ function addEm (id, block, type) {
 			start: 0,
 			length: -1,
 			resp: {collect: false,
-				type: 'binary', 
 				check: false, 
+				correctResp: '',
 				keyTexts: 'yes,no',
 				keys: 'a,l', 
-				correctResp: '',
-				feedback: {show: false, texts: '✓,✗', length: 0.5}
+				feedback: {show: false, texts: '✓,✗', length: 0.5},
+				terminate: true,
+				type: 'binary'
 			},
 		};
 		if(type === 'training') {
@@ -1633,13 +1700,13 @@ function showEm (blockId, emId, type) {
 	updateCat.set('Em');
 	if(type === 'training') {
 		if(em.type === 'randomTest') {
-			showEmOpts(blockId, 19, 21);
+			showEmOpts(blockId, 20, 22);
 		}
 		if(em.resp.collect && em.resp.feedback.show) {
-			showEmOpts(blockId, 5, 18);
+			showEmOpts(blockId, 5, 19);
 		}
 		else if(em.resp.collect) {
-			showEmOpts(blockId, 5, 16);
+			showEmOpts(blockId, 5, 17);
 		}
 		else {
 			showEmOpts(blockId, 5, 12);
@@ -1647,10 +1714,10 @@ function showEm (blockId, emId, type) {
 	}
 	else {
 		if(em.resp.collect && em.resp.feedback.show) {
-			showEmOpts(blockId, 5, 17);
+			showEmOpts(blockId, 5, 18);
 		}
 		else if(em.resp.collect) {
-			showEmOpts(blockId, 5, 15);
+			showEmOpts(blockId, 5, 16);
 		}
 		else {
 			showEmOpts(blockId, 5, 11);
@@ -1743,7 +1810,7 @@ function checkElement (em, type, stimuli, blockId) {
 			if(!(resp === 'unary' || resp === 'binary' || resp === 'likert')) {
 				err.push('vitale');
 			}
-			else if(!typeof em.resp.check === 'boolean') {
+			else if(!typeof em.resp.check === 'boolean' || !typeof em.resp.terminate === 'boolean') {
 				err.push('vitale');
 			}
 			else if(resp === 'unary' && !(keyTexts.length === 1 && keys.length === 1)) {
@@ -1819,16 +1886,17 @@ function updateEm (blockId, type) {
 		length: isNaN(Number($(blockIndex+' #emLength').val().trim())) ? $(blockIndex+' #emLength').val().trim() : Number($(blockIndex+' #emLength').val().trim()),
 		resp: {
 			collect: $('#emCollectResp_'+blockId).prop('checked'),
-			type: tempEm.resp.type, 
-			check: $('#emCheckResp_'+blockId).prop('checked'), 
-			keyTexts: $(blockIndex+' #emRespKeysTexts').val().replace(/\s/g, '').trim(),
-			keys: $(blockIndex+' #emRespKeys').val().replace(/\s/g, '').trim(), 
 			correctResp: $(blockIndex+' #emCorrResp').val().trim(),
+			check: $('#emCheckResp_'+blockId).prop('checked'), 
+			keys: $(blockIndex+' #emRespKeys').val().replace(/\s/g, '').trim(), 
+			keyTexts: $(blockIndex+' #emRespKeysTexts').val().replace(/\s/g, '').trim(),
 			feedback: {
 				show: $('#emShowFeedback_'+blockId).prop('checked'), 
 				texts: $(blockIndex+' #emFeedbackTexts').val().replace(/\s/g, '').trim(),
 				length: Number($(blockIndex+' #emFeedbackLength').val().trim())
-			}
+			},
+			terminate: $('#emTerminate_'+blockId).prop('checked'), 
+			type: tempEm.resp.type
 		}
 	};
 	if(type === 'training') {
@@ -1979,12 +2047,13 @@ emPresentOnset	10	9
 emOrder		11	10
 emCollectResp	12	11
 emRespTypeKeys	13	12
-emCorrResp	14	13
-emCheckResp	15	14
-emShowFeedback	16	15
-emFeedbackTexts	17	16
-emFeedbackLength 18	17
-emRandomTestInt	19	
-emRandomTestProm 20
-emRandomTestPromLen 21
+emEndAfterResp 14 13
+emCorrResp	15	14
+emCheckResp	16	15
+emShowFeedback	17	16
+emFeedbackTexts	18	17
+emFeedbackLength 19	18
+emRandomTestInt	20	
+emRandomTestProm 21
+emRandomTestPromLen 22
 */
