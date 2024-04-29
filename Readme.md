@@ -2,7 +2,7 @@
 	<h1>ENIGMA: A Web application for running online artificial grammar learning experiments</h1>
 	<section>
 		<h2>General Info</h2>
-		<p>Official Website: <a href="https://lngproc.hss.nthu.edu.tw/ENIGMA" target="_blank">https://lngproc.hss.nthu.edu.tw/ENIGMA</a></p>
+		<p>Official Website: <a href="https://enigma-lang.org" target="_blank">https://enigma-lang.org</a></p>
 		<p>Facebook: <a href="https://www.facebook.com/Enigma.NTHU" target="_blank">https://www.facebook.com/Enigma.NTHU</a></p>
 		<p>Tutorial Videos (Youtube): <a href="https://www.youtube.com/channel/UC24SonuOW4CoWppcupesqEw" target="_blank">https://www.youtube.com/channel/UC24SonuOW4CoWppcupesqEw</a></p>
 		<p><em>Copyright 2023 Tsung-Ying Chen, Department of Foreign Languages & Literature, National Tsing Hua University, Taiwan</em></p>
@@ -65,6 +65,6 @@
 		<p>A default admin account could be added to ENIGMA's user system with the settings in /server/main.js. However, currently ENIGMA doesn't have any function for administration. We are currently maintaining the database directly via the official MongoDB tool.</p>
 	</section>
 	<section>
-		<p><em>Last updated on Jan 6, 2024</em></p>
+		<p><em>Last updated on Apr 29, 2024</em></p>
 	</section>
 </article>
