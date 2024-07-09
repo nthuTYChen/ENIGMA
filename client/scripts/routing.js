@@ -235,6 +235,19 @@ FlowRouter.route('/deleteAccount', {
 	}
 });
 
+FlowRouter.route('/unsubscribe/:userLang/:id', {
+	name: 'unsubscribe',
+	action(params) {
+		Session.set('userLang', params.userLang);
+		BlazeLayout.render('contentLayout', {body: 'loading'});
+		Meteor.call('funcEntryWindow', 'user', 'unsubscribeMails', {userId: params.id},
+			(err, result)=>{
+				alert('OK.');
+				FlowRouter.go('home');
+			});
+	}
+});
+
 FlowRouter.route('/configExp/:subpage/:expid', {
 	name: 'configExp',
 	action(params) {

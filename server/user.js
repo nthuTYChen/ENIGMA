@@ -180,6 +180,7 @@ Accounts.onCreateUser((options, user)=>{
 			gender: options.profile.gender,
 			handedness: options.profile.handedness,
 			rememberMe: options.profile.rememberMe,
+			subscribe: true,
 			loginAttemptIP: {
 				lastLogin: '',
 				currentLogin: ''
@@ -518,6 +519,17 @@ export let deleteUserAccount = (data)=>{
 	recordAdminLog('normal', 'deleteUserAccount', data.clientIP, '', 'user deleted ' + userData.username, Meteor.user() && Meteor.user().username);
 	Meteor.users.remove({_id: userData._id});
 	return {type: 'ok'};
+};
+
+export let unsubscribeMails = (data)=>{
+	let user = Meteor.users.findOne({_id: data.userId});
+	if(user) {
+		Meteor.users.update({_id: data.userId}, {$set: {'profile.subscribe': false}});
+		recordAdminLog('normal', 'unsubscribeMails', data.clientIP, '', user._id, user.username);
+		return {type: 'ok'};
+	}
+	recordAdminLog('warning', 'unsubscribeMails', data.clientIP, '', data.userId, '');
+	return {type: 'error', errMsg: 'vitale'};
 };
 
 function recordAdminLog (logType, func, userIP, expId, logNote, userName) {

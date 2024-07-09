@@ -6,6 +6,8 @@ Date of Your Previous Test: [wmDate]
 Your Last Score: [wmScore]
 Your High Score: [wmHighScore]
 
+To unsubscribe the notes on your working memory score, visit [url]
+
 ENIGMA Team
 enigma.nthu [at] gmail.com
 https://lngproc.hss.nthu.edu.tw/ENIGMA

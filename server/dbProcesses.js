@@ -239,11 +239,11 @@ function repeatedExpNote () {
 };
 
 function repeatedWMNote () {
-	Meteor.users.find({'profile.wm.record': {$gte: 0}}).forEach((user)=>{
+	Meteor.users.find({'profile.subscribe': true, 'profile.wm.record': {$gte: 0}}).forEach((user)=>{
 		let wmRecord = user.profile.wm, lastWM = wmStatsDB.findOne({userId: user._id}, {sort: {endTime: -1}}), currentTime = new Date();
 		let mailLog = mailLogDB.findOne({type: 'wmnote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 24 * 30 * 3600 * 1000)}});
 		if(lastWM && !mailLog && (currentTime.getTime() - lastWM.endTime.getTime()) > 30 * 24 * 3600 * 1000) {
-			sendWMNote(user.username, user.profile.userLang, wmRecord, lastWM);
+			sendWMNote(user.username, user.profile.userLang, user._id, wmRecord, lastWM);
 		}
 	});
 	recordAdminLog('system', 'repeatedwmnote', 'server', '', 'send wm notes', 'server');
@@ -315,7 +315,7 @@ function sendExpNote (user) {
 	sendEmail(email);
 };
 
-function sendWMNote(username, userLang, wmStats, lastWM) {
+function sendWMNote(username, userLang, userId, wmStats, lastWM) {
 	let email = {
 		to: username,
 		from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',

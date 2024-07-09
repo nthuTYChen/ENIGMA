@@ -6,6 +6,8 @@
 上次工作記憶分數：[wmScore]
 工作記憶最高分：[wmHighScore]
 
+若要停止訂閱關於工作記憶分數的通知，請點選 [url]
+
 「字謎」團隊
 enigma.nthu [at] gmail.com
 https://lngproc.hss.nthu.edu.tw/ENIGMA
