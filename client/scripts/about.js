@@ -26,14 +26,11 @@ Template.footer.helpers({
 });
 
 Template.about.onCreated(()=>{
-	Meteor.call('funcEntryWindow', 'user', 'getAbout', {userCat: Session.get('userCat'), 
-		userLang: Session.get('userLang')}, (err, res) => {
-			if(err) {
-				Tools.callErrorHandler(err, 'server');
-			}
-			else {
-				$('#aboutContent').html(res.about);
-			}
+	Meteor.callAsync('funcEntryWindow', 'user', 'getAbout', 
+		{userCat: Session.get('userCat'), userLang: Session.get('userLang')}).then((data)=>{
+			$('#aboutContent').html(data.about);
+		}).catch((err)=>{
+			Tools.callErrorHandler(err, 'server');
 		});
 });
 

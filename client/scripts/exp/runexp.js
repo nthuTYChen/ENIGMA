@@ -19,24 +19,26 @@ let allStimuli, trainingStimuli, testStimuli;
 
 Tracker.autorun(()=>{
 	expTranslation.set(translationDB.findOne({docType: 'experiment'}));
-	expData.set(experimentDB.findOne({_id: Session.get('expId')}));
+	let exp = experimentDB.findOne({_id: Session.get('expId')});
+	expData.set(exp);
+	if(exp && exp.availableLang.includes(Session.get('userLang'))) {
+		Session.set('expLang', Session.get('userLang'));
+	}
+	else {
+		Session.set('expLang', 'en-us');
+	}
 });
 
 Template.expPanels.onRendered(()=>{
-	expData.set(experimentDB.findOne({_id: Session.get('expId')}));
-	Session.set('expLang', Session.get('userLang'));
 	loadedStimuli = [];
 	runExpFunc.enterFullScreen();
-	Meteor.call('funcEntryWindow', 'user', 'getUserAgreement', 
-		{userCat: 'challenger', userLang: Session.get('userLang')}, (err, result)=>{
-		if(err) {
-			Tools.callErrorHandler(err, 'server');
-		}
-		else {
-			let agreement = result.agreement.replace(/\/{0,1}\<w+\>/g, '');
+	Meteor.callAsync('funcEntryWindow', 'user', 'getUserAgreement', 
+		{userCat: 'challenger', userLang: Session.get('userLang')}).then((res)=>{
+			let agreement = res.agreement.replace(/\/{0,1}\<w+\>/g, '');
 			termsAndCondition.set(agreement);
-		}
-	});
+		}).catch((err)=>{
+			Tools.callErrorHandler(err, 'server');
+		});
 });
 
 Template.expPanels.helpers({
@@ -52,14 +54,16 @@ Template.expPanels.onDestroyed(()=>{
 
 Template.expLoadingSettings.helpers({
 	availableLang () {
-		let availableLang = expData.get() && expData.get().availableLang;
+		let exp = expData.get();
+		let availableLang = exp && exp.availableLang;
 		if(availableLang) {
 			return allLangList.find({code: {$in: availableLang}});
 		}
 		return;
 	},
 	creator () {
-		return expData.get() && expData.get().userAccount;
+		let exp = expData.get();
+		return exp && exp.userAccount;
 	},
 	defaultLang (code) {
 		if(Session.equals('expLang', code)) {
@@ -68,8 +72,9 @@ Template.expLoadingSettings.helpers({
 		return;
 	},
 	expBasicInfo (field) {
-		if(expData.get()) {
-			let data = expData.get().basicInfo;
+		let exp = expData.get();
+		if(exp) {
+			let data = exp.basicInfo;
 			return data[field];
 		}
 	},
@@ -79,7 +84,8 @@ Template.expLoadingSettings.helpers({
 			(exp && user && user.profile && user.profile.exp.participated.indexOf(exp._id) > -1)));
 	},
 	hour () {
-		return expData.get() && expData.get().basicInfo.estTime.hour;
+		let exp = expData.get();
+		return exp && exp.basicInfo.estTime.hour;
 	},
 	loadLongTexts (text) {
 		let exp = expData.get();
@@ -90,13 +96,15 @@ Template.expLoadingSettings.helpers({
 		return;
 	},
 	min () {
-		return expData.get() && expData.get().basicInfo.estTime.min;
+		let exp = expData.get();
+		return exp && exp.basicInfo.estTime.min;
 	},
 	termsAndCondition () {
 		return termsAndCondition.get();
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -127,8 +135,8 @@ Template.expLoadingSettings.events({
 				Session.set('expSession', 'loadingMultimedia');
 			}
 			else {
-				let signature = $('#signature').val();
-				let runExpRecord = Meteor.user().runExpRecord;
+				let signature = $('#signature').val(), user = Meteor.user();
+				let runExpRecord = user.runExpRecord;
 				if(!Session.equals('expType', 'demo') && !runExpRecord) {
 					Styling.showWarning('slowdown');
 				}
@@ -136,26 +144,23 @@ Template.expLoadingSettings.events({
 					Styling.showWarning('signaturee', 'challenger');
 				}
 				else {
-					Meteor.call('funcEntryWindow', 'exp', 'signConsent', {signature: signature, expLang: Session.get('expLang')}, (err, res)=>{
-						if(err) {
-							Tools.callErrorHandler(err, 'server');
-						}
-						else {
+					Meteor.callAsync('funcEntryWindow', 'exp', 'signConsent', 
+						{signature: signature, expLang: Session.get('expLang')}).then(()=>{
 							$('#instructionContainer').hide().html('');
-							// Update Jan 6
 							let exp = expData.get();
 							let useQuestionnaire = exp.orientation.questionnaire.use;
 							if(useQuestionnaire && runExpRecord.sessionN === 1 &&
-								(Meteor.user().profile.userCat === 'challenger' && 
-									!Meteor.user().profile.exp.participated.includes(Session.get('expId'))) &&
+								(user.profile.userCat === 'challenger' && 
+									!user.profile.exp.participated.includes(Session.get('expId'))) &&
 								exp.status.state !== 'complete') {
 								Session.set('expSession', 'questionnaire');
 							}
 							else {
 								Session.set('expSession', 'loadingMultimedia');
 							}
-						}
-					});
+						}).catch((err)=>{
+							Tools.callErrorHandler(err, 'server');
+						});
 				}
 			}
 			
@@ -180,7 +185,7 @@ Template.expLoadingSettings.events({
 			}
 			Session.set('expType', '')
 			Session.set('expSession', '');
-			Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
+			Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
 		}
 	}
 });
@@ -195,7 +200,8 @@ Template.expCustomQuestionnaire.helpers({
 		return;
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -208,13 +214,10 @@ Template.expCustomQuestionnaire.events({
 			}
 			else {
 				let resp = $('#questionResp').val();
-				Meteor.call('funcEntryWindow', 'exp', 'logQuestionnaireResp', {resp: resp}, (err, res)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
-					}
-					else {
-						Session.set('expSession', 'loadingMultimedia');
-					}
+				Meteor.callAsync('funcEntryWindow', 'exp', 'logQuestionnaireResp', {resp: resp}).then(()=>{
+					Session.set('expSession', 'loadingMultimedia');
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
 				});
 			}
 		}
@@ -239,8 +242,9 @@ Template.expLoadingMultimedia.helpers({
 			allStimuli = Meteor.user().runExpRecord.stimuliList;
 		}
 		else {
-			let demoTraining = expData.get() && expData.get().training.stimuli;
-			let demoTest = expData.get() && expData.get().test.stimuli;
+			let exp = expData.get();
+			let demoTraining = exp && exp.training.stimuli;
+			let demoTest = exp && exp.test.stimuli;
 			allStimuli = [demoTraining, demoTest];
 		}
 		loop1:
@@ -269,8 +273,9 @@ Template.expLoadingMultimedia.helpers({
 			allStimuli = Meteor.user().runExpRecord.stimuliList;
 		}
 		else {
-			let demoTraining = expData.get() && expData.get().training.stimuli;
-			let demoTest = expData.get() && expData.get().test.stimuli;
+			let exp = expData.get();
+			let demoTraining = exp && exp.training.stimuli;
+			let demoTest = exp && exp.test.stimuli;
 			allStimuli = [demoTraining, demoTest];
 		}
 		loop1:
@@ -289,7 +294,8 @@ Template.expLoadingMultimedia.helpers({
 		return preloading.get();
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -341,7 +347,8 @@ Template.expTrainingInstruction.helpers({
 		return;
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -349,7 +356,7 @@ Template.expTrainingInstruction.events({
 	'touchend #start, click #start' (event) {
 		if(Tools.swipeCheck(event)) {
 			if(!Session.equals('expType', 'demo')) {
-				Meteor.call('funcEntryWindow', 'exp', 'expTracker', {expId: Session.get('expId'), key: 'stage', value: 'training'});
+				Meteor.callAsync('funcEntryWindow', 'exp', 'expTracker', {expId: Session.get('expId'), key: 'stage', value: 'training'});
 			}
 			if(window.WebKitPoint) {
 				let trainingBlocks = stimuliByBlock.training;
@@ -399,7 +406,8 @@ Template.expTrainingTrial.onRendered(()=>{
 
 Template.expTrainingTrial.helpers({
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -409,13 +417,16 @@ Template.expLowAccuracy.onRendered(()=>{
 
 Template.expLowAccuracy.helpers({
 	accRate () {
-		return Meteor.user() && Meteor.user().runExpRecord && Meteor.user().runExpRecord.respsStats.correctPerc;
+		let user = Meteor.user();
+		return user && user.runExpRecord && user.runExpRecord.respsStats.correctPerc;
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	},
 	verifyCode () {
-		return Meteor.user() && Meteor.user().runExpRecord && Meteor.user().runExpRecord.verifyCode;
+		let user = Meteor.user();
+		return user && user.runExpRecord && user.runExpRecord.verifyCode;
 	}
 });
 
@@ -428,7 +439,7 @@ Template.expLowAccuracy.events({
 });
 
 Template.expLowAccuracy.onDestroyed(()=>{
-	Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
 });
 
 Template.expTestInstruction.onRendered(()=>{
@@ -445,7 +456,8 @@ Template.expTestInstruction.helpers({
 		}
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -453,7 +465,7 @@ Template.expTestInstruction.events({
 	'touchend #start, click #start' (event) {
 		if(Tools.swipeCheck(event)) {
 			if(!Session.equals('expType', 'demo')) {
-				Meteor.call('funcEntryWindow', 'exp', 'expTracker', {expId: Session.get('expId'), key: 'stage', value: 'test'});
+				Meteor.callAsync('funcEntryWindow', 'exp', 'expTracker', {expId: Session.get('expId'), key: 'stage', value: 'test'});
 			}
 			if(window.WebKitPoint) {
 				let testBlocks = stimuliByBlock.test;
@@ -508,10 +520,12 @@ Template.noResp.onRendered(()=>{
 
 Template.noResp.helpers({
 	respRate () {
-		return Meteor.user() && Meteor.user().runExpRecord && Meteor.user().runExpRecord.respsStats.respRate;
+		let user = Meteor.user();
+		return user && user.runExpRecord && user.runExpRecord.respsStats.respRate;
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -524,7 +538,7 @@ Template.noResp.events({
 });
 
 Template.noResp.onDestroyed(()=>{
-	Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
 });
 
 Template.fastResp.onRendered(()=>{
@@ -533,10 +547,12 @@ Template.fastResp.onRendered(()=>{
 
 Template.fastResp.helpers({
 	meanRT () {
-		return Meteor.user() && Meteor.user().runExpRecord && Meteor.user().runExpRecord.respsStats.allRTMean;
+		let user = Meteor.user();
+		return user && user.runExpRecord && user.runExpRecord.respsStats.allRTMean;
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -549,14 +565,15 @@ Template.fastResp.events({
 });
 
 Template.fastResp.onDestroyed(()=>{
-	Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: ''});
 });
 
 function blockStimuliDistributor () {
-	let trainingBlocks = expData.get().training.blocks, testBlocks = expData.get().test.blocks;
-	let skipTraining = expData.get().training.skip;
+	let exp = expData.get();
+	let trainingBlocks = exp.training.blocks, testBlocks = exp.test.blocks;
+	let skipTraining = exp.training.skip;
 	if(Session.equals('expType', 'demo')) {
-		loadedStimuli = [expData.get().training.stimuli, expData.get().test.stimuli];
+		loadedStimuli = [exp.training.stimuli, exp.test.stimuli];
 	}
 	stimuliByBlock = runExpFunc.stimuliOrderer(loadedStimuli, trainingBlocks, testBlocks, skipTraining);
 };
@@ -773,21 +790,19 @@ let trialRunner = async function(session, blocks, stimuli, randomBlock) {
 	}
 	else if(Session.equals('expSession', 'test')) {
 		if(!Session.equals('expType', 'demo')) {
-			Meteor.call('funcEntryWindow', 'exp', 'expTracker', {expId: Session.get('expId'), key: 'testResults', value: allTrials, expType: Session.get('expType')}, function(err, res) {
-				if(err) {
+			Meteor.callAsync('funcEntryWindow', 'exp', 'expTracker', 
+				{expId: Session.get('expId'), key: 'testResults', value: allTrials, expType: Session.get('expType')}).then((res)=>{
+					let userData = Meteor.user();
+					FlowRouter.go('expResults', {lang: Session.get('userLang'), results: res.msg, session: res.sessionN});
+					Session.set('expSession', '');
+				}).catch((err)=>{
 					if(err.error === 'noresp') {
 						Session.set('expSession', 'noResp');
 					}
 					else {
 						Session.set('expSession', 'fastResp');
 					}
-				}
-				else {
-					let userData = Meteor.user();
-					FlowRouter.go('expResults', {lang: Session.get('userLang'), results: res.msg, session: res.sessionN});
-					Session.set('expSession', '');
-				}
-			});
+				});
 		}
 		else {
 			calcDemoRes();

@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import { BlazeLayout } from 'meteor/pwix:blaze-layout';
 import { Session } from 'meteor/session';
+
+import Styling from './styling/stylingFuncs.js';
 
 function blockDirectRouting() {
 	if(!Meteor.user()) {
@@ -240,13 +242,13 @@ FlowRouter.route('/unsubscribe/:userLang/:id', {
 	action(params) {
 		Session.set('userLang', params.userLang);
 		BlazeLayout.render('contentLayout', {body: 'loading'});
-		Meteor.call('funcEntryWindow', 'user', 'unsubscribeMails', {userId: params.id},
-			(err, result)=>{
-				alert('OK.');
-				FlowRouter.go('home');
-			});
+		// Updated: 2024/7/25
+		Meteor.callAsync('funcEntryWindow', 'user', 'unsubscribeMails', {userId: params.id});
+		alert('OK.');
+		FlowRouter.go('home');
 	}
 });
+
 
 FlowRouter.route('/configExp/:subpage/:expid', {
 	name: 'configExp',

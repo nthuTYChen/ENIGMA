@@ -28,25 +28,29 @@ Template.configBasicInfo.onRendered(()=>{
 
 Template.configBasicInfo.helpers({
 	activated () {
-		return expData.get() && (expData.get().status.state === 'active');
+		let exp = expData.get();
+		return exp && (exp.status.state === 'active');
 	},
 	boxChecked (field, subfield) {
-		if(subfield && expData.get() && expData.get().basicInfo[field][subfield]) {
+		let exp = expData.get();
+		if(subfield && exp && exp.basicInfo[field][subfield]) {
 			return 'checked';
 		}
-		else if(typeof subfield !== 'string' && expData.get() && expData.get().basicInfo[field]) {
+		else if(typeof subfield !== 'string' && exp && exp.basicInfo[field]) {
 			return 'checked';
 		}
 		return '';
 	},
 	columnYes (field) {
+		let texts = expErTexts.get();
 		if(expData.get() && expData.get().basicInfo[field]) {
-			return expErTexts.get() && expErTexts.get()['yes'];
+			return texts && texts['yes'];
 		}
-		return expErTexts.get() && expErTexts.get()['no'];
+		return texts && texts['no'];
 	},
 	coordinators () {
-		return expData.get() && expData.get().coordinators;
+		let exp = expData.get();
+		return exp && exp.coordinators;
 	},
 	defaultLang (lang) {
 		if(lang === 'en-us') {
@@ -55,18 +59,22 @@ Template.configBasicInfo.helpers({
 		return;
 	},
 	excludedExps () {
-		return expData.get() && expData.get().excludedExps;
+		let exp = expData.get();
+		return exp && exp.excludedExps;
 	},
 	expBasicInfo (field) {
+		// Updated: 2024/7/25
+		let exp = expData.get();
 		if(field !== 'hour' && field !== 'min') {
-			return expData.get() && expData.get().basicInfo[field];
+			return exp && exp.basicInfo[field];
 		}
 		else {
-			return expData.get() && expData.get().basicInfo.estTime[field];
+			return exp && exp.basicInfo.estTime[field];
 		}
 	},
 	expGenInfo (field) {
-		return expData.get() && expData.get()[field];
+		let exp = expData.get();
+		return exp && exp[field];
 	},
 	expResults () {
 		if(recordType.get() === 'all') {
@@ -80,21 +88,24 @@ Template.configBasicInfo.helpers({
 		}
 	},
 	expStatusInfo (field) {
+		let exp = expData.get();
 		if(field === 'state') {
-			let status = expData.get() && expData.get().status[field];
+			let status = exp && exp.status[field];
 			return expErTexts.get() && expErTexts.get()[status];
 		}
-		return expData.get() && expData.get().status[field];
+		return exp && exp.status[field];
 	},
 	expState (state) {
-		return expData.get() && (expData.get().status.state === state);
+		let exp = expData.get();
+		return exp && (exp.status.state === state);
 	},
 	languages () {
 		let userLang = Session.get('userLang');
 		return langList[userLang];
 	},
 	notCoordinator () {
-		return expData.get() && expData.get().coordinators && expData.get().coordinators.indexOf(Meteor.user().username) < 0;
+		let exp = expData.get();
+		return exp && exp.coordinators && exp.coordinators.indexOf(Meteor.user().username) < 0;
 	},
 	notWithdrawn (data) {
 		if(data) {
@@ -103,19 +114,22 @@ Template.configBasicInfo.helpers({
 		return true;
 	},
 	screeningExclude (field) {
+		let texts = expErTexts.get();
 		if(expData.get() && expData.get().basicInfo.screening[field]) {
-			return expErTexts.get() && expErTexts.get()['excluded'];
+			return texts && texts['excluded'];
 		}
-		return expErTexts.get() && expErTexts.get()['notexcluded'];
+		return texts && texts['notexcluded'];
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	},
 	validateRes (validated) {
+		let texts = expErTexts.get();
 		if(validated) {
-			return expErTexts.get() && expErTexts.get()['yes'];
+			return texts && texts['yes'];
 		}
-		return expErTexts.get() && expErTexts.get()['no'];
+		return texts && texts['no'];
 	},
 	validateResColor (validated) {
 		if(validated) {
@@ -124,7 +138,8 @@ Template.configBasicInfo.helpers({
 		return '#cf1313';
 	},
 	validateResStage (stage) {
-		return expErTexts.get() && expErTexts.get()[stage.toLowerCase()];
+		let texts = expErTexts.get();
+		return texts && texts[stage.toLowerCase()];
 	}
 });
 
@@ -177,21 +192,18 @@ Template.configBasicInfo.events({
 	'click #download' (event) {
 		Tools.stopPropDefault(event);
 		Styling.showWarning('downloading', 'experimenter');
-		Meteor.call('funcEntryWindow', 'exp', 'downloadExpResults', {expId: Session.get('expId')}, (err, res)=>{
-			if(err) {
-				Tools.callErrorHandler(err, 'server', 'experimenter');
+		Meteor.callAsync('funcEntryWindow', 'exp', 'downloadExpResults', {expId: Session.get('expId')}).then((res)=>{
+			let windowRef = window.open();
+			let dir = 'Files/';
+			if(urlRootPath !== 'enigmaDemo/') {
+				dir = 'enigma' + dir;
 			}
 			else {
-				let windowRef = window.open();
-				let dir = 'Files/';
-				if(urlRootPath !== 'enigmaDemo/') {
-					dir = 'enigma' + dir;
-				}
-				else {
-					dir = 'enigmaDemo' + dir;
-				}
-				windowRef.location = domainURL + dir + res.msg;
+				dir = 'enigmaDemo' + dir;
 			}
+			windowRef.location = domainURL + dir + res.msg;
+		}).catch((err)=>{
+			Tools.callErrorHandler(err, 'server', 'experimenter');
 		});
 	},
 	'touchend #preview, click #preview' (event) {
@@ -212,16 +224,13 @@ Template.configBasicInfo.events({
 	},
 	'click #quitCoord' (event) {
 		Tools.stopPropDefault(event);
-		Meteor.call('funcEntryWindow', 'exp', 'endCoordination', 
-				{expId: expData.get()._id}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
-				}
-				else {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'endCoordination', 
+				{expId: expData.get()._id}).then(()=>{
 					FlowRouter.go('userhome', {subpage: 'manageExp'});
 					Styling.showWarning('coordremoved', 'experimenter');
-				}
-		});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
+				});
 	},
 	'click #editCoord' (event) {
 		Tools.stopPropDefault(event);
@@ -240,30 +249,24 @@ Template.configBasicInfo.events({
 			Styling.showWarning('formvalide');
 		}
 		else {
-			Meteor.call('funcEntryWindow', 'exp', 'addCoordinator', 
-				{expId: expData.get()._id,  coordinator: coordEmail}, (err, result)=>{
-				$('#coordEmail').val('');
-				if(err) {
-					Tools.callErrorHandler(err, 'server', 'experimenter');
-				}
-				else {
+			Meteor.callAsync('funcEntryWindow', 'exp', 'addCoordinator', 
+				{expId: expData.get()._id,  coordinator: coordEmail}).then(()=>{
 					Styling.showWarning('coordadded', 'experimenter');
-				}
-			});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server', 'experimenter');
+				});
+			$('#coordEmail').val('');
 		}
 	},
 	'click .removeCoord' (event) {
 		Tools.stopPropDefault(event);
 		let coordEmail = event.target.id;
-		Meteor.call('funcEntryWindow', 'exp', 'removeCoordinator', 
-				{expId: expData.get()._id,  coordinator: coordEmail}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
-				}
-				else {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'removeCoordinator', 
+				{expId: expData.get()._id,  coordinator: coordEmail}).then(()=>{
 					Styling.showWarning('coordremoved', 'experimenter');
-				}
-		});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
+				});
 	},
 	'click #validate' (event) {
 		Tools.stopPropDefault(event);
@@ -305,15 +308,12 @@ Template.configBasicInfo.events({
 				multipleN: $('#multipleN').val(),
 				multipleTrain: $('#multipleTrain').prop('checked')
 			};
-			Meteor.call('funcEntryWindow', 'exp', 'updateExpBasics', newExpBasics, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server', 'experimenter');
-				}
-				else {
-					Styling.showWarning('updateexpbasicok', 'experimenter');
-					$('section').hide();
-					$('section').eq(0).show();
-				}
+			Meteor.callAsync('funcEntryWindow', 'exp', 'updateExpBasics', newExpBasics).then(()=>{
+				Styling.showWarning('updateexpbasicok', 'experimenter');
+				$('section').hide();
+				$('section').eq(0).show();
+			}).catch((err)=>{
+				Tools.callErrorHandler(err, 'server', 'experimenter');
 			});
 		}
 	},
@@ -331,16 +331,13 @@ Template.configBasicInfo.events({
 		else {
 			Styling.showWarning('verifying', 'experimenter');
 			let code = $('#verifyCode').val().trim();
-			Meteor.call('funcEntryWindow', 'exp', 'verifyRes', 
-					{expId: expData.get()._id,  code: code}, (err, result)=>{
-					$('#coordEmail').val('');
-					if(err) {
-						Tools.callErrorHandler(err, 'server', 'experimenter');
-					}
-					else {
+			Meteor.callAsync('funcEntryWindow', 'exp', 'verifyRes', 
+					{expId: expData.get()._id,  code: code}).then(()=>{
 						Styling.showWarning('verifysuccessful', 'experimenter');
-					}
-			});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server', 'experimenter');
+					});
+			$('#coordEmail').val('');
 		}
 	},
 	'click #cancelVerify' (event) {
@@ -368,15 +365,12 @@ Template.configBasicInfo.events({
 		}
 		else {
 			let expIds = $('#challengeCode').val().replace(/\s/g).trim().split(';');
-			Meteor.call('funcEntryWindow', 'exp', 'addExcludedExps', 
-					{expId: expData.get()._id,  excludedExps: expIds}, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server', 'experimenter');
-					}
-					else {
+			Meteor.callAsync('funcEntryWindow', 'exp', 'addExcludedExps', 
+					{expId: expData.get()._id,  excludedExps: expIds}).then(()=>{
 						Styling.showWarning('excludedexpadded', 'experimenter');
-					}
-			});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server', 'experimenter');
+					});
 		}
 	},
 	'click #cancelExclude' (event) {
@@ -388,15 +382,12 @@ Template.configBasicInfo.events({
 	'click .removeExcludedExp' (event) {
 		Tools.stopPropDefault(event);
 		let removedId = event.target.id.replace('exc_', '');
-		Meteor.call('funcEntryWindow', 'exp', 'removeExcludedExps', 
-				{expId: expData.get()._id,  removedId: removedId}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
-				}
-				else {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'removeExcludedExps', 
+				{expId: expData.get()._id,  removedId: removedId}).then(()=>{
 					Styling.showWarning('excludedexpremoved', 'experimenter');
-				}
-		});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
+				});
 	}
 });
 
@@ -406,58 +397,70 @@ Template.orientation.onRendered(()=>{
 
 Template.orientation.helpers({
 	activated () {
-		return expData.get() && (expData.get().status.state === 'active');
+		let exp = expData.get();
+		return exp && exp.status.state === 'active';
 	},
 	consentForm () {
-		return expData.get() && expData.get().orientation.consentForms[lang.get()];
+		let exp = expData.get();
+		return exp && exp.orientation.consentForms[lang.get()];
 	},
 	consentFormNum () {
-		if(!expData.get() || !expData.get().orientation.consentForms[lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.orientation.consentForms[lang.get()]) {
 			return 0;
 		}
-		return expData.get().orientation.consentForms[lang.get()].length;
+		return exp.orientation.consentForms[lang.get()].length;
 	},
 	compensation () {
-		return expData.get() && expData.get().orientation.compensations[lang.get()];
+		let exp = expData.get();
+		return exp && exp.orientation.compensations[lang.get()];
 	},
 	compensationNum () {
-		if(!expData.get() || !expData.get().orientation.compensations[lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.orientation.compensations[lang.get()]) {
 			return 0;
 		}
-		return expData.get().orientation.compensations[lang.get()].length;
+		return exp.orientation.compensations[lang.get()].length;
 	},
 	customQuestion () {
-		return expData.get() && expData.get().orientation.questionnaire[lang.get()];
+		let exp = expData.get();
+		return exp && exp.orientation.questionnaire[lang.get()];
 	},
 	customQuestionChecked () {
-		if(expData.get() && expData.get().orientation.questionnaire.use) {
+		let exp = expData.get();
+		if(exp && exp.orientation.questionnaire.use) {
 			return 'checked';
 		}
 		return '';
 	},
 	customQuestionNum () {
-		if(!expData.get() || !expData.get().orientation.questionnaire[lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.orientation.questionnaire[lang.get()]) {
 			return 0;
 		}
-		return expData.get().orientation.questionnaire[lang.get()].length;
+		return exp.orientation.questionnaire[lang.get()].length;
 	},
 	descriptions () {
-		return expData.get() && expData.get().orientation.descriptions[lang.get()];
+		let exp = expData.get();
+		return exp && exp.orientation.descriptions[lang.get()];
 	},
 	descriptionNum () {
-		if(!expData.get() || !expData.get().orientation.descriptions[lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.orientation.descriptions[lang.get()]) {
 			return 0;
 		}
-		return expData.get().orientation.descriptions[lang.get()].length;
+		return exp.orientation.descriptions[lang.get()].length;
 	},
 	instructionNum (type) {
-		if(!expData.get() || !expData.get().orientation[type][lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.orientation[type][lang.get()]) {
 			return 0;
 		}
-		return expData.get().orientation[type][lang.get()].length;
+		return exp.orientation[type][lang.get()].length;
 	},
 	instructions (type) {
-		return expData.get() && expData.get().orientation[type][lang.get()];
+		let exp = expData.get();
+		return exp && exp.orientation[type][lang.get()];
 	},
 	defaultLang (lang) {
 		if(lang === 'en-us') {
@@ -470,7 +473,8 @@ Template.orientation.helpers({
 		return langList[userLang];
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	}
 });
 
@@ -510,20 +514,17 @@ Template.orientation.events({
 				}
 			}
 		}
-		Meteor.call('funcEntryWindow', 'exp', 'changeOrientationInfo', 
-				{expId: expData.get()._id,  orientation: orientationTexts}, (err, result)=>{
-				if(err) {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'changeOrientationInfo', 
+				{expId: expData.get()._id,  orientation: orientationTexts}).then(()=>{
+					Styling.showWarning('saved', 'experimenter');
+				}).catch((err)=>{
 					if(err.error === 'too-many-requests') {
 						Styling.showWarning('slowdown');
 					}
 					else {
 						Styling.showWarning(err.error, 'experimenter');
 					}
-				}
-				else {
-					Styling.showWarning('saved', 'experimenter');
-				}
-		});
+				});
 	}
 });
 
@@ -535,13 +536,16 @@ Template.trainingConfig.onRendered(()=>{
 
 Template.trainingConfig.helpers({
 	accuracyValue () {
-		return expData.get() && expData.get().training.threshold.pass;
+		let exp = expData.get();
+		return exp && exp.training.threshold.pass;
 	},
 	activated () {
-		return expData.get() && (expData.get().status.state === 'active');
+		let exp = expData.get();
+		return exp && exp.status.state === 'active';
 	},
 	blocks () {
-		return expData.get() && expData.get().training.blocks;
+		let exp = expData.get();
+		return exp && exp.training.blocks;
 	},
 	blockSelect (allIds, currentId) {
 		if(allIds === currentId) {
@@ -550,40 +554,42 @@ Template.trainingConfig.helpers({
 		return;
 	},
 	boxChecked (col, checked) {
+		let exp = expData.get(), em = currentEm.get();
 		if(col === 'skipTraining') {
-			if(expData.get() && expData.get().training.skip) {
+			if(exp && exp.training.skip) {
 				return 'checked';
 			}
 		}
 		else if(col === 'randomBlocks') {
-			if(expData.get() && expData.get().training.random) {
+			if(exp && exp.training.random) {
 				return 'checked';
 			}
 		}
 		else if(col === 'targetAccuracy') {
-			if(expData.get() && expData.get().training.threshold.apply) {
+			if(exp && exp.training.threshold.apply) {
 				return 'checked';
 			}
 		}
 		else if((col === 'randomStimuliOrder') && checked) {
 			return 'checked';
 		}
-		else if(col === 'collectResp' && currentEm.get() && currentEm.get().resp.collect) {
+		else if(col === 'collectResp' && em && em.resp.collect) {
 			return 'checked';
 		}
-		else if(col === 'terminate' && currentEm.get() && currentEm.get().resp.terminate) {
+		else if(col === 'terminate' && em && em.resp.terminate) {
 			return 'checked';
 		}
-		else if(col === 'checkResp' && currentEm.get() && currentEm.get().resp.check) {
+		else if(col === 'checkResp' && em && em.resp.check) {
 			return 'checked';
 		}
-		else if(col === 'showFeedback' && currentEm.get() && currentEm.get().resp.feedback.show) {
+		else if(col === 'showFeedback' && em && em.resp.feedback.show) {
 			return 'checked';
 		}
 		return;
 	},
 	boxDisabled (box) {
-		if(currentEm.get() && currentEm.get().type === 'randomTest') {
+		let em = currentEm.get();
+		if(em && em.type === 'randomTest') {
 			if(['emCheckResp', 'emTerminate', 'emCollectResp', 'emCorrResp', 'emRespType'].indexOf(box) > -1) {
 				return 'disabled';
 			}
@@ -591,11 +597,13 @@ Template.trainingConfig.helpers({
 		return;
 	},
 	collectResp () {
-		return currentEm.get() && currentEm.get().resp.collect;
+		let em = currentEm.get();
+		return em && em.resp.collect;
 	},
 	emStyle (style, id, order) {
-		if(expData.get()) {
-			let allEms = expData.get().training.blocks[id].elements;
+		let exp = expData.get();
+		if(exp) {
+			let allEms = exp.training.blocks[id].elements;
 			return setEmStyle(allEms, order, style);
 		}
 	},
@@ -609,25 +617,31 @@ Template.trainingConfig.helpers({
 		return null;
 	},
 	emValue (field, subfield) {
+		let em = currentEm.get();
 		if(typeof subfield === 'string') {
-			return currentEm.get() && currentEm.get()[field] && currentEm.get()[field][subfield];
+			return em && em[field] && em[field][subfield];
 		}
-		return currentEm.get() && currentEm.get()[field];
+		return em && em[field];
 	},
 	existTrainingStimuli () {
-		return (expData.get() && expData.get().training.stimuli.nRows);
+		let exp = expData.get();
+		return exp && exp.training.stimuli.nRows;
 	},
 	feedbackLen () {
-		return (currentEm.get() && currentEm.get().resp.feedback.length);
+		let em = currentEm.get();
+		return em && em.resp.feedback.length;
 	},
 	feedbackTexts () {
-		return (currentEm.get() && currentEm.get().resp.feedback.texts);
+		let em = currentEm.get();
+		return em && em.resp.feedback.texts;
 	},
 	stimuliCols () {
-		return (expData.get() && expData.get().training.stimuli.nCols);
+		let exp = expData.get();
+		return exp && exp.training.stimuli.nCols;
 	},
 	stimuliRows () {
-		return (expData.get() && expData.get().training.stimuli.nRows);
+		let exp = expData.get();
+		return exp && exp.training.stimuli.nRows;
 	},
 	respTypeSelect (type) {
 		let em = currentEm.get();
@@ -654,16 +668,20 @@ Template.trainingConfig.helpers({
 		return testingProgress.get() + '%';
 	},
 	thresholdApply () {
-		return (expData.get() && expData.get().training.threshold.apply);
+		let exp = expData.get();
+		return exp && exp.training.threshold.apply;
 	},
 	trainingBlocks () {
-		return (expData.get() && expData.get().training.blocks.length);
+		let exp = expData.get();
+		return exp && exp.training.blocks.length;
 	},
 	trainingConds () {
-		return (expData.get() && expData.get().training.conditions);
+		let exp = expData.get();
+		return expData && expData.training.conditions;
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	},
 	updateCat () {
 		return updateCat.get();
@@ -849,35 +867,38 @@ Template.testConfig.onRendered(()=>{
 
 Template.testConfig.helpers({
 	activated () {
-		return expData.get() && (expData.get().status.state === 'active');
+		let exp = expData.get();
+		return exp && exp.status.state === 'active';
 	},
 	blocks () {
 		return expData.get().test.blocks;
 	},
 	boxChecked (col, checked) {
+		// Updated: 2024/7/25
+		let exp = expData.get(), em = currentEm.get();
 		if(col === 'randomBlocks') {
-			if(expData.get() && expData.get().test.random) {
+			if(exp && exp.test.random) {
 				return 'checked';
 			}
 		}
 		else if(col === 'checkFastRT') {
-			if(expData.get() && expData.get().test.checkFastRT) {
+			if(exp && exp.test.checkFastRT) {
 				return 'checked';
 			}
 		}
 		else if((col === 'randomStimuliOrder') && checked) {
 			return 'checked';
 		}
-		else if(col === 'collectResp' && currentEm.get() && currentEm.get().resp.collect) {
+		else if(col === 'collectResp' && em && em.resp.collect) {
 			return 'checked';
 		}
-		else if(col === 'terminate' && currentEm.get() && currentEm.get().resp.terminate) {
+		else if(col === 'terminate' && em && em.resp.terminate) {
 			return 'checked';
 		}
-		else if(col === 'checkResp' && currentEm.get() && currentEm.get().resp.check) {
+		else if(col === 'checkResp' && em && em.resp.check) {
 			return 'checked';
 		}
-		else if(col === 'showFeedback' && currentEm.get() && currentEm.get().resp.feedback.show) {
+		else if(col === 'showFeedback' && em && em.resp.feedback.show) {
 			return 'checked';
 		}
 		return;
@@ -887,19 +908,23 @@ Template.testConfig.helpers({
 		return setEmStyle(allEms, order, style);
 	},
 	emValue (field, subfield) {
+		let em = currentEm.get();
 		if(typeof subfield === 'string') {
-			return currentEm.get() && currentEm.get()[field][subfield];
+			return em && em[field][subfield];
 		}
-		return currentEm.get() && currentEm.get()[field];
+		return em && em[field];
 	},
 	existTestStimuli () {
-		return (expData.get() && expData.get().test.stimuli.nRows);
+		let exp = expData.get();
+		return exp && exp.test.stimuli.nRows;
 	},
 	feedbackLen () {
-		return (currentEm.get() && currentEm.get().resp.feedback.length);
+		let em = currentEm.get();
+		return em && em.resp.feedback.length;
 	},
 	feedbackTexts () {
-		return (currentEm.get() && currentEm.get().resp.feedback.texts);
+		let em = currentEm.get();
+		return em && em.resp.feedback.texts;
 	},
 	respTypeSelect (type) {
 		let em = currentEm.get();
@@ -911,10 +936,12 @@ Template.testConfig.helpers({
 		return null;
 	},
 	stimuliCols () {
-		return (expData.get() && expData.get().test.stimuli.nCols);
+		let exp = expData.get();
+		return exp && exp.test.stimuli.nCols;
 	},
 	stimuliRows () {
-		return (expData.get() && expData.get().test.stimuli.nRows);
+		let exp = expData.get();
+		return exp && exp.test.stimuli.nRows;
 	},
 	stimuliTypeSelect (type) {
 		let em = currentEm.get();
@@ -926,10 +953,12 @@ Template.testConfig.helpers({
 		return null;
 	},
 	testBlocks () {
-		return (expData.get() && expData.get().test.blocks.length);
+		let exp = expData.get();
+		return exp && exp.test.blocks.length;
 	},
 	testConds () {
-		return (expData.get() && expData.get().test.conditions);
+		let exp = expData.get();
+		return exp && exp.test.conditions;
 	},
 	testingList () {
 		return testingList.get();
@@ -938,7 +967,8 @@ Template.testConfig.helpers({
 		return testingProgress.get() + '%';
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	},
 	updateCat () {
 		return updateCat.get();
@@ -1087,16 +1117,19 @@ Template.debriefing.onRendered(()=>{
 
 Template.debriefing.helpers({
 	activated () {
-		return expData.get() && (expData.get().status.state === 'active');
+		let exp = expData.get();
+		return exp && exp.status.state === 'active';
 	},
 	debriefingContent () {
-		return expData.get() && expData.get().debriefing[lang.get()];
+		let exp = expData.get();
+		return exp && exp.debriefing[lang.get()];
 	},
 	debriefingNum () {
-		if(!expData.get() || !expData.get().debriefing[lang.get()]) {
+		let exp = expData.get();
+		if(!exp || !exp.debriefing[lang.get()]) {
 			return 0;
 		}
-		return expData.get().debriefing[lang.get()].length;
+		return exp.debriefing[lang.get()].length;
 	},
 	defaultLang (lang) {
 		if(lang === 'en-us') {
@@ -1109,7 +1142,8 @@ Template.debriefing.helpers({
 		return langList[userLang];
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	}
 });
 
@@ -1138,15 +1172,13 @@ Template.debriefing.events({
 	},
 	'click #debriefingSubmit' (event) {
 		Tools.stopPropDefault(event);
-		Meteor.call('funcEntryWindow', 'exp', 'changeDebriefingInfo', 
-				{expId: expData.get()._id,  debriefing: expData.get().debriefing}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server', 'experimenter');
-				}
-				else {
+		// Updated: 2024/7/25
+		Meteor.callAsync('funcEntryWindow', 'exp', 'changeDebriefingInfo', 
+				{expId: expData.get()._id,  debriefing: expData.get().debriefing}).then(()=>{
 					Styling.showWarning('saved', 'experimenter');
-				}
-		});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server', 'experimenter');
+				});
 	}
 });
 
@@ -1984,21 +2016,18 @@ function saveTrainingTest (data, type) {
 	let allData = {expId: data._id};
 	allData[type] = data[type];
 	type = type.charAt(0).toUpperCase() + type.slice(1);
-	Meteor.call('funcEntryWindow', 'exp', 'change'+type+'Config', allData, (err, result)=>{
-				if(err) {
-					if(err.error === 'too-many-requests') {
-						Styling.showWarning('slowdown');
-					}
-					else {
-						Styling.showWarning(err.error, 'experimenter');
-					}
-				}
-				else {
-					if(expDesignTest()) {
-						Styling.showWarning('saved', 'experimenter');
-					}
-				}
-		});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'change'+type+'Config', allData).then(()=>{
+		if(expDesignTest()) {
+			Styling.showWarning('saved', 'experimenter');
+		}
+	}).catch((err)=>{
+		if(err.error === 'too-many-requests') {
+			Styling.showWarning('slowdown');
+		}
+		else {
+			Styling.showWarning(err.error, 'experimenter');
+		}
+	});
 };
 
 function expDesignTest () {

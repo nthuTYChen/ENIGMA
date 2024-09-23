@@ -41,6 +41,8 @@ nodebriefing#You have not completed all required sessions or you participated th
 none#None
 noresp#Response rate <= 50% in the test session.
 playsample#Play Sample
+questionnaire#Researchers' Questionnaire
+questionnairenote#Note: The researchers of this challenge designed this questionnaire, which is thus not part of the standard procedure of the ENIGMA challenger system. If you find the questions too offensive or too private, please do not continue and provide any feedback since the questionnaire may violate the standard research ethics unless you have contacted the researchers to justify the necessity of this questionnaire.
 quitexp#Quit Challenge
 reloadstimuli#Reload
 researchers#Researcher(s): 

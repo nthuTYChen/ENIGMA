@@ -24,7 +24,7 @@ Tracker.autorun(()=>{
 
 Template.dashboard_cha.onRendered(()=>{
 	Session.set('browseSession', 'challengerHome');
-	Meteor.call('funcEntryWindow', 'exp', 'wmExpRecordCleaner', {expId: ''});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'wmExpRecordCleaner', {expId: ''});
 	$('section > div').each((index)=>{
 		$('section > div').eq(index).delay(index * 200).animate({'opacity': 1}, 300);
 	});
@@ -47,10 +47,11 @@ Template.dashboard_cha.onRendered(()=>{
 
 Template.dashboard_cha.helpers({
 	challengeState (state) {
-		if(state === 'noChallenge' && Meteor.user() && !Meteor.user().runExpRecord) {
+		let user = Meteor.user();
+		if(state === 'noChallenge' && user && !user.runExpRecord) {
 			return true;
 		}
-		else if(state === 'withChallenge' && Meteor.user() && Meteor.user().runExpRecord) {
+		else if(state === 'withChallenge' && user && user.runExpRecord) {
 			return true;
 		}
 		return false;
@@ -68,16 +69,19 @@ Template.dashboard_cha.helpers({
 		return false;
 	},
 	chaTranslation (col) {
-		return chaTexts.get() && chaTexts.get()[col];
+		let texts = chaTexts.get();
+		return texts && texts[col];
 	},
 	countDown () {
 		return countDown.get();
 	},
 	currentLogin () {
-		return Meteor.user() && Meteor.user().profile.loginAttemptIP.currentLogin;
+		let user = Meteor.user();
+		return user && user.profile.loginAttemptIP.currentLogin;
 	},
 	currentLoginTime () {
-		let currentLoginTime = Meteor.user() && Meteor.user().profile.loginAttemptIP.currentLoginTime;
+		let user = Meteor.user();
+		let currentLoginTime = user && user.profile.loginAttemptIP.currentLoginTime;
 		if(currentLoginTime) {
 			currentLoginTime = timeCalibrater(currentLoginTime);
 			return currentLoginTime.getFullYear() + '-' + (currentLoginTime.getMonth() + 1) + '-' + currentLoginTime.getUTCDate();
@@ -85,7 +89,8 @@ Template.dashboard_cha.helpers({
 		return;
 	},
 	deleteDate () {
-		let deleteTime = Meteor.user() && Meteor.user().profile.verifyDue;
+		let user = Meteor.user();
+		let deleteTime = user && user.profile.verifyDue;
 		if(deleteTime) {
 			return timeCalibrater(deleteTime);
 		}
@@ -120,16 +125,17 @@ Template.dashboard_cha.helpers({
 		return domainURL + 'yourFolder/icons/';
 	},
 	notVerified () {
-		return Meteor.user() && !Meteor.user().emails[0].verified;
+		let user = Meteor.user();
+		return user && !user.emails[0].verified;
 	},
 	passTimeLimit () {
 		let endTime = Meteor.user().profile.exp.lastParticipation;
 		let currentTime = (new Date()).getTime(), gapHour = expData.get() && expData.get().basicInfo.gapHour * 3600 * 1000;
-		if(!endTime || (expData.get() && expData.get().basicInfo.gapHour && 
+		if(!endTime || (typeof gapHour === 'number' && 
 			(gapHour + endTime.getTime() <= currentTime))) {
 			return true;
 		}
-		if(gapHour) {
+		if(typeof gapHour === 'number') {
 			nextSessionCounter(gapHour + endTime.getTime() - currentTime);
 		}
 		return false;
@@ -153,32 +159,37 @@ Template.dashboard_cha.helpers({
 		return sideNotesTime.getFullYear() + '-' + (sideNotesTime.getMonth() + 1) + '-' + sideNotesTime.getUTCDate();
 	},
 	statsNum (type) {
-		if(Meteor.user() && Meteor.user().profile.gaming[type].nums) {
-			return Meteor.user() && Meteor.user().profile.gaming[type].nums;
+		let user = Meteor.user(), texts = chaTexts.get();
+		if(user && user.profile.gaming[type].nums) {
+			return user && user.profile.gaming[type].nums;
 		}
-		return chaTexts.get() && chaTexts.get()['none'];
+		return texts && texts['none'];
 	},
 	siteRanking (type) {
-		if(Meteor.user() && Meteor.user().profile.gaming[type].ranking) {
-			return Meteor.user().profile.gaming[type].ranking;
+		let user = Meteor.user(), texts = chaTexts.get();
+		if(user && user.profile.gaming[type].ranking) {
+			return user.profile.gaming[type].ranking;
 		}
-		return chaTexts.get() && chaTexts.get()['none'];
+		return texts && texts['none'];
 	},
 	targetN () {
-		return expData.get() && expData.get().basicInfo.multipleN;
+		let data = expData.get();
+		return data && data.basicInfo.multipleN;
 	},
 	username () {
-		let username = Meteor.user() && Meteor.user().username;
+		let user = Meteor.user();
+		let username = user && user.username;
 		if(username) {
 			return username.split('@')[0];
 		}
 		return;
 	},
 	wmStats (type) {
-		if(Meteor.user() && Meteor.user().profile.wm[type]) {
-			return Meteor.user().profile.wm[type];
+		let user = Meteor.user(), texts = chaTexts.get();
+		if(user && user.profile.wm[type]) {
+			return user.profile.wm[type];
 		}
-		return chaTexts.get() && chaTexts.get()['none'];
+		return texts && texts['none'];
 	}
 });
 
@@ -209,32 +220,26 @@ Template.dashboard_cha.events({
 			let expId = event.currentTarget.id.replace('run_', '');
 			Session.set('expType', 'formal');
 			Session.set('expSession', 'loadingSettings');
-			//Router.go('runExp', {expid: expId});
 			FlowRouter.go('runExp', {expid: expId});
 		}
 	},
 	'touchend #withdraw, click #withdraw' (event) {
 		if(Tools.swipeCheck(event, false, false)) {
 			Styling.showWarning('withdrawing', 'challenger');
-			Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {withdraw: true}, function(err, res) {
-				if(res) {
-					if(countDownInt) {
-						Meteor.clearInterval(countDownInt);
-					}
-					Styling.showWarning('withdrew', 'challenger');
+			Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {withdraw: true}).then(()=>{
+				if(countDownInt) {
+					Meteor.clearInterval(countDownInt);
 				}
+				Styling.showWarning('withdrew', 'challenger');
 			});
 		}
 	},
 	'touchend #runWM, click #runWM' (event) {
 		if(Tools.swipeCheck(event, false, false)) {
-			Meteor.call('funcEntryWindow', 'exp', 'wmExpInitializer', {test: null}, function(err, res) {
-				if(err) {
-					Styling.showWarning(err.error, 'challenger');
-				}
-				else {
-					FlowRouter.go('wmExp');
-				}
+			Meteor.callAsync('funcEntryWindow', 'exp', 'wmExpInitializer', {test: null}).then(()=>{
+				FlowRouter.go('wmExp');
+			}).catch((err)=>{
+				Styling.showWarning(err.error, 'challenger');
 			});
 		}
 	},

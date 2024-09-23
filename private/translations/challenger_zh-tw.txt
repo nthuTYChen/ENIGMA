@@ -110,6 +110,7 @@ perfectten#完美的十
 perfecttennote#在「字謎」中排名前十會帶來什麼感覺呢？肯定是「完美」！
 prev10#<< 前10個
 pwnochange#若無變更密碼之需求，就不須填寫。
+questionrespe#請完成此問卷
 repeatchallenge#繼續挑戰！
 recommended#推薦挑戰
 recordscore#最高分：

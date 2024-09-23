@@ -60,7 +60,8 @@ Template.explore.helpers({
 		return colors[randomIndex];
 	},
 	othersExp () {
-		let onset = itemsRange.get() && itemsRange.get().otherLang.onset, offset = itemsRange.get() && itemsRange.get().otherLang.offset;
+		let range = itemsRange.get();
+		let onset = range && range.otherLang.onset, offset = range && range.otherLang.offset;
 		if(onset !== null) {
 			return experimentDB.find({$and: [{_id: {$nin: userData && userData.get().profile.exp.participated}}, 
 				{availableLang: {$nin: [userData.get() && userData.get().profile.userLang, userData.get() && userData.get().profile.L1, userData.get() && userData.get().profile.L2]}}]}, {limit: offset, skip: onset});
@@ -73,7 +74,8 @@ Template.explore.helpers({
 		return colors[randomIndex];
 	},
 	participatedExps () {
-		let onset = itemsRange.get() && itemsRange.get().participated.onset, offset = itemsRange.get() && itemsRange.get().participated.offset;
+		let range = itemsRange.get();
+		let onset = range && range.participated.onset, offset = range && range.participated.offset;
 		if(onset !== null) {
 			return experimentDB.find({_id: {$in: userData.get() && userData.get().profile.exp.participated}}, {limit: offset, skip: onset});
 		}
@@ -85,7 +87,8 @@ Template.explore.helpers({
 		return colors[randomIndex];
 	},
 	recommendedExps () {
-		let onset = itemsRange.get() && itemsRange.get().recommended.onset, offset = itemsRange.get() && itemsRange.get().recommended.offset;
+		let range = itemsRange.get();
+		let onset = range && range.recommended.onset, offset = range && range.recommended.offset;
 		if(onset !== null) {
 			return experimentDB.find({$and: [{_id: {$nin: userData.get().profile.exp.participated}}, 
 				{availableLang: {$in: [userData.get() && userData.get().profile.userLang, userData.get() && userData.get().profile.L1, userData.get() && userData.get().profile.L2]}}]}, 
@@ -94,10 +97,11 @@ Template.explore.helpers({
 		return;
 	},
 	recruiting (status) {
+		let texts = chaTexts.get();
 		if(status === 'complete') {
-			return chaTexts.get() && chaTexts.get()['no'];
+			return texts && texts['no'];
 		}
-		return chaTexts.get() && chaTexts.get()['yes'];
+		return texts && texts['yes'];
 	},
 	timeGapCalc (gap) {
 		if(userData.get() && userData.get().profile.exp.lastParticipation) {
@@ -163,11 +167,12 @@ Template.explore.events({
 	},
 	'touchend .switchOnOffset, click .switchOnOffset' (event) {
 		if(Tools.swipeCheck(event, false, false)) {
+			let range = itemsRange.get();
 			let id = event.currentTarget.id;
 			let actionTarget = id.replace(/prev|next/ig, '');
 			if(id.indexOf('Prev') > -1) {
-				if(itemsRange.get()[actionTarget].onset - 10 >= 0) {
-					let newItemsRange = itemsRange.get();
+				if(range[actionTarget].onset - 10 >= 0) {
+					let newItemsRange = range;
 					newItemsRange[actionTarget].onset = newItemsRange[actionTarget].onset - 10;
 					newItemsRange[actionTarget].offset = newItemsRange[actionTarget].offset - 10;
 					itemsRange.set(newItemsRange);
@@ -187,8 +192,8 @@ Template.explore.events({
 				else if(userData) {
 					allExpsN = 	experimentDB.find({availableLang: {$ne: userData.get() && userData.get().profile.userLang}}).fetch().length;
 				}
-				if(itemsRange.get()[actionTarget].offset + 10 <= allExpsN) {
-					let newItemsRange = itemsRange.get();
+				if(range[actionTarget].offset + 10 <= allExpsN) {
+					let newItemsRange = range;
 					newItemsRange[actionTarget].onset = newItemsRange[actionTarget].onset + 10;
 					newItemsRange[actionTarget].offset = newItemsRange[actionTarget].offset + 10;
 					itemsRange.set(newItemsRange);

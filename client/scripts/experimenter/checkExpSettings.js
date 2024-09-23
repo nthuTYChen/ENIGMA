@@ -18,11 +18,9 @@ Template.checkExpSettings.onRendered(()=>{
 	expErTexts.set(translationDB.findOne({docType: 'experimenter'}));
 	interfaceL.set(translationDB.findOne({docType: 'general'}));
 	exp.set(experimentDB.findOne({_id: Session.get('expId')}));
-	Meteor.call('funcEntryWindow', 'exp', 'activateCheck', {expId: Session.get('expId'), testRun: true}, (err, res)=>{
-		if(err) {
-			if(typeof err.error === 'string') {
-				Styling.showWarning(err.error);
-			}
+	Meteor.callAsync('funcEntryWindow', 'exp', 'activateCheck', {expId: Session.get('expId'), testRun: true}).then().catch((err)=>{
+		if(typeof err.error === 'string') {
+			Styling.showWarning(err.error);
 		}
 	});
 });
@@ -38,17 +36,20 @@ Template.checkExpSettings.helpers({
 		return interfaceL.get() && interfaceL.get()[col];
 	},
 	noTestErrors () {
-		return exp.get() && exp.get().activateCheck && exp.get().activateCheck.pass;
+		let expData = exp.get();
+		return expData && expData.activateCheck && expData.activateCheck.pass;
 	},
 	preview() {
 		return Session.equals('expType', 'preview');
 	},
 	testing () {
-		return exp.get() && exp.get().activateCheck && !exp.get().activateCheck.done;
+		let expData = exp.get();
+		return expData && expData.activateCheck && !expData.activateCheck.done;
 	},
 	failList () {
-		if(exp.get() && exp.get().activateCheck && !exp.get().activateCheck.pass) {
-			return exp.get().activateCheck.failList;
+		let expData = exp.get();
+		if(expData && expData.activateCheck && !expData.activateCheck.pass) {
+			return expData.activateCheck.failList;
 		}
 		return [];
 	}
@@ -64,18 +65,16 @@ Template.checkExpSettings.events({
 	'touchend #confirmActivateExp, click #confirmActivateExp' (event) {
 		if(Tools.swipeCheck(event, false, false)) {
 			Styling.showWarning('activating', 'experimenter');
-			Meteor.call('funcEntryWindow', 'exp', 'activateCheck', {expId: Session.get('expId'), testRun: false}, (err, res)=>{
-				if(err) {
-					if(typeof err.error === 'string') {
-						Styling.showWarning(err.error);
-					}
-				}
-				else {
+			Meteor.callAsync('funcEntryWindow', 'exp', 'activateCheck', 
+				{expId: Session.get('expId'), testRun: false}).then(()=>{
 					Styling.showWarning('activated', 'experimenter');
 					Session.set('expId', '');
 					FlowRouter.go('userhome', {subpage: 'dashboard'});
-				}
-			});
+				}).catch((err)=>{
+					if(typeof err.error === 'string') {
+						Styling.showWarning(err.error);
+					}
+				});
 		}
 	},
 	'touchend #startPreview, click #startPreview' (event) {

@@ -17,7 +17,8 @@ Template.experimenterMenu.helpers({
 		return interfaceL.get() && interfaceL.get()[col];
 	},
 	verified () {
-		return Meteor.user() && Meteor.user().emails[0].verified;
+		let user = Meteor.user();
+		return user && user.emails[0].verified;
 	}
 });
 

@@ -27,17 +27,21 @@ Template.completeExpInfo.helpers({
 		return expData.get() && expData.get()[field];
 	},
 	expStatusInfo (field) {
+		// Updated: 2024/7/25
+		let exp = expData.get();
 		if(field === 'state') {
-			let status = expData.get() && expData.get().status[field];
+			let status = exp && exp.status[field];
 			return expErTexts.get() && expErTexts.get()[status];
 		}
-		return expData.get() && expData.get().status[field];
+		return exp && exp.status[field];
 	},
 	isOwner () {
-		return Meteor.user() && expData.get() && expData.get().userAccount === Meteor.user().username;
+		let user = Meteor.user();
+		return user && expData.get() && expData.get().userAccount === user.username;
 	},
 	isExperimenter () {
-		return Meteor.user() && Meteor.user().emails[0].verified && Session.equals('userCat', 'experimenter') && expData.get() && expData.get().userAccount !== Meteor.user().username;
+		let user = Meteor.user();
+		return user && user.emails[0].verified && Session.equals('userCat', 'experimenter') && expData.get() && expData.get().userAccount !== user.username;
 	},
 	notOwnerReadonly () {
 		if(!Meteor.userId() || (expData.get() && expData.get().userAccount !== Meteor.user().username)) {
@@ -49,7 +53,8 @@ Template.completeExpInfo.helpers({
 		return domainURL + urlRootPath + 'completeExpInfo/' + Session.get('expId');
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	}
 });
 
@@ -66,21 +71,18 @@ Template.completeExpInfo.events({
 	},
 	'click #downloadExp' () {
 		Styling_configExp.showWarning('downloading');
-		Meteor.call('funcEntryWindow', 'exp', 'downloadCompleteExpResults', {expId: Session.get('expId')}, (err, res)=>{
-			if(err) {
-				Styling.showWarning(err.error, 'experimenter');
+		Meteor.callAsync('funcEntryWindow', 'exp', 'downloadCompleteExpResults', {expId: Session.get('expId')}).then((res)=>{
+			let windowRef = window.open();
+			let dir = 'Files/';
+			if(urlRootPath === 'enigmaDemo/') {
+				dir = 'enigmaDemo' + dir;
 			}
 			else {
-				let windowRef = window.open();
-				let dir = 'Files/';
-				if(urlRootPath === 'ENIGMA/') {
-					dir = 'enigma' + dir;
-				}
-				else {
-					dir = 'enigmaDemo' + dir;
-				}
-				windowRef.location = domainURL + dir + res.msg;
+				dir = 'enigma' + dir;
 			}
+			windowRef.location = domainURL + dir + res.msg;
+		}).catch((err)=>{
+			Styling.showWarning(err.error, 'experimenter');
 		});
 	},
 	'touchend #goToBasicSettings, click #goToBasicSettings' (event) {
@@ -91,13 +93,11 @@ Template.completeExpInfo.events({
 	},
 	'click #updateCompleteExpInfo' () {
 		let newExpInfo = $('#completeExpInfo').val().trim();
-		Meteor.call('funcEntryWindow', 'exp', 'updateCompleteExpInfo', {expId: Session.get('expId'), newInfo: newExpInfo}, (err, res)=>{
-			if(err) {
-				Styling.showWarning(err.error, 'experimenter');
-			}
-			else {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'updateCompleteExpInfo', 
+			{expId: Session.get('expId'), newInfo: newExpInfo}).then(()=>{
 				Styling_configExp.showWarning('updatecomplete');
-			}
-		});
+			}).catch((err)=>{
+				Styling.showWarning(err.error, 'experimenter');
+			});
 	}
 });

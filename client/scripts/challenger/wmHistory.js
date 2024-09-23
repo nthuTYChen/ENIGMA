@@ -57,24 +57,27 @@ Template.wmHistory.helpers({
 		return;
 	},
 	chaTranslation (field) {
-		return chaTranslation.get() && chaTranslation.get()[field];
+		let texts = chaTranslation.get();
+		return texts && texts[field];
 	},
 	// Need to change this setting with users' own icon set and network settings
 	iconURL () {
 		return domainURL + 'yourFolder/icons/';
 	},
 	lastTest (field) {
-		if(lastTest.get()) {
+		let test = lastTest.get();
+		if(test) {
 			if(field === 'duration') {
-				let duration = lastTest.get()[field];
+				let duration = test[field];
 				return Math.round(duration * 10 / (60 * 1000)) / 10;
 			}
-			return lastTest.get()[field];
+			return test[field];
 		}
 		return;
 	},
 	recordScore () {
-		return Meteor.user() && Meteor.user().profile.wm.record;
+		let user = Meteor.user();
+		return user && user.profile.wm.record;
 	},
 	testDate (date) {
 		return dateFormatting(date);
@@ -92,17 +95,20 @@ Template.wmHistory.helpers({
 		return;
 	},
 	wmSiteLastUpdate () {
-		if(wmSiteStats.get()) {
-			let lastUpdate = wmSiteStats.get().lastUpdate;
+		let stats = wmSiteStats.get();
+		if(stats) {
+			let lastUpdate = stats.lastUpdate;
 			return dateFormatting(lastUpdate);
 		}
 		return;
 	},
 	wmSiteAgeMeans (index) {
-		return wmSiteStats.get() && wmSiteStats.get().ageGroupMean[index];
+		let stats = wmSiteStats.get();
+		return stats && stats.ageGroupMean[index];
 	},
 	wmSiteSessionN () {
-		return wmSiteStats.get() && wmSiteStats.get().totalWMSessions;
+		let stats = wmSiteStats.get();
+		return stats && stats.totalWMSessions;
 	},
 	wmTests () {
 		return wmStatsDB.find();

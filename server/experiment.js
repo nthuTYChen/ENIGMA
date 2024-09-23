@@ -9,18 +9,18 @@ var langList = ['en-us', 'zh-tw', 'ja', 'fr', 'de', 'es'];
 //
 //--------------Functions called from the entry 'window'----------------
 
-export let createExp = (data, userCheck)=>{
-	let errMsg = [];
+export let createExp = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
 	try {
-		let userExpRecord = Meteor.users.findOne({_id: Meteor.userId()}).profile.exp;
+		let userExpRecord = user.profile.exp;
 		if(!userCheck.verified || !userCheck.userCat === 'experimenter') {
-			recordAdminLog('warning', 'createExp', data.clientIP, '', 'user verification', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'createExp', data.clientIP, '', 'user verification', user && user.username);
 			throw new Meteor.Error('');
 		}
 
 		if(userExpRecord.allExp === userExpRecord.allExpQuota) {
 			errMsg.push('expquotafull');
-			recordAdminLog('warning', 'createExp', data.clientIP, '', 'exp quota full', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'createExp', data.clientIP, '', 'exp quota full', user && user.username);
 			throw new Meteor.Error('');
 		}
 
@@ -28,20 +28,19 @@ export let createExp = (data, userCheck)=>{
 
 		if(processedData.type === 'error') {
 			errMsg.push('vitale');
-			recordAdminLog('warning', 'createExp', data.clientIP, '', 'processing basic info', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'createExp', data.clientIP, '', 'processing basic info', user && user.username);
 			return {type: 'error', errMsg: errMsg};
 		}
 		data = processedData.newData;
-
-		errMsg = checkExpBasicSettings(data, 'create');
+		errMsg = await checkExpBasicSettings(data, 'create');
 		if(errMsg.length > 0) {
-			recordAdminLog('warning', 'createExp', data.clientIP, '', 'check basic info', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'createExp', data.clientIP, '', 'check basic info', user && user.username);
 			return {type: 'error', errMsg: errMsg};
 		}
 		else {
-			experimentDB.insert({
-				user: Meteor.userId(),
-				userAccount: Meteor.user().username,
+			await experimentDB.insertAsync({
+				user: user._id,
+				userAccount: user.username,
 				coordinators: [],
 				excludedExps: [],
 				status: {
@@ -85,50 +84,50 @@ export let createExp = (data, userCheck)=>{
 				},
 				createdAt: new Date(),
 				completedAt: ''
-			}, (err, result)=>{
-				Meteor.users.update({_id: Meteor.userId()}, {$inc: {'profile.exp.allExp': 1}});
 			});
-			recordAdminLog('normal', 'createExp', data.clientIP, '', 'exp created', Meteor.user() && Meteor.user().username);
+			await Meteor.users.updateAsync({_id: user._id}, {$inc: {'profile.exp.allExp': 1}});
+			await recordAdminLog('normal', 'createExp', data.clientIP, '', 'exp created', user && user.username);
 			return {type: 'ok'};
 		}
 
 	}
 	catch(err) {
-		recordAdminLog('warning', 'createExp', data.clientIP, '', 'try and catch error', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'createExp', data.clientIP, '', 'try and catch error', user && user.username);
 		errMsg.push('vitale');
 		return {type: 'error', errMsg: errMsg};
 	}
 };
 
-export let updateCompleteExpInfo = (data, userCheck)=>{
-	let expId = data.expId;
+export let updateCompleteExpInfo = async (data, userCheck)=>{
+	let expId = data.expId, user = await Meteor.userAsync();
 	if(data.length > 2000 || (!userCheck.owner && !userCheck.coordinator)) {
-		recordAdminLog('warning', 'updateCompleteExpInfo', data.clientIP, expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'updateCompleteExpInfo', data.clientIP, expId, 'verification issue', user && user.username);
 		return {type: 'error', errMsg: ['vitale']};
 	}
 	else {
-		experimentDB.update({_id: expId}, {$set: {completeExpInfo: data.newInfo}});
-		recordActivityLog(Meteor.userId(), experimentDB.findOne({_id: expId}), 'updatecomexpinfo');
-		recordAdminLog('normal', 'updateCompleteExpInfo', data.clientIP, expId, 'complete exp info updated', Meteor.user() && Meteor.user().username);
+		await experimentDB.updateAsync({_id: expId}, {$set: {completeExpInfo: data.newInfo}});
+		await recordActivityLog(user._id, await experimentDB.findOneAsync({_id: expId}), 'updatecomexpinfo');
+		await recordAdminLog('normal', 'updateCompleteExpInfo', data.clientIP, expId, 'complete exp info updated', user && user.username);
 		return {type: 'ok'};
 	}
 };
 
-export let updateExpBasics = (data, userCheck)=>{
-	let errMsg = [], expId = data.expId;
+export let updateExpBasics = async (data, userCheck)=>{
+	let errMsg = [], expId = data.expId, user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: expId});
 	if(userCheck.userCat !== 'experimenter' || (!userCheck.owner && !userCheck.coordinator)) {
-		recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 		return {type: 'error', errMsg: errMsg};
 	}
-	else if(experimentDB.findOne({_id: expId}) && experimentDB.findOne({_id: expId}).status.activated === true) {
-		recordAdminLog('warning', 'updateExpBasics', data.clientIP, data.expId, 'exp already activated', Meteor.user() && Meteor.user().username);
+	else if(exp && exp.status.activated === true) {
+		await recordAdminLog('warning', 'updateExpBasics', data.clientIP, data.expId, 'exp already activated', user && user.username);
 		return {type: 'error', errMsg: ['vitale']};
 	}
 	else {
 		let processedData = processExpBasicSettings(data);
 		if(processedData.type === 'error') {
-			recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'processing basic settings', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'processing basic settings', user && user.username);
 			errMsg.push('vitale');
 			return {type: 'error', errMsg: errMsg};
 		}
@@ -137,45 +136,46 @@ export let updateExpBasics = (data, userCheck)=>{
 			return {type: 'error', errMsg: errMsg};
 		}
 		else {
-			errMsg = checkExpBasicSettings(data, 'update');
+			errMsg = await checkExpBasicSettings(data, 'update');
 			if(errMsg.length > 0) {
-				recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'check basic settings', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'updateExpBasics', data.clientIP, expId, 'check basic settings', user && user.username);
 				return {type: 'error', errMsg: errMsg};
 			}
-			experimentDB.update({_id: expId}, {$set: {basicInfo: data}});
-			recordActivityLog(Meteor.userId(), experimentDB.findOne({_id: expId}), 'logupdateexpbasics');
-			recordAdminLog('normal', 'updateExpBasics', data.clientIP, expId, 'basic settings updated', Meteor.user() && Meteor.user().username);
+			await experimentDB.updateAsync({_id: expId}, {$set: {basicInfo: data}});
+			await recordActivityLog(user._id, exp, 'logupdateexpbasics');
+			await recordAdminLog('normal', 'updateExpBasics', data.clientIP, expId, 'basic settings updated', user && user.username);
 			return {type: 'ok'};
 		}
 	}
 };
 
-export let downloadExpResults = (data, userCheck)=>{
+export let downloadExpResults = async (data, userCheck)=>{
+	let user = await Meteor.userAsync();
 	if(userCheck.owner || userCheck.coordinator) {
 		let zip = new JSZip();
 		try {
-			zip = assembleExpResults(data.expId, zip);
+			zip = await assembleExpResults(data.expId, zip);
 			let publicPath = '/home/shaferain/enigmaDemoFiles/';
 			let now = new Date();
 			let date = now.getFullYear() + '' + (now.getMonth() + 1) + '' + now.getDate() + '' + 
     	  		now.getHours() + '' + now.getMinutes() + '' + now.getSeconds();
     		zip.saveAs(publicPath + data.expId + '_' + date + '.zip');
-    		recordAdminLog('normal', 'downloadExpResults', data.clientIP, data.expId, 'exp results downloaded', Meteor.user() && Meteor.user().username);
+    		await recordAdminLog('normal', 'downloadExpResults', data.clientIP, data.expId, 'exp results downloaded', user && user.username);
 			return {type: 'ok', msg: data.expId + '_' + date + '.zip'};
 		}
 		catch(e) {
-			recordAdminLog('normal', 'downloadExpResults', data.clientIP, data.expId, 'no exp results', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('normal', 'downloadExpResults', data.clientIP, data.expId, 'no exp results', user && user.username);
 			return {type: 'error', errMsg: ['noresultse']};
 		}
 	}
-	recordAdminLog('warning', 'downloadExpResults', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('warning', 'downloadExpResults', data.clientIP, data.expId, 'verification issue', user && user.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let downloadCompleteExpResults = (data, userCheck)=>{
-	let exp = experimentDB.findOne({_id: data.expId});
+export let downloadCompleteExpResults = async (data, userCheck)=>{
+	let exp = await experimentDB.findOneAsync({_id: data.expId}), user = await Meteor.userAsync();
 	if(!userCheck.verified || userCheck.userCat !== 'experimenter' || !exp || exp.status.state !== 'complete') {
-		recordAdminLog('warning', 'downloadCompleteExpResults', data.clientIP, data.expId, 'hacking', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'downloadCompleteExpResults', data.clientIP, data.expId, 'hacking', user && user.username);
 		return {type: 'error', errMsg: ['vitale']};
 	}
 	else {
@@ -237,159 +237,158 @@ export let downloadCompleteExpResults = (data, userCheck)=>{
 		}
 		zip.file('testBlocksEms.txt', '\uFEFF' + testBlocks);
 		try {
-			zip = assembleExpResults(data.expId, zip, false);
+			zip = await assembleExpResults(data.expId, zip, false);
 		}
 		catch(e) {
-			recordAdminLog('warning', 'downloadCompleteExpResults', data.clientIP, data.expId, 'hacking', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'downloadCompleteExpResults', data.clientIP, data.expId, 'hacking', user && user.username);
 			return {type: 'error', errMsg: ['vitale']};
 		}
 		// Need to change this according to the users' network setting and file structure
-		let publicPath = '/URL/to/public/result/files/';
 		let now = new Date();
 		let date = now.getFullYear() + '' + (now.getMonth() + 1) + '' + now.getDate() + '' + 
     	  	now.getHours() + '' + now.getMinutes() + '' + now.getSeconds();
     	zip.saveAs(publicPath + data.expId + '_' + date + '.zip');
-    	recordAdminLog('normal', 'downloadCompleteExpResults', data.clientIP, data.expId, 'complete exp results downloaded', Meteor.user() && Meteor.user().username);
-    	recordActivityLog(Meteor.userId(), experimentDB.findOne({_id: data.expId}), 'downloadcompleteres');
+    	await recordAdminLog('normal', 'downloadCompleteExpResults', data.clientIP, data.expId, 'complete exp results downloaded', user && user.username);
+    	await recordActivityLog(user._id, await experimentDB.findOneAsync({_id: data.expId}), 'downloadcompleteres');
     	return {type: 'ok', msg: data.expId + '_' + date + '.zip'};
 	}
 };
 
-export let deleteExp = (data, userCheck)=>{
-	let target = experimentDB.findOne({_id: data.expId});
+export let deleteExp = async (data, userCheck)=>{
+	let target = await experimentDB.findOneAsync({_id: data.expId}), user = await Meteor.userAsync();
 	let errMsg = [];
-	if(!target || !Meteor.userId() || !userCheck.owner) {
-		recordAdminLog('warning', 'deleteExp', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+	if(!target || !user || !userCheck.owner) {
+		await recordAdminLog('warning', 'deleteExp', data.clientIP, data.expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 		return {type: 'error', errMsg: errMsg};
 	}
 	else {
-		let owner = Meteor.userId(), exp = experimentDB.findOne({_id: data.expId});
-		experimentDB.remove({_id: data.expId}, function(err, result) {
+		let owner = user._id, exp = await experimentDB.findOneAsync({_id: data.expId});
+		await experimentDB.removeAsync({_id: data.expId}, async function(err, result) {
 			if(!err) {
-				expResultsDB.remove({expId: data.expId});
+				await expResultsDB.removeAsync({expId: data.expId});
 				if(target.status.state === 'active') {
-					Meteor.users.update({_id: owner}, {$inc: {'profile.exp.allExp': -1, 'profile.exp.runningExp': -1}});
+					await Meteor.users.updateAsync({_id: owner}, {$inc: {'profile.exp.allExp': -1, 'profile.exp.runningExp': -1}});
 				}
 				else {
-					Meteor.users.update({_id: owner}, {$inc: {'profile.exp.allExp': -1}});
+					await Meteor.users.updateAsync({_id: owner}, {$inc: {'profile.exp.allExp': -1}});
 				}
-				recordActivityLog(Meteor.userId(), target, 'logdeleteexp');
+				await recordActivityLog(Meteor.userId(), target, 'logdeleteexp');
 			}
 		});
-		Meteor.users.update({'runExpRecord.expId': data.expId}, {$unset: {runExpRecord: ''}}, {multi: true});
-		recordAdminLog('normal', 'deleteExp', data.clientIP, data.expId, 'exp deleted', Meteor.user() && Meteor.user().username);
+		await Meteor.users.updateAsync({'runExpRecord.expId': data.expId}, {$unset: {runExpRecord: ''}}, {multi: true});
+		await recordAdminLog('normal', 'deleteExp', data.clientIP, data.expId, 'exp deleted', user && user.username);
 		return {type: 'ok'};
 	}
 };
 
-export let getInstruction = (data, userCheck)=>{
-	let errMsg = [];
+export let getInstruction = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
 	let instructionFilename = 'instruction_'+data.instruction+'_'+data.userLang+'.txt';
 	try {
-		let instruction = Assets.getText('instructions/'+instructionFilename);
-		recordAdminLog('normal', 'getInstruction', data.clientIP, '', 'get instruction ' + instructionFilename, Meteor.user() && Meteor.user().username);
+		let instruction = await Assets.getTextAsync('instructions/'+instructionFilename);
+		await recordAdminLog('normal', 'getInstruction', data.clientIP, '', 'get instruction ' + instructionFilename, user && user.username);
 		return {type: 'ok', instruction: instruction};
 	}
 	catch(err) {
-		recordAdminLog('warning', 'getInstruction', data.clientIP, '', 'failed to get instruction ' + instructionFilename, Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'getInstruction', data.clientIP, '', 'failed to get instruction ' + instructionFilename, user && user.username);
 		errMsg.push('vitale');
 	}
 };
 
-export let addCoordinator = (data, userCheck)=>{
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let addCoordinator = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && userCheck.verified && userCheck.owner) {
 		if(!emailFormat.test(data.coordinator.trim())) {
-			recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'email format issue', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'email format issue', user && user.username);
 			errMsg.push('emailformate');
 		}
 		else if(exp.coordinators.length+1 > 5) {
-			recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'coordinator quota issue', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'coordinator quota issue', user && user.username);
 			errMsg.push('maxcoorde');
 		}
 		else {
-			let coordinator = Meteor.users.findOne({username: data.coordinator, 'profile.userCat': 'experimenter'});
+			let coordinator = await Meteor.users.findOneAsync({username: data.coordinator, 'profile.userCat': 'experimenter'});
 			if(coordinator) {
 				if(coordinator.emails[0].verified) {
-					experimentDB.update({_id: data.expId}, {$push: {coordinators: data.coordinator}});
+					await experimentDB.updateAsync({_id: data.expId}, {$push: {coordinators: data.coordinator}});
 				}
 				else {
-					recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'coordinator unverified', Meteor.user() && Meteor.user().username);
+					await recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'coordinator unverified', user && user.username);
 					errMsg.push('coordunverifiede');
 				}
 			}
 			else {
-				recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'no such user', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'no such user', user && user.username);
 				errMsg.push('nosuchusere');
 			}
 		}
 	}
 	else {
-		recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'addCoordinator', data.clientIP, data.expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordActivityLog(Meteor.userId(), exp, 'logaddcoordinator');
-	recordAdminLog('normal', 'addCoordinator', data.clientIP, data.expId, 'coordinator added ' + data.coordinator, Meteor.user() && Meteor.user().username);
+	await recordActivityLog(user._id, exp, 'logaddcoordinator');
+	await recordAdminLog('normal', 'addCoordinator', data.clientIP, data.expId, 'coordinator added ' + data.coordinator, user && user.username);
 	return {type: 'ok'};
 };
 
-export let removeCoordinator = (data, userCheck)=>{
-	let errMsg = [];
+export let removeCoordinator = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
 	if(!emailFormat.test(data.coordinator.trim())) {
-		recordAdminLog('warning', 'removeCoordinator', data.clientIP, data.expId, 'email format', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'removeCoordinator', data.clientIP, data.expId, 'email format', user && user.username);
 		errMsg.push('vitale');
 	}
 	else {
-		let exp = experimentDB.findOne({_id: data.expId, coordinators: data.coordinator});
+		let exp = await experimentDB.findOneAsync({_id: data.expId, coordinators: data.coordinator});
 		if(exp && userCheck.verified && userCheck.owner) {
-			recordActivityLog(Meteor.userId(), exp, 'logremovecoordinator');
-			experimentDB.update({_id: data.expId}, {$pull: {coordinators: data.coordinator}});
+			await recordActivityLog(user._id, exp, 'logremovecoordinator');
+			await experimentDB.updateAsync({_id: data.expId}, {$pull: {coordinators: data.coordinator}});
 		}
 		else {
-			recordAdminLog('warning', 'removeCoordinator', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'removeCoordinator', data.clientIP, data.expId, 'verification issue', user && user.username);
 			errMsg.push('vitale');
 		}
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordAdminLog('normal', 'removeCoordinator', data.clientIP, data.expId, 'coordinator removed ' + data.coordinator, Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'removeCoordinator', data.clientIP, data.expId, 'coordinator removed ' + data.coordinator, user && user.username);
 	return {type: 'ok'};
 };
 
-export let endCoordination = (data, userCheck)=>{
-	let errMsg = [];
-	let username = Meteor.user() && Meteor.user().username;
+export let endCoordination = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let username = user && user.username;
 	if(userCheck.verified && userCheck.coordinator) {
-		let exp = experimentDB.findOne({_id: data.expId, coordinators: username});
-		experimentDB.update({_id: data.expId}, {$pull: {coordinators: username}});
-		recordActivityLog(Meteor.userId(), exp, 'logendcoordination');
+		let exp = await experimentDB.findOneAsync({_id: data.expId, coordinators: username});
+		await experimentDB.updateAsync({_id: data.expId}, {$pull: {coordinators: username}});
+		await recordActivityLog(user._id, exp, 'logendcoordination');
 	}
 	else {
-		recordAdminLog('warning', 'endCoordination', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'endCoordination', data.clientIP, data.expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordAdminLog('normal', 'endCoordinator', data.clientIP, data.expId, 'coordinator removed ' + username, username);
+	await recordAdminLog('normal', 'endCoordinator', data.clientIP, data.expId, 'coordinator removed ' + username, username);
 	return {type: 'ok'};
 };
 
-export let addExcludedExps = (data, userCheck)=>{
-	let errMsg = [];
-	let currentExp = experimentDB.findOne({_id: data.expId});
+export let addExcludedExps = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let currentExp = await experimentDB.findOneAsync({_id: data.expId});
 	if(!userCheck.verified || (!userCheck.coordinator && !userCheck.owner) || !currentExp || data.excludedExps.length === 0) {
-		recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 	}
 	else if(currentExp.excludedExps.length > 20) {
-		recordAdminLog('normal', 'addExcludedExps', data.clientIP, data.expId, 'too many excluded exps '+data.expId, Meteor.user() && Meteor.user().username);
+		await recordAdminLog('normal', 'addExcludedExps', data.clientIP, data.expId, 'too many excluded exps '+data.expId, user && user.username);
 		errMsg.push('toomanyexcludedexpe');
 	}
 	else {
@@ -405,7 +404,7 @@ export let addExcludedExps = (data, userCheck)=>{
 				}
 			}
 			if(typeof excludedId !== 'string' || excludedId.length > 100) {
-				recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'critical issue', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'critical issue', user && user.username);
 				errMsg.push('vitale');
 				break;
 			}
@@ -413,107 +412,109 @@ export let addExcludedExps = (data, userCheck)=>{
 				errMsg.push('seflexcludee');
 				break;
 			}
-			let excludedExp = experimentDB.findOne({_id: excludedId});
+			let excludedExp = await experimentDB.findOneAsync({_id: excludedId});
 			if(!excludedExp) {
-				recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'no exp' + excludedId, Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'addExcludedExps', data.clientIP, data.expId, 'no exp' + excludedId, user && user.username);
 				errMsg.push('nosuchexp');
 				break;
 			}
 			formulatedList.push({id: excludedId, title: excludedExp.basicInfo.title});
 			if(i === data.excludedExps.length - 1) {
-				experimentDB.update({_id: data.expId}, {$push: {excludedExps: {$each: formulatedList}}});
-				recordActivityLog(Meteor.userId(), excludedExp, 'excludeexp');
+				await experimentDB.updateAsync({_id: data.expId}, {$push: {excludedExps: {$each: formulatedList}}});
+				await recordActivityLog(user._id, excludedExp, 'excludeexp');
 			}
 		}
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordAdminLog('normal', 'addExcludedExps', data.clientIP, data.expId, 'exp excluded ' + data.excludedExps[0], Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'addExcludedExps', data.clientIP, data.expId, 'exp excluded ' + data.excludedExps[0], user && user.username);
 	return {type: 'ok'};
 };
 
-export let removeExcludedExps = (data, userCheck)=>{
-	let errMsg = [];
+export let removeExcludedExps = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
 	if(!userCheck.verified || (!userCheck.coordinator && !userCheck.owner)) {
-		recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'verification issue', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'verification issue', user && user.username);
 		errMsg.push('vitale');
 	}
 	else {
 		if(typeof data.expId !== 'string' || data.removedId.length > 30) {
-			recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'critical issue', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'critical issue', user && user.username);
 			errMsg.push('vitale');
 		}
 		else {
-			let targetExp = experimentDB.findOne({_id: data.expId}), excludedExp = experimentDB.findOne({_id: data.removedId});
+			let targetExp = await experimentDB.findOneAsync({_id: data.expId}), 
+				excludedExp = await experimentDB.findOneAsync({_id: data.removedId});
 			if(!targetExp || !excludedExp) {
-				recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'hacking', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'removeExcludedExps', data.clientIP, data.expId, 'hacking', user && user.username);
 				errMsg.push('vitale');
 			}
 			else {
-				experimentDB.update({_id: data.expId}, {$pull: {excludedExps: {id: data.removedId}}});
-				recordActivityLog(Meteor.userId(), targetExp, 'removeexcludeexp');
+				await experimentDB.updateAsync({_id: data.expId}, {$pull: {excludedExps: {id: data.removedId}}});
+				await recordActivityLog(user._id, targetExp, 'removeexcludeexp');
 			}
 		}
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordAdminLog('normal', 'removeExcludedExps', data.clientIP, data.expId, 'excluded exp removed ' + data.removedId, Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'removeExcludedExps', data.clientIP, data.expId, 'excluded exp removed ' + data.removedId, user && user.username);
 	return {type: 'ok'};
 };
 
-export let verifyRes = (data, userCheck)=>{
-	let results = expResultsDB.find({expId: data.expId, verifyCode: data.code}).fetch();
-	let exp = experimentDB.findOne({_id: data.expId});
+export let verifyRes = async (data, userCheck)=>{
+	let user = await Meteor.userAsync();
+	let results = await expResultsDB.find({expId: data.expId, verifyCode: data.code}).fetchAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(!exp || !userCheck.verified || (!userCheck.owner && !userCheck.coordinator)) {
-		recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'critical error', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'critical error', user && user.username);
 		return {type: 'error', errMsg: ['vitale']};
 	}
 	else if(results.length === 0) {
-		recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'verification code not found', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'verification code not found', user && user.username);
 		return {type: 'error', errMsg: ['verifycodenotfounde']};
 	}
 	else {
 		for(let i=0 ; i<results.length ; i++) {
 			if(results[i].verified || results[i].withdrawDate) {
-				recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'verification code used', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('warning', 'verifyResults', data.clientIP, data.expId, 'verification code used', user && user.username);
 				return {type: 'error', errMsg: ['verifycodeusede']};
 			}
 		}
 	}
-	expResultsDB.update({expId: data.expId, verifyCode: data.code}, {$set: {verified: true, verifiedDate: new Date()}}, {multi: true});
-	recordAdminLog('normal', 'verifyResults', data.clientIP, data.expId, 'verification complete' + data.coordinator, Meteor.user() && Meteor.user().username);
-	recordActivityLog(Meteor.userId(), exp, 'validateresults');
+	await expResultsDB.updateAsync({expId: data.expId, verifyCode: data.code}, {$set: {verified: true, verifiedDate: new Date()}}, {multi: true});
+	await recordAdminLog('normal', 'verifyResults', data.clientIP, data.expId, 'verification complete' + data.coordinator, user && user.username);
+	await recordActivityLog(user._id, exp, 'validateresults');
 	return {type: 'ok'};
 };
 
-export let changeOrientationInfo = (data, userCheck)=>{
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let changeOrientationInfo = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(!(exp && !exp.status.activated && userCheck.verified && (userCheck.owner || userCheck.coordinator))) {
-		recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'orientation info changed', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'orientation info changed', user && user.username);
 		errMsg.push('vitale');
 	}
 	else {
 		let orientationTexts = data.orientation;
-		errMsg = errMsg.concat(saveLongTextsInfo('orientation', orientationTexts, data.expId));
+		errMsg = errMsg.concat(await saveLongTextsInfo('orientation', orientationTexts, data.expId));
 	}
 	if(errMsg.length > 0) {
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordActivityLog(Meteor.userId(), exp, 'logchangeorientation');
-	recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'orientation info changed', Meteor.user() && Meteor.user().username);
+	await recordActivityLog(user._id, exp, 'logchangeorientation');
+	await recordAdminLog('normal', 'changeOrientationInfo', data.clientIP, data.expId, 'orientation info changed', user && user.username);
 	return {type: 'ok'};
 };
 
-export let changeTrainingConfig = (data, userCheck)=>{
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let changeTrainingConfig = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && !exp.status.activated && userCheck.verified && (userCheck.owner || userCheck.coordinator) &&
 		typeof data.training.skip === 'boolean' && typeof data.training.random === 'boolean') {
 		if(data.training.skip) {
-			experimentDB.update({_id: data.expId}, 
+			await experimentDB.updateAsync({_id: data.expId}, 
 				{$set: {'training.skip': data.training.skip,
 					'training.random': false,
 					'training.stimuli': {},
@@ -524,7 +525,7 @@ export let changeTrainingConfig = (data, userCheck)=>{
 					'training.blocks': [],
 					'training.conditions': []
 				}}, {$unset: {activateCheck: ''}});
-			recordActivityLog(Meteor.userId(), exp, 'logchangetraining');
+			await recordActivityLog(user._id, exp, 'logchangetraining');
 		}
 		else if(checkTrainingSettings(data.training)) {
 			let ckStimuliRes = checkStimuliList(data.training.stimuli, exp.test.conditions);
@@ -532,7 +533,7 @@ export let changeTrainingConfig = (data, userCheck)=>{
 			let conditions = findStimuliListConds(data.training.stimuli.Condition);
 			if(ckBlRes[0] && ckStimuliRes.checked) {
 				data.training.blocks = ckBlRes[1];
-				experimentDB.update({_id: data.expId}, 
+				await experimentDB.updateAsync({_id: data.expId}, 
 				{$set: {'training.skip': data.training.skip,
 					'training.random': data.training.random,
 					'training.stimuli': data.training.stimuli,
@@ -540,7 +541,7 @@ export let changeTrainingConfig = (data, userCheck)=>{
 					'training.blocks': data.training.blocks,
 					'training.conditions': ckStimuliRes.conds
 				}}, {$unset: {activateCheck: ''}});
-				recordActivityLog(Meteor.userId(), exp, 'logchangetraining');
+				await recordActivityLog(user._id, exp, 'logchangetraining');
 			}
 			else {
 				errMsg.push('vitale');
@@ -554,16 +555,16 @@ export let changeTrainingConfig = (data, userCheck)=>{
 		errMsg.push('vitale');
 	}
 	if(errMsg.length > 0) {
-		recordAdminLog('warning', 'changeTrainingConfig', data.clientIP, data.expId, 'changing training config failed', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'changeTrainingConfig', data.clientIP, data.expId, 'changing training config failed', user && user.username);
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordAdminLog('normal', 'changeTrainingConfig', data.clientIP, data.expId, 'training config changed', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'changeTrainingConfig', data.clientIP, data.expId, 'training config changed', user && user.username);
 	return {type: 'ok'};
 };
 
-export let changeTestConfig = (data, userCheck)=>{
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let changeTestConfig = async (data, userCheck)=>{
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && !exp.status.activated && userCheck.verified && ((userCheck.owner || userCheck.coordinator) && 
 		typeof data.test.random === 'boolean' && typeof data.test.checkFastRT === 'boolean')) {
 		let ckStimuliRes = checkStimuliList(data.test.stimuli, exp.training.conditions);
@@ -571,7 +572,7 @@ export let changeTestConfig = (data, userCheck)=>{
 		let conditions = findStimuliListConds(data.test.stimuli.Condition);
 		if(ckBlRes[0] && ckStimuliRes.checked) {
 			data.test.blocks = ckBlRes[1];
-			experimentDB.update({_id: data.expId}, 
+			await experimentDB.updateAsync({_id: data.expId}, 
 			{$set: {
 				'test.random': data.test.random,
 				'test.checkFastRT': data.test.checkFastRT,
@@ -588,40 +589,40 @@ export let changeTestConfig = (data, userCheck)=>{
 		errMsg.push('vitale');
 	}
 	if(errMsg.length > 0) {
-		recordAdminLog('warning', 'changeTestConfig', data.clientIP, data.expId, 'changing test config failed', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'changeTestConfig', data.clientIP, data.expId, 'changing test config failed', user && user.username);
 		return {type: 'error', errMsg: errMsg};
 	}
-	recordActivityLog(Meteor.userId(), exp, 'logchangetest');
-	recordAdminLog('normal', 'changeTestConfig', data.clientIP, data.expId, 'test config changed', Meteor.user() && Meteor.user().username);
+	await recordActivityLog(Meteor.userId(), exp, 'logchangetest');
+	await recordAdminLog('normal', 'changeTestConfig', data.clientIP, data.expId, 'test config changed', user && user.username);
 	return {type: 'ok'};
 };
 
-export let changeDebriefingInfo = (data, userCheck) => {
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let changeDebriefingInfo = async (data, userCheck) => {
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && !exp.status.activated && userCheck.verified && (userCheck.owner || userCheck.coordinator)) {
 		let debriefing = data.debriefing;
-		errMsg = errMsg.concat(saveLongTextsInfo('debriefing', debriefing, data.expId));
+		errMsg = errMsg.concat(await saveLongTextsInfo('debriefing', debriefing, data.expId));
 		if(errMsg.length > 0) {
-			recordAdminLog('warning', 'changeDebriefingInfo', data.clientIP, data.expId, 'changing debriefing failed', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'changeDebriefingInfo', data.clientIP, data.expId, 'changing debriefing failed', user && user.username);
 			return {type: 'error', errMsg: errMsg};
 		}
-		recordAdminLog('normal', 'changeDebriefingInfo', data.clientIP, data.expId, 'debriefing info changed', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('normal', 'changeDebriefingInfo', data.clientIP, data.expId, 'debriefing info changed', user && user.username);
 		return {type: 'ok'};
 	}
 	else {
 		errMsg.push('vitale');
 	}
-	recordActivityLog(Meteor.userId(), exp, 'logchangedebriefing');
-	recordAdminLog('warning', 'changeDebriefingInfo', data.clientIP, data.expId, 'changing debriefing info failed', Meteor.user() && Meteor.user().username);
+	await recordActivityLog(user._id, exp, 'logchangedebriefing');
+	await recordAdminLog('warning', 'changeDebriefingInfo', data.clientIP, data.expId, 'changing debriefing info failed', user && user.username);
 	return {type: 'error', errMsg: errMsg};
 };
 
-export let activateCheck = (data, userCheck) => {
-	let errMsg = [];
-	let exp = experimentDB.findOne({_id: data.expId});
+export let activateCheck = async (data, userCheck) => {
+	let errMsg = [], user = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && exp.status.state === 'inactive' && userCheck.verified && userCheck.owner) {
-		experimentDB.update({_id: data.expId}, {$set: {activateCheck: {done: false, pass: false, failList: []}}});
+		await experimentDB.updateAsync({_id: data.expId}, {$set: {activateCheck: {done: false, pass: false, failList: []}}});
 		let failList = [];
 		let checkCorrect = false;
 		let stimuliList, blocks;
@@ -662,24 +663,23 @@ export let activateCheck = (data, userCheck) => {
 		if(!checkCorrect) {
 			failList.push({type: 'testnocheckrespcorre', note: ''});
 		}
-		// Check link availability
 		activateURLCheck(stimuliList).then((testURLTestRes)=>{
-			function postURLTest () {
+			async function postURLTest () {
 				if(failList.length > 0) {
-					experimentDB.update({_id: data.expId}, {$set: {activateCheck: {done: true, pass: false, failList: failList}}});
+					await experimentDB.updateAsync({_id: data.expId}, {$set: {activateCheck: {done: true, pass: false, failList: failList}}});
 				}
 				else if(data.testRun) {
-					experimentDB.update({_id: data.expId}, {$set: {activateCheck: {done: true, pass: true, failList: failList}}});
+					await experimentDB.updateAsync({_id: data.expId}, {$set: {activateCheck: {done: true, pass: true, failList: failList}}});
 				}
 				else {
-					experimentDB.update({_id: data.expId}, {$unset: {activateCheck: ''}, $set: {'status.state': 'active', 'status.activated': true}}, function(err, res) {
+					await experimentDB.updateAsync({_id: data.expId}, {$unset: {activateCheck: ''}, $set: {'status.state': 'active', 'status.activated': true}}, async function(err, res) {
 						if(res) {
-							Meteor.users.update({_id: Meteor.userId()}, {$inc: {'profile.exp.runningExp': 1}});
-							recordActivityLog(Meteor.userId(), exp, 'logactivateexp');
+							await Meteor.users.updateAsync({_id: user_.id}, {$inc: {'profile.exp.runningExp': 1}});
+							await recordActivityLog(user._id, exp, 'logactivateexp');
 						}
 					});
 				}
-				recordAdminLog('normal', 'activateCheck', data.clientIP, data.expId, 'exp activated', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('normal', 'activateCheck', data.clientIP, data.expId, 'exp activated', user && user.username);
 			};
 			failList = failList.concat(testURLTestRes);
 			if(!exp.training.skip) {
@@ -696,7 +696,6 @@ export let activateCheck = (data, userCheck) => {
 					}
 				}
 				failList = failList.concat(checkTrainingConfigResults.msgs);
-				// Check link availability
 				activateURLCheck(stimuliList).then((trainingURLTestRes)=>{
 					failList = failList.concat(trainingURLTestRes);
 					postURLTest();
@@ -710,12 +709,12 @@ export let activateCheck = (data, userCheck) => {
 	}
 	else {
 		errMsg.push('vitale');
-		recordAdminLog('warning', 'activateCheck', data.clientIP, data.expId, 'activate checking failed', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('warning', 'activateCheck', data.clientIP, data.expId, 'activate checking failed', user && user.username);
 		return {type: 'error', errMsg: errMsg};
 	}
 };
 
-export let expInitializer = (data, userCheck) => {
+export let expInitializer = async (data, userCheck) => {
 	let runExpRecord = {
 		expId: data.expId,
 		expTitle: '',
@@ -736,15 +735,15 @@ export let expInitializer = (data, userCheck) => {
 		verifyCode: '',
 		wmRecord: ''
 	};
-	let userData = Meteor.user();
-	let exp = experimentDB.findOne({_id: data.expId});
+	let userData = await Meteor.userAsync();
+	let exp = await experimentDB.findOneAsync({_id: data.expId});
 	let userExpRecord = userData && userData.runExpRecord;
 	let userProfile = userData && userData.profile;
 	let userId = Meteor.userId();
 	let userAge, timeGapPassed = true, expOwner = (userCheck.owner || userCheck.coordinator);
 	if(!expOwner) {
 		if(exp) {
-			let challengingSubj = Meteor.users.find({'runExpRecord.expId': exp._id, 'runExpRecord.challenging': true}).fetch();
+			let challengingSubj = await Meteor.users.find({'runExpRecord.expId': exp._id, 'runExpRecord.challenging': true}).fetchAsync();
 			if(exp.status.currentSubj + challengingSubj.length === exp.basicInfo.subjNum && exp.status.state === 'active') {
 				return {type: 'error', errMsg: ['morerunning']};
 			}
@@ -772,7 +771,7 @@ export let expInitializer = (data, userCheck) => {
 				runExpRecord.profile.L2 = userProfile.L2;
 				runExpRecord.profile.participatedExpNum = userProfile.gaming.session.nums;
 				participated = userProfile.exp.participated.includes(exp._id);
-				let lastWMRecord = wmStatsDB.findOne({userId: userId}, {sort: {endTime: -1}});
+				let lastWMRecord = await wmStatsDB.findOneAsync({userId: userId}, {sort: {endTime: -1}});
 				if(lastWMRecord) {
 					runExpRecord.wmRecord = lastWMRecord._id;
 				}
@@ -788,46 +787,47 @@ export let expInitializer = (data, userCheck) => {
 			runExpRecord.realUsername = userData.username;
 			runExpRecord.ipAddress = randomMasker(data.clientIP, 3);
 			if(participated) {
-				let allPreviousRecords = expStatsDB.find({userId: userId, expId: exp._id}, {sort: {date: -1}}).fetch();
+				let allPreviousRecords = await expStatsDB.find({userId: userId, expId: exp._id}, {sort: {date: -1}}).fetchAsync();
 				if(allPreviousRecords.length > 0) {
 					let lastRecord = allPreviousRecords[0];
 					runExpRecord.sessionN = lastRecord.sessionN + 1;
 				}
 			}
-			Meteor.users.update({_id: userId}, {$set: {runExpRecord: runExpRecord}});
+			await Meteor.users.updateAsync({_id: userId}, {$set: {runExpRecord: runExpRecord}});
 		}
 		else if(userExpRecord && userExpRecord.challenging && userExpRecord.stage === 'repeat') {
-			Meteor.users.update({_id: userId}, 
+			await Meteor.users.updateAsync({_id: userId}, 
 				{$set: {'runExpRecord.startTime': new Date(),
 					'runExpRecord.ipAddress': randomMasker(data.clientIP, 3),
 					'runExpRecord.profile.age': userAge}});
 		}
-		recordAdminLog('normal', 'expInitializer', data.clientIP, data.expId, 'exp initialized', userData && userData.username);
+		await recordAdminLog('normal', 'expInitializer', data.clientIP, data.expId, 'exp initialized', userData && userData.username);
 		return {type: 'ok'};
 	}
-	recordAdminLog('warning', 'expInitializer', data.clientIP, data.expId, 'exp initialization failed', userData && userData.username);
+	await recordAdminLog('warning', 'expInitializer', data.clientIP, data.expId, 'exp initialization failed', userData && userData.username);
 	if(!(exp.status.state === 'active' || exp.status.state === 'complete')) {
 		return {type: 'error', errMsg: ['expnotexist']};
 	}
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let logQuestionnaireResp = (data, userCheck) => {
-	let runExpRecord = Meteor.user() && Meteor.user().runExpRecord;
+export let logQuestionnaireResp = async (data, userCheck) => {
+	let user = await Meteor.userAsync();
+	let runExpRecord = user && user.runExpRecord;
 	if(userCheck.verified && runExpRecord && typeof data.resp === 'string') {
 		if(runExpRecord.sessionN === 1) {
 			let newResp = data.resp.substring(0, 100);
-			Meteor.users.update({_id: Meteor.userId()}, {$set: {'runExpRecord.profile.questionnaire': newResp}});
+			await Meteor.users.updateAsync({_id: user._id}, {$set: {'runExpRecord.profile.questionnaire': newResp}});
 		}
 		return {type: 'ok'};
 	}
-	recordAdminLog('warning', 'logQuestionnnaireResp', data.clientIP, data.expId, 'log questionnaire response failed', userData && userData.username);
+	await recordAdminLog('warning', 'logQuestionnnaireResp', data.clientIP, data.expId, 'log questionnaire response failed', user && user.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let wmExpInitializer = (data, userCheck) => {
-	let userData = Meteor.user(), userId = userData && userData._id;
-	let previousWMRecords = wmStatsDB.find({userId: userId}, {sort: {endTime: -1}}).fetch();
+export let wmExpInitializer = async (data, userCheck) => {
+	let userData = await Meteor.userAsync(), userId = userData && userData._id;
+	let previousWMRecords = await wmStatsDB.find({userId: userId}, {sort: {endTime: -1}}).fetchAsync();
 	if(previousWMRecords.length > 0 && !(((new Date()).getTime() - previousWMRecords[0].endTime.getTime()) / (3600 * 24 * 1000) >= 1)) {
 		return {type: 'error', errMsg: ['wmtimegape']};	
 	}
@@ -892,39 +892,38 @@ export let wmExpInitializer = (data, userCheck) => {
 			groupItemN++;
 		}
 		runExpRecord.stimuliList = stimuli;
-		Meteor.users.update({_id: userData._id}, {$set: {runWMRecord: runExpRecord}});
-		recordAdminLog('normal', 'wmExpInitializer', data.clientIP, data.expId, 'wm exp initialized', Meteor.user() && Meteor.user().username);
+		await Meteor.users.updateAsync({_id: userData._id}, {$set: {runWMRecord: runExpRecord}});
+		await recordAdminLog('normal', 'wmExpInitializer', data.clientIP, data.expId, 'wm exp initialized', userData && userData.username);
 		return {type: 'ok'};
 	}
 	else if(userData.runExpRecord) {
-		recordAdminLog('normal', 'wmExpInitializer', data.clientIP, data.expId, 'other ongoing exp', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('normal', 'wmExpInitializer', data.clientIP, data.expId, 'other ongoing exp', userData && userData.username);
 		return {type: 'error', errMsg: ['expongoing']};
 	}
-	recordAdminLog('warning', 'wmExpInitializer', data.clientIP, data.expId, 'wm initialization failed', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('warning', 'wmExpInitializer', data.clientIP, data.expId, 'wm initialization failed', userData && userData.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let getWMInstruction = (data, userCheck) => {
-	let userData = Meteor.user();
+export let getWMInstruction = async (data, userCheck) => {
+	let userData = await Meteor.userAsync();
 	let availableLang = ['en-us', 'zh-tw'], wmInstructions = {};
 	if(data.session === 'runWMExp' && userData && !userData.runExpRecord && userData.runWMRecord && userCheck.verified) {
 		for(let i=0 ; i<availableLang.length ; i++) {
-			let wmInstruction = Assets.getText('instructions/instruction_wm_' + availableLang[i] + '.txt');
+			let wmInstruction = await Assets.getTextAsync('instructions/instruction_wm_' + availableLang[i] + '.txt');
 			wmInstructions[availableLang[i]] = wmInstruction;
 		}
-		recordAdminLog('normal', 'getWMInstruction', data.clientIP, data.expId, 'getting wm instruction', Meteor.user() && Meteor.user().username);
+		await recordAdminLog('normal', 'getWMInstruction', data.clientIP, data.expId, 'getting wm instruction', userData && userData.username);
 		return {type: 'ok', msg: wmInstructions};
 	}
-	recordAdminLog('warning', 'getWMInstruction', data.clientIP, data.expId, 'failed to get wm instruction', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('warning', 'getWMInstruction', data.clientIP, data.expId, 'failed to get wm instruction', userData && userData.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let expTracker = (data, userCheck) => {
-	let userData = Meteor.user(), exp = experimentDB.findOne({_id: data.expId});
+export let expTracker = async (data, userCheck) => {
+	let userData = await Meteor.userAsync(), exp = await experimentDB.findOneAsync({_id: data.expId});
 	if(exp && userData && userData.runExpRecord && !userData.runExpRecord.stage.match(/end|lowAcc|noresp|fastresp/g)) {
 		let runExpRecord = userData.runExpRecord;
 		let runningExp = runExpRecord.running;
-
 		if(data.key === 'stage') {
 			let timeGapPassed = false;
 			let currentTime = new Date(), lastParticipation = userData.profile.exp && userData.profile.exp.lastParticipation;
@@ -932,13 +931,13 @@ export let expTracker = (data, userCheck) => {
 				timeGapPassed = true;
 			}
 			if(!runningExp && (data.value === 'training' || data.value === 'test') && timeGapPassed) {
-				Meteor.users.update({_id: userData._id}, 
+				await Meteor.users.updateAsync({_id: userData._id}, 
 					{$set: {'runExpRecord.stage': data.value, 
 						'runExpRecord.running': true,
 						'runExpRecord.challenging': true,
 						'profile.exp.lastParticipation': new Date()}});
 			}		
-			recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'stage change recorded', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'stage change recorded', userData && userData.username);
 			return {type: 'ok'};
 		}
 		else if(runningExp && data.key.includes('Results') && data.value.length && data.value.length <= 100000) {
@@ -956,12 +955,11 @@ export let expTracker = (data, userCheck) => {
 			else {
 				participated = false;
 			}
-			let allRecordsNum = expStatsDB.find({userId: userData._id, expId: data.expId}).fetch().length;
+			let allRecordsNum = await expStatsDB.find({userId: userData._id, expId: data.expId}).fetchAsync().length;
 			let tooManyRecords = allRecordsNum > 30;
 			if(verifyCode === '' && !tooManyRecords && !participated) {
 				verifyCode = generateVerifyCode();
 			}
-
 			respsStats.expId = runExpRecord.expId;
 			respsStats.userId = runExpRecord.realUserId;
 			respsStats.username = runExpRecord.realUsername;
@@ -977,12 +975,12 @@ export let expTracker = (data, userCheck) => {
 			if(data.key === 'trainingResults') {
 				if(lowAcc) {
 					if(!tooManyRecords && !(userCheck.owner || userCheck.coordinator)) {
-						respsStats.achievements = achievementsCheck(userData._id, 'failedtraining');
-						expStatsDB.insert(respsStats);
+						respsStats.achievements = await achievementsCheck(userData._id, 'failedtraining');
+						await expStatsDB.insertAsync(respsStats);
 						respsStats = cleanRespsFields(respsStats);
 					}
 					if(!participated) {
-						Meteor.users.update({_id: userData._id}, 
+						await Meteor.users.updateAsync({_id: userData._id}, 
 							{$set: {'runExpRecord.stage': 'lowAcc', 
 								'runExpRecord.verifyCode': verifyCode, 
 								'runExpRecord.respsStats': respsStats,
@@ -997,18 +995,18 @@ export let expTracker = (data, userCheck) => {
 							runExpRecord.verifyCode = verifyCode;
 							if(runExpRecord.sessionN > 1) {
 								if(exp.status.currentSubj + 1 === exp.basicInfo.subjNum) {
-									experimentDB.update({_id: data.expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date(), 'completeExpInfo': ''}});
+									await experimentDB.updateAsync({_id: data.expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date(), 'completeExpInfo': ''}});
 								}
 								else {
-									experimentDB.update({_id: data.expId}, {$inc: {'status.currentSubj': 1}});
+									await experimentDB.updateAsync({_id: data.expId}, {$inc: {'status.currentSubj': 1}});
 								}
 							}
-							Meteor.users.update({_id: userData._id}, {$push: {'profile.exp.participated': data.expId}});
-							expResultsDB.insert(runExpRecord);
+							await Meteor.users.updateAsync({_id: userData._id}, {$push: {'profile.exp.participated': data.expId}});
+							await expResultsDB.insertAsync(runExpRecord);
 						}
 					}
 					else {
-						Meteor.users.update({_id: userData._id}, 
+						await Meteor.users.updateAsync({_id: userData._id}, 
 							{$set: {'runExpRecord.stage': 'lowAcc', 
 								'runExpRecord.respsStats': respsStats,
 								'runExpRecord.running': false,
@@ -1017,13 +1015,13 @@ export let expTracker = (data, userCheck) => {
 				}
 				else {
 					respsStats.lowAcc = false;
-					Meteor.users.update({_id: userData._id}, 
+					await Meteor.users.updateAsync({_id: userData._id}, 
 						{$set: {'runExpRecord.trainingResults': validatedResults, 
 							'runExpRecord.stage': 'test',
 							'runExpRecord.verifyCode': verifyCode,
 							'runExpRecord.respsStats': respsStats}});
 				}
-				recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'training record updated', Meteor.user() && Meteor.user().username);
+				await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'training record updated', userData && userData.username);
 				if(lowAcc) {
 					return {type: 'ok', msg: 'lowAcc'};
 				}
@@ -1067,27 +1065,27 @@ export let expTracker = (data, userCheck) => {
 							if(criticalCond === 'daydreamer') {
 								respsStats.noResp = true;
 								if(!userData.profile.exp.sideNotes.daydreamer.recorded) {
-									Meteor.users.update({_id: userData._Id}, {$set: {'profile.exp.sideNotes.daydreamer.recorded': true, 
+									await Meteor.users.updateAsync({_id: userData._Id}, {$set: {'profile.exp.sideNotes.daydreamer.recorded': true, 
 									'profile.exp.sideNotes.daydreamer.date': new Date()}});
 								}
 							}
 							else {
 								respsStats.fastComplete = true;
 								if(!userData.profile.exp.sideNotes.fastCompletion.recorded) {
-									Meteor.users.update({_id: userData._Id}, {$set: {'profile.exp.sideNotes.fastCompletion.recorded': true, 
+									await Meteor.users.updateAsync({_id: userData._Id}, {$set: {'profile.exp.sideNotes.fastCompletion.recorded': true, 
 									'profile.exp.sideNotes.fastCompletion.date': new Date()}});
 								}
 							}
 							respsStats.verifyCode = '';
 							delete respsStats.compensation;
 							if(!tooManyRecords) {
-								insertedStatsId = expStatsDB.insert(respsStats);
-								Meteor.users.update({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
+								insertedStatsId = await expStatsDB.insertAsync(respsStats);
+								await Meteor.users.updateAsync({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
 							}
 							respsStats = cleanRespsFields(respsStats);
 							let criticalStage = criticalCond === 'daydreamer' ? 'noresp' : 'fastresp';
 							if(!participated) {
-								Meteor.users.update({_id: userData._id}, 
+								await Meteor.users.updateAsync({_id: userData._id}, 
 									{$set: {
 										'runExpRecord.stage': criticalStage,
 										'runExpRecord.endTime': endTime,
@@ -1100,10 +1098,10 @@ export let expTracker = (data, userCheck) => {
 								runExpRecord.endTime = endTime;
 								runExpRecord.testResults = validatedResults;
 								runExpRecord.verifyCode = '';
-								expResultsDB.insert(runExpRecord);
+								await expResultsDB.insertAsync(runExpRecord);
 							}
 							else {
-								Meteor.users.update({_id: userData._id}, {$set: {
+								await Meteor.users.updateAsync({_id: userData._id}, {$set: {
 									'runExpRecord.stage': '',
 									'runExpRecord.endTime': endTime,
 									'runExpRecord.verifyCode': '',
@@ -1112,7 +1110,7 @@ export let expTracker = (data, userCheck) => {
 									'runExpRecord.challenging': false
 								}});
 							}
-							recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'test ' + criticalStage + ' recorded', Meteor.user() && Meteor.user().username);
+							await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'test ' + criticalStage + ' recorded', userData && userData.username);
 							return {type: 'error', errMsg: [criticalStage]};
 							break;
 						case 'recordFinal':
@@ -1120,17 +1118,15 @@ export let expTracker = (data, userCheck) => {
 							if(repeatExp) {
 								increaseSessionN = 1;
 							}
-
 							if(!tooManyRecords) {
 								respsStats.achievements = achievementsCopy;
-								respsStats.achievements = achievementsCheck(userData._id, respsStats.achievements);
-								insertedStatsId = expStatsDB.insert(respsStats);
-								Meteor.users.update({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
+								respsStats.achievements = await achievementsCheck(userData._id, respsStats.achievements);
+								insertedStatsId = await expStatsDB.insertAsync(respsStats);
+								await Meteor.users.updateAsync({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
 							}
 
 							respsStats = cleanRespsFields(respsStats);
-
-							Meteor.users.update({_id: userData._id}, 
+							await Meteor.users.updateAsync({_id: userData._id}, 
 								{$set: {
 									'runExpRecord.stage': 'end',
 									'runExpRecord.endTime': endTime,
@@ -1144,28 +1140,26 @@ export let expTracker = (data, userCheck) => {
 							runExpRecord.endTime = endTime;
 							runExpRecord.testResults = validatedResults;
 							runExpRecord.verifyCode = verifyCode;
-							expResultsDB.insert(runExpRecord);
+							await expResultsDB.insertAsync(runExpRecord);
 							if(exp.status.currentSubj + 1 === exp.basicInfo.subjNum) {
-								experimentDB.update({_id: data.expId}, {$inc: {'status.currentSubj': 1},
+								await experimentDB.updateAsync({_id: data.expId}, {$inc: {'status.currentSubj': 1},
 									$set: {'status.state': 'complete', 'completedAt': new Date(), 'completeExpInfo': ''}});
-								Meteor.users.update({_id: exp.user}, {$inc: {'profile.exp.runningExp': -1}});
+								await Meteor.users.updateAsync({_id: exp.user}, {$inc: {'profile.exp.runningExp': -1}});
 							}
 							else {
-								experimentDB.update({_id: data.expId}, {$inc: {'status.currentSubj': 1}});
+								await experimentDB.updateAsync({_id: data.expId}, {$inc: {'status.currentSubj': 1}});
 							}
-							recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'exp end recorded', Meteor.user() && Meteor.user().username);
+							await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'exp end recorded', userData && userData.username);
 							break;
 						case 'recordNonFinal':
 							if(!tooManyRecords) {
 								respsStats.achievements = achievementsCopy;
-								respsStats.achievements = achievementsCheck(userData._id, respsStats.achievements);
-								insertedStatsId = expStatsDB.insert(respsStats);
-								Meteor.users.update({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
+								respsStats.achievements = await achievementsCheck(userData._id, respsStats.achievements);
+								insertedStatsId = await expStatsDB.insertAsync(respsStats);
+								await Meteor.users.updateAsync({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
 							}
-
 							respsStats = cleanRespsFields(respsStats);
-
-							Meteor.users.update({_id: userData._id}, 
+							await Meteor.users.updateAsync({_id: userData._id}, 
 								{$set: {
 									'runExpRecord.stage': 'repeat',
 									'runExpRecord.endTime': endTime,
@@ -1182,32 +1176,30 @@ export let expTracker = (data, userCheck) => {
 							runExpRecord.endTime = endTime;
 							runExpRecord.testResults = validatedResults;
 							runExpRecord.verifyCode = verifyCode;
-							expResultsDB.insert(runExpRecord);
-							recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'repeated exp recorded', Meteor.user() && Meteor.user().username);
+							await expResultsDB.insertAsync(runExpRecord);
+							await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'repeated exp recorded', userData && userData.username);
 							break;
 						case 'recordParticipated':
 							delete respsStats.compensation;
 							if(!tooManyRecords) {
 								respsStats.achievements = achievementsCopy;
-								respsStats.achievements = achievementsCheck(userData._id, respsStats.achievements);
-								insertedStatsId = expStatsDB.insert(respsStats);
-								Meteor.users.update({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
+								respsStats.achievements = await achievementsCheck(userData._id, respsStats.achievements);
+								insertedStatsId = await expStatsDB.insertAsync(respsStats);
+								await Meteor.users.updateAsync({_id: userData._id}, {$set: {'runExpRecord.resultsId': insertedStatsId}});
 							}
-
 							respsStats = cleanRespsFields(respsStats);
-
-							Meteor.users.update({_id: userData._id}, 
-							{$set: {
-								'runExpRecord.stage': 'end',
-								'runExpRecord.endTime': endTime,
-								'runExpRecord.verifyCode': '',
-								'runExpRecord.respsStats': respsStats,
-								'runExpRecord.running': false,
-								'runExpRecord.challenging': false
-							},
+							await Meteor.users.updateAsync({_id: userData._id}, 
+								{$set: {
+									'runExpRecord.stage': 'end',
+									'runExpRecord.endTime': endTime,
+									'runExpRecord.verifyCode': '',
+									'runExpRecord.respsStats': respsStats,
+									'runExpRecord.running': false,
+									'runExpRecord.challenging': false
+								},
 								$inc: {'profile.gaming.correctRespN.nums': respsStats.correct, 'profile.gaming.session.nums': 1, 'profile.gaming.oldSession.nums': 1},
 								$push: {'profile.gaming.allCorrRTMean.records': respsStats.correctRTMean}});
-							recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'participated session recorded', Meteor.user() && Meteor.user().username);
+							await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'participated session recorded', userData && userData.username);
 							break;
 					}
 					return {type: 'ok', msg: insertedStatsId, sessionN: runExpRecord.sessionN};
@@ -1215,8 +1207,8 @@ export let expTracker = (data, userCheck) => {
 				else {
 					delete respsStats.consent;
 					delete respsStats.compensation;
-					Meteor.users.update({_id: userData._id}, {$set: {'runExpRecord.respsStats': respsStats, 'runExpRecord.resultsId': 'testInsertedId'}});
-					recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'exp preview recorded', Meteor.user() && Meteor.user().username);
+					await Meteor.users.updateAsync({_id: userData._id}, {$set: {'runExpRecord.respsStats': respsStats, 'runExpRecord.resultsId': 'testInsertedId'}});
+					await recordAdminLog('normal', 'expTracker', data.clientIP, data.expId, 'exp preview recorded', userData && userData.username);
 					if(respsStats.achievements.includes('daydreamer')) {
 						return {type: 'error', errMsg: ['noresp']};
 					}
@@ -1228,89 +1220,92 @@ export let expTracker = (data, userCheck) => {
 			}
 		}
 	}
-	recordAdminLog('warning', 'expTracker', data.clientIP, data.expId, 'exp tracker failed', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('warning', 'expTracker', data.clientIP, data.expId, 'exp tracker failed', userData && userData.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
-export let signConsent = (data, userCheck) => {
-	if(!Meteor.user() || !userCheck.verified || typeof data.signature !== 'string' || data.signature.length > 100 || typeof data.expLang !== 'string') {
-		recordAdminLog('warning', 'signConsent', data.clientIP, data.expId, 'sign consent form failed', Meteor.user() && Meteor.user().username);
+export let signConsent = async (data, userCheck) => {
+	let user = await Meteor.userAsync();
+	if(!user || !userCheck.verified || typeof data.signature !== 'string' || data.signature.length > 100 || typeof data.expLang !== 'string') {
+		await recordAdminLog('warning', 'signConsent', data.clientIP, data.expId, 'sign consent form failed', user && user.username);
 		return {type: 'error', errMsg: ['vitale']};
 	}
 	else {
-		let expId = Meteor.user().runExpRecord.expId;
-		let exp = experimentDB.findOne({_id: expId});
+		let expId = user.runExpRecord.expId;
+		let exp = await experimentDB.findOneAsync({_id: expId});
 		if(!exp) {
-			recordAdminLog('warning', 'signConsent', data.clientIP, data.expId, 'sign consent form failed', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'signConsent', data.clientIP, data.expId, 'sign consent form failed', user && user.username);
 			return {type: 'error', errMsg: ['vitale']};
 		}
 		let consentForm = exp.orientation.consentForms[data.expLang];
 		let compensation = exp.orientation.compensations[data.expLang];
-		Meteor.users.update({_id: Meteor.userId()}, {$set: {'runExpRecord.signature': data.signature,
+		await Meteor.users.updateAsync({_id: user._id}, {$set: {'runExpRecord.signature': data.signature,
 			'runExpRecord.expLang': data.expLang, 'runExpRecord.consent': consentForm,
 			'runExpRecord.compensation': compensation}});
 		return {type: 'ok'};
 	}
 };
 
-export let expRecordCleaner = (data, userCheck) => {
-	let userData = Meteor.user();
+export let expRecordCleaner = async (data, userCheck) => {
+	let userData = await Meteor.userAsync();
 	let runExpRecord = userData && userData.runExpRecord;
 	let expId = runExpRecord && runExpRecord.expId;
 	if(userCheck.owner || userCheck.coordinator) {
-		Meteor.users.update({_id: userData._id}, {$unset: {runExpRecord: '', 'profile.exp.lastParticipation': ''}});
+		await Meteor.users.updateAsync({_id: userData._id}, {$unset: {runExpRecord: '', 'profile.exp.lastParticipation': ''}});
 	}
 	else if (userCheck.verified && runExpRecord && runExpRecord.stage !== 'repeat' && !runExpRecord.running) {
-		Meteor.users.update({_id: userData._id}, {$unset: {runExpRecord: ''}});
+		await Meteor.users.updateAsync({_id: userData._id}, {$unset: {runExpRecord: ''}});
 	}
 	else if(data.withdraw && runExpRecord) {
-		if(expResultsDB.findOne({expId: expId, realUserId: runExpRecord.realUserId})) {
-			let exp = experimentDB.findOne({_id: expId});
+		if(await expResultsDB.findOneAsync({expId: expId, realUserId: runExpRecord.realUserId})) {
+			let exp = await experimentDB.findOneAsync({_id: expId});
 			if(exp.status.currentSubj + 1 === exp.basicInfo.subjNum) {
-				experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date(), 'completeExpInfo': ''}});
+				await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date(), 'completeExpInfo': ''}});
 			}
 			else {
-				experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}});
+				await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}});
 			}
 		}
-		Meteor.users.update({_id: userData._id}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': runExpRecord.expId}});
+		await Meteor.users.updateAsync({_id: userData._id}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': runExpRecord.expId}});
 	}
-	recordAdminLog('normal', 'expRecordCleaner', data.clientIP, data.expId, 'exp record cleaner completed', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'expRecordCleaner', data.clientIP, data.expId, 'exp record cleaner completed', userData && userData.username);
 	return {type: 'ok'};
 };
 
-export let wmExpRecordCleaner = (data, userCheck) => {
+export let wmExpRecordCleaner = async (data, userCheck) => {
+	let user = await Meteor.userAsync();
 	if(userCheck.verified) {
-		Meteor.users.update({_id: Meteor.userId()}, {$unset: {runWMRecord: ''}});
+		await Meteor.users.updateAsync({_id: user._id}, {$unset: {runWMRecord: ''}});
 	}
-	recordAdminLog('normal', 'wmExpRecordCleaner', data.clientIP, data.expId, 'wm exp record cleaner completed.', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('normal', 'wmExpRecordCleaner', data.clientIP, data.expId, 'wm exp record cleaner completed.', user && user.username);
 	return {type: 'ok'};
 };
 
-export let getExpResults = (data, userCheck) => {
+export let getExpResults = async (data, userCheck) => {
+	let user = await Meteor.userAsync();
 	if(userCheck.owner || userCheck.coordinator) {
-		let exp = experimentDB.findOne({_id: data.expId});
-		recordAdminLog('normal', 'getExpResults', data.clientIP, data.expId, 'getting exp session results in preview mode', Meteor.user() && Meteor.user().username);
+		let exp = await experimentDB.findOneAsync({_id: data.expId});
+		await recordAdminLog('normal', 'getExpResults', data.clientIP, data.expId, 'getting exp session results in preview mode', user && user.username);
 		if(exp) {
 			return {type: 'testRun', debriefing: exp.debriefing[data.userLang] || exp.debriefing['en-us']};
 		}
 		return {type: 'testRun'};
 	}
 	else {
-		let retrievedResults = expStatsDB.findOne({_id: data.resultsId, sessionN: data.sessionN});
+		let retrievedResults = await expStatsDB.findOneAsync({_id: data.resultsId, sessionN: data.sessionN});
 		if(retrievedResults) {
-			if(Meteor.userId() !== retrievedResults.userId) {
+			if(user._id !== retrievedResults.userId) {
 				delete retrievedResults.verifyCode;
 			}
 			delete retrievedResults.userId;
-			let exp = experimentDB.findOne({_id: retrievedResults.expId});
+			let exp = await experimentDB.findOneAsync({_id: retrievedResults.expId});
 			if(exp) {
 				retrievedResults.expCorrPerc = exp.stats.correctPerc;
 				retrievedResults.expAllRTMean = exp.stats.allRTMean;
 				retrievedResults.expCorrRTMean = exp.stats.correctRTMean;
 				retrievedResults.repeat = exp.basicInfo.multiple;
 				retrievedResults.targetN = exp.basicInfo.multipleN;
-				let runExpRecord = Meteor.user() && Meteor.user().runExpRecord;
+				let runExpRecord = user && user.runExpRecord;
 				if(runExpRecord && runExpRecord.stage === 'end' && exp) {
 					let debriefing = exp.debriefing[data.userLang] || exp.debriefing['en-us'];
 					if(debriefing.trim().length === 0) {
@@ -1320,18 +1315,18 @@ export let getExpResults = (data, userCheck) => {
 					retrievedResults.condition = runExpRecord.condition[0] === '' ? runExpRecord.condition[0] : runExpRecord.condition[1];
 				}
 			}
-			recordAdminLog('normal', 'getExpResults', data.clientIP, data.expId, 'regular users getting exp session results', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('normal', 'getExpResults', data.clientIP, data.expId, 'regular users getting exp session results', user && user.username);
 			return {type: 'ok', expResults: retrievedResults};
 		}
 		else {
-			recordAdminLog('warning', 'getExpResults', data.clientIP, data.expId, 'failed to get exp session results', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'getExpResults', data.clientIP, data.expId, 'failed to get exp session results', user && user.username);
 			return {type: 'error', errMsg: ['resultsnotfounde']};
 		}
 	}
 };
 
-export let completeWMTest = (data, userCheck)=>{
-	let userData = Meteor.user();
+export let completeWMTest = async (data, userCheck)=>{
+	let userData = await Meteor.userAsync();
 	if(userCheck.verified && userData.runWMRecord) {
 		try {
 			let wmStimuli = userData.runWMRecord.stimuliList;
@@ -1403,7 +1398,7 @@ export let completeWMTest = (data, userCheck)=>{
 			userWMRecord.totalScore = researchScores.judgeCorr + researchScores.recallPNL;
 			userWMRecord.correctRTMean = corrRTMean;
 			userWMRecord.researchScores = researchScores;
-			wmStatsDB.insert(userWMRecord);
+			await wmStatsDB.insertAsync(userWMRecord);
 			let newWMScore = userData.profile.wm.record, wmAchievements = '', oldAchievements = userData.profile.gaming.achievements;
 			let newWMAge = userData.profile.wm.age, newAchievementsN = 0;
 			if(userWMRecord.totalScore > newWMScore) {
@@ -1434,16 +1429,16 @@ export let completeWMTest = (data, userCheck)=>{
 					oldAchievements.unshift({type: wmAchievements, date: new Date()});
 				}
 			}
-			Meteor.users.update({_id: userData._id}, {$unset: {runWMRecord: ''}, $set: {'profile.wm': {record: newWMScore, age: newWMAge}, 'profile.gaming.achievements': oldAchievements}, $inc: {'profile.gaming.newAchieve': newAchievementsN}});
-			recordAdminLog('normal', 'completeWMTest', data.clientIP, data.expId, 'wm exp completed', Meteor.user() && Meteor.user().username);
+			await Meteor.users.updateAsync({_id: userData._id}, {$unset: {runWMRecord: ''}, $set: {'profile.wm': {record: newWMScore, age: newWMAge}, 'profile.gaming.achievements': oldAchievements}, $inc: {'profile.gaming.newAchieve': newAchievementsN}});
+			await recordAdminLog('normal', 'completeWMTest', data.clientIP, data.expId, 'wm exp completed', userData && userData.username);
 			return {type: 'ok'};
 		}
 		catch(e) {
-			recordAdminLog('warning', 'completeWMTest', data.clientIP, data.expId, 'try and catch error', Meteor.user() && Meteor.user().username);
+			await recordAdminLog('warning', 'completeWMTest', data.clientIP, data.expId, 'try and catch error', userData && userData.username);
 			return {type: 'error', errMsg: ['vitale']};
 		}
 	}
-	recordAdminLog('warning', 'completeWMTest', data.clientIP, data.expId, 'verification/no wm running record', Meteor.user() && Meteor.user().username);
+	await recordAdminLog('warning', 'completeWMTest', data.clientIP, data.expId, 'verification/no wm running record', userData && userData.username);
 	return {type: 'error', errMsg: ['vitale']};
 };
 
@@ -1480,13 +1475,13 @@ function processExpBasicSettings (data) {
 	return {type: 'ok', newData: newData};
 };
 
-function checkExpBasicSettings (data, type) {
+async function checkExpBasicSettings (data, type) {
 	let errMsg = [];
 	
 	if(data.title.length === 0) {
 		errMsg.push('titleemptye');
 	}
-	else if(experimentDB.findOne({'basicInfo.title': data.title}) && type === 'create') {
+	else if(await experimentDB.findOneAsync({'basicInfo.title': data.title}) && type === 'create') {
 		errMsg.push('titleexiste');
 	}
 	else if(data.title.length > 50) {
@@ -1588,7 +1583,7 @@ function checkExpBasicSettings (data, type) {
 	return errMsg;
 };
 
-function saveLongTextsInfo (cat, texts, expId) {
+async function saveLongTextsInfo (cat, texts, expId) {
 	let errMsg = [], wordLimit = 0;
 	if(cat === 'orientation') {
 		for(let textType in texts) {
@@ -1652,13 +1647,13 @@ function saveLongTextsInfo (cat, texts, expId) {
 	}
 	else {
 		if(cat === 'orientation') {
-			experimentDB.update({_id: expId}, {$set: {orientation: texts}}, {$unset: {activateCheck: ''}});
+			await experimentDB.updateAsync({_id: expId}, {$set: {orientation: texts}}, {$unset: {activateCheck: ''}});
 		}
 		else {
-			experimentDB.update({_id: expId}, {$set: {debriefing: texts}}, {$unset: {activateCheck: ''}});
+			await experimentDB.updateAsync({_id: expId}, {$set: {debriefing: texts}}, {$unset: {activateCheck: ''}});
 		}
 	}
-	let exp = experimentDB.findOne({_id: expId});
+	let exp = await experimentDB.findOneAsync({_id: expId});
 	let orient = exp.orientation;
 	let longTexts = [orient.descriptions, 
 		orient.consentForms, orient.compensations, orient.questionnaire, orient.trainingInstructions, orient.testInstructions, 
@@ -1680,7 +1675,7 @@ function saveLongTextsInfo (cat, texts, expId) {
 	if(!availableLang.includes('en-us')) {
 		availableLang.push('en-us');
 	}
-	experimentDB.update({_id: expId}, {$set: {availableLang: availableLang}});
+	await experimentDB.updateAsync({_id: expId}, {$set: {availableLang: availableLang}});
 	return errMsg;
 };
 
@@ -2520,9 +2515,9 @@ function activateConfigCheck (blocks, stimuliList, type) {
 	return {checkCorrect: checkCorrect, msgs: msgs};
 };
 
-function achievementsCheck (userId, specific) {
+async function achievementsCheck (userId, specific) {
 	let newAchievements = [];
-	let userData = Meteor.users.findOne({_id: userId});
+	let userData = await Meteor.users.findOneAsync({_id: userId});
 	if(userData) {
 		let gameData = userData.profile.gaming, oldAchievements = [];
 		for(let i=0 ; i<gameData.achievements.length ; i++) {
@@ -2581,7 +2576,7 @@ function achievementsCheck (userId, specific) {
 				}
 			}
 		}
-		let lastTenStats = expStatsDB.find({userId: userData._id}, {sort: {date: -1}, limit: 10}).fetch();
+		let lastTenStats = await expStatsDB.find({userId: userData._id}, {sort: {date: -1}, limit: 10}).fetchAsync();
 		if(lastTenStats.length >= 2) {
 			let dateOne = lastTenStats[0].date, dateTwo = lastTenStats[1].date;
 			let interval = dateOne.getTime() - dateTwo.getTime();
@@ -2600,15 +2595,15 @@ function achievementsCheck (userId, specific) {
 			}
 		}
 		let newNum = newAchievements.length + 0;
-		Meteor.users.update({_id: userId}, {$set: {'profile.gaming.achievements': newAchievements.concat(gameData.achievements), 'profile.gaming.newAchieve': newNum}});
+		await Meteor.users.updateAsync({_id: userId}, {$set: {'profile.gaming.achievements': newAchievements.concat(gameData.achievements), 'profile.gaming.newAchieve': newNum}});
 		return newAchievements;
 	}
 	return [];
 };
 
-function recordActivityLog (userId, exp, type) {
-	let coordinators = exp.coordinators, audienceId = [];
-	Meteor.users.find({username: {$in: coordinators}}).forEach((coordinator)=>{
+async function recordActivityLog (userId, exp, type) {
+	let coordinators = exp.coordinators, audienceId = [], user = await Meteor.userAsync();
+	Meteor.users.find({username: {$in: coordinators}}).forEachAsync((coordinator)=>{
 		if(coordinator._id !== userId) {
 			audienceId.push(coordinator._id);
 		}
@@ -2616,19 +2611,19 @@ function recordActivityLog (userId, exp, type) {
 	if(userId !== exp.user) {
 		audienceId.push(exp.user);
 	}
-	activityLogDB.insert(
+	await activityLogDB.insertAsync(
 		{
 			audience: audienceId,
 			type: type,
 			expTitle: exp.basicInfo.title,
-			user: Meteor.user().username,
+			user: user.username,
 			date: new Date()
 		}
 	);
 };
 
-function recordAdminLog (logType, func, userIP, expId, logNote, userName) {
-	adminLogDB.insert({
+async function recordAdminLog (logType, func, userIP, expId, logNote, userName) {
+	await adminLogDB.insertAsync({
 		type: logType,
 		function: func,
 		user: userName,
@@ -2650,8 +2645,8 @@ function calcAge (dob) {
 	return currentTime.getFullYear() - dobTime.getFullYear() - 1;
 };
 
-function assembleExpResults (expId, zipTemp, getSign = true) {
-	let allData = expResultsDB.find({expId: expId}).fetch();
+async function assembleExpResults (expId, zipTemp, getSign = true) {
+	let allData = await expResultsDB.find({expId: expId}).fetchAsync();
 	if(allData.length > 0) {
 		let subjectProfile = 'UserId\tSessionN\tExpLang\tGender\tHandedness\tAge\tL1\tL2\tExpParticipateN\tScreenX(px)\tScreenY(px)\tCondition\tExpTitle\tIPAddress\tStartTime\tEndTime\ttotalTime(ms)\tCustomQuestion\tWMTrialN\tWMTrialGroupN\tWMJudgeCorr\tWMRecallANL\tWMRecallPNL\tWMRecallANU\tWMRecallPNU\tWMAge\tWithdrawDate\n';
 		let informedConsents = 'Signature\tDate\n', signatures = [], signDates = [];
@@ -2661,7 +2656,7 @@ function assembleExpResults (expId, zipTemp, getSign = true) {
 				subjectProfile += eachData.participantId + '\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\tna\t' + eachData.withdrawDate + '\n';
 			}
 			else {
-				let user = Meteor.users.findOne({_id: eachData.realUserId});
+				let user = await Meteor.users.findOneAsync({_id: eachData.realUserId});
 				let sDate = eachData.startTime;
 				signatures.push(eachData.signature);
 				signDates.push(sDate.getFullYear() + '-' + (sDate.getMonth() + 1) + '-' + sDate.getDate());
@@ -2683,7 +2678,7 @@ function assembleExpResults (expId, zipTemp, getSign = true) {
 				subjectProfile += eachData.endTime + '\t';
 				subjectProfile += eachData.endTime - eachData.startTime + '\t';
 				subjectProfile += eachData.profile.questionnaire + '\t';
-				let wmData = wmStatsDB.findOne({userId: eachData.realUserId}, {sort: {endTime: -1}});
+				let wmData = await wmStatsDB.findOneAsync({userId: eachData.realUserId}, {sort: {endTime: -1}});
 				if(wmData && wmData.researchScores) {
 					let researchScores = wmData.researchScores;
 					subjectProfile += researchScores.trials + '\t';

@@ -23,48 +23,60 @@ Template.dashboard_exp.helpers({
 		return experimentDB.find({'status.state': 'active'});
 	},
 	fastCompletion () {
-		return Meteor.user() && Meteor.user().profile.exp.sideNotes.fastCompletion.recorded;
+		let user = Meteor.user();
+		return user && user.profile.exp.sideNotes.fastCompletion.recorded;
 	},
 	fastCompletionDate () {
-		let date = Meteor.user() && Meteor.user().profile.exp.sideNotes.fastCompletion.date;
+		let user = Meteor.user();
+		let date = user && user.profile.exp.sideNotes.fastCompletion.date;
 		if(date) {
 			return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' (date.getDate());
 		}
 		return;
 	},
 	frequentQuitter () {
-		return Meteor.user() && Meteor.user().profile.exp.sideNotes.frequentQuitter.recorded;
+		let user = Meteor.user();
+		return user && user.profile.exp.sideNotes.frequentQuitter.recorded;
 	},
 	frequentQuitterDate () {
-		let date = Meteor.user() && Meteor.user().profile.exp.sideNotes.frequentQuitter.date;
+		let user = Meteor.user();
+		let date = user && user.profile.exp.sideNotes.frequentQuitter.date;
 		if(date) {
 			return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' (date.getDate());
 		}
 		return;
 	},
 	lastIP () {
-		return Meteor.user() && Meteor.user().profile.loginAttemptIP.lastLogin;
+		let user = Meteor.user();
+		return user && user.profile.loginAttemptIP.lastLogin;
 	},
 	progressPerc (currentN, targetN) {
 		return currentN / targetN * 100;
 	},
 	runningExpQuota () {
-		let quota = Meteor.user() && Meteor.user().profile.exp.runningExpQuota;
+		let user = Meteor.user();
+		let quota = user && user.profile.exp.runningExpQuota;
 		return quota;
 	},
 	runningExps () {
-		let exps = Meteor.user() && Meteor.user().profile.exp.runningExp;
+		let user = Meteor.user();
+		let exps = user && user.profile.exp.runningExp;
 		return exps;
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	},
 	username () {
-		let username = Meteor.user() && Meteor.user().username;
+		let user = Meteor.user();
+		let username = user && user.username;
 		if(username) {
 			return username.split('@')[0];
 		}
 		return;
+	},
+	userLang () {
+		return Session.get('userLang');
 	}
 });
 

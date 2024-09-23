@@ -62,6 +62,8 @@ createdat#建立於
 createnewexp#建立新實驗
 createnewexpok#新實驗已建立
 currentstimuli#目前的刺激項目清單
+customquestion#自訂問題
+customquestionuse#使用自訂問題？
 daydreamer#無反應
 deactivate#中止
 debriefing#釋疑階段
@@ -83,6 +85,7 @@ downloading#下載中，請稍候
 edit#編輯
 editcoordinate#編輯協作者
 emailtoolonge#電子郵件太長
+terminate#回應後終止同順序元件？
 emlength#元件長度(秒)
 emlengthformate#請填入含有"AudioURL"或"VideoURL"的欄位名稱
 emlengthrangee#元件長度必須 >= -1 及 <= 3600
@@ -246,6 +249,7 @@ startpreview#開始預覽
 status#狀態
 subjnum#研究參與者數量
 targetaccuracy#目標正確率
+terminate#回應後終止同順序元件？
 test#測驗階段
 testblocknoconde#測驗階段實驗刺激項目清單中並非所有實驗回合中的每個實驗區間都包含每個測驗實驗情境
 testfile#測驗刺激項目檔案

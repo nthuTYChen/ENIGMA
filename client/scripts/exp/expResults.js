@@ -27,26 +27,9 @@ Template.expResults.onRendered(()=>{
 	let userData = Meteor.user();
 	let lang = Session.get('expLang');
 	if(!Session.equals('expType', 'demo')) {
-		Meteor.call('funcEntryWindow', 'exp', 'getExpResults', 
-			{expId: Session.get('expId'), resultsId: resultsId, sessionN: Number(sessionN), userLang: lang}, 
-			(err, res)=>{
-			if(err) {
-				if(err.error === 'too-many-requests') {
-					Styling.showWarning('slowdown');
-				}
-				else {
-					alert('Challenge Records Unavailable');
-					if(Meteor.user()) {
-						FlowRouter.go('userhome', {subpage: 'dashboard'});
-					}
-					else {
-						FlowRouter.go('home');
-					}
-				}
-			}
-			else {
+		Meteor.callAsync('funcEntryWindow', 'exp', 'getExpResults', 
+			{expId: Session.get('expId'), resultsId: resultsId, sessionN: Number(sessionN), userLang: lang}).then((res)=>{
 				if(res.type === 'testRun') {
-					userData = Meteor.user();
 					let runExpRecord = userData && userData.runExpRecord;
 					let testRunStats = runExpRecord && runExpRecord.respsStats;
 					testRunStats.expTitle = runExpRecord.expTitle;
@@ -61,8 +44,20 @@ Template.expResults.onRendered(()=>{
 					expResults.set(res.expResults);
 				}
 				animateStats();
-			}
-		});
+			}).catch((err)=>{
+				if(err.error === 'too-many-requests') {
+					Styling.showWarning('slowdown');
+				}
+				else {
+					alert('Challenge Records Unavailable');
+					if(Meteor.user()) {
+						FlowRouter.go('userhome', {subpage: 'dashboard'});
+					}
+					else {
+						FlowRouter.go('home');
+					}
+				}
+			});
 	}
 	else {
 		testRunStats = Session.get('demoExpRes');
@@ -82,7 +77,8 @@ Template.expResults.onRendered(()=>{
 
 Template.expResults.helpers({
 	achievements () {
-		return expResults.get() && expResults.get().achievements;
+		let res = expResults.get();
+		return res && res.achievements;
 	},
 	allRTMean () {
 		return allRTMean.get();
@@ -90,8 +86,9 @@ Template.expResults.helpers({
 	challengeN () {
 		let challengeNText = expTranslation.get() && expTranslation.get().challengeN;
 		if(challengeNText) {
-			let sessionN = expResults.get() && expResults.get().sessionN;
-			let targetN = expResults.get() && expResults.get().targetN;
+			let res = expResults.get();
+			let sessionN = res && res.sessionN;
+			let targetN = res && res.targetN;
 			let remainingN = targetN - sessionN;
 			challengeNText = challengeNText.replace('%N', sessionN).replace('%M', remainingN);
 			return challengeNText;
@@ -99,7 +96,8 @@ Template.expResults.helpers({
 		return;
 	},
 	chaTranslation (field) {
-		return chaTranslation.get() && chaTranslation.get()[field];
+		let texts = chaTranslation.get();
+		return texts && texts[field];
 	},
 	checkStage (stage) {
 		let userData = Meteor.user();
@@ -109,7 +107,8 @@ Template.expResults.helpers({
 		return false;
 	},
 	condition () {
-		return expResults.get() && expResults.get().condition;
+		let res = expResults.get();
+		return res && res.condition;
 	},
 	correctPerc () {
 		return correctPerc.get();
@@ -123,7 +122,8 @@ Template.expResults.helpers({
 	},
 	iconNote (type) {
 		let target = type + 'note';
-		return chaTranslation.get() && chaTranslation.get()[target];
+		let texts = chaTranslation.get();
+		return texts && texts[target];
 	},
 	// Need to change the setting according to your own server configuration
 	iconURL () {
@@ -146,8 +146,9 @@ Template.expResults.helpers({
 		return false;
 	},
 	resultsData (field) {
-		if(field === 'debriefing' && expResults.get() && expResults.get()['debriefing']) {
-			let textLines = expResults.get()['debriefing'].split('\n');
+		let res = expResults.get();
+		if(field === 'debriefing' && res && res['debriefing']) {
+			let textLines = res['debriefing'].split('\n');
 			let processedTexts = [];
 			for(let i=0 ; i<textLines.length ; i++) {
 				if(textLines[i].trim() !== '') {
@@ -156,10 +157,11 @@ Template.expResults.helpers({
 			}
 			return processedTexts;
 		}
-		return expResults.get() && expResults.get()[field];
+		return res && res[field];
 	},
 	translation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	}
 });
 
@@ -167,11 +169,9 @@ Template.expResults.events({
 	'touchend #backHome, click #backHome' (event) {
 		if(Tools.swipeCheck(event)) {
 			if(!Session.equals('expType', 'demo')) {
-				//Router.go('userhome', {subpage: 'dashboard'});
 				FlowRouter.go('userhome', {subpage: 'dashboard'});
 			}
 			else {
-				//Router.go(urlRootPath + 'home');
 				FlowRouter.go('home');
 			}
 		}
@@ -189,7 +189,7 @@ Template.expResults.onDestroyed(()=>{
 	allRTMean.set(0);
 	correctRTMean.set(0);
 	if(!Session.equals('expType', 'demo')) {
-		Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
+		Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
 	}
 });
 

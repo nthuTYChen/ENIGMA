@@ -43,14 +43,12 @@ Template.login.events({
 						Tools.callErrorHandler(err, 'loggingfailed');
 					}
 					else {
-						Meteor.call('funcEntryWindow', 'user', 'rememberLogin', Session.get('rememberMe'), 
-							(err, result)=>{
-							if(err) {
-								Tools.callErrorHandler(err, 'server');
-							}
-							else if(Meteor.user() && !Meteor.user().profile.rememberMe) {
+						Meteor.callAsync('funcEntryWindow', 'user', 'rememberLogin', {remember: Session.get('rememberMe')}).then(()=>{
+							if(Meteor.user() && !Meteor.user().profile.rememberMe) {
 								autoLogout();
 							}
+						}).catch((err)=>{
+							Tools.callErrorHandler(err, 'server');
 						});
 						Styling.showWarning('loggingsuccess');
 						let getHoldSession = Session.get('holdSession');
@@ -103,15 +101,12 @@ Template.forgotPW.events({
 			}
 			else {
 				let email = $('#forgotPWEmail').val();
-				Meteor.call('funcEntryWindow', 'user', 'resendUserEmail', 
-					{email: email, type: 'sendForgotPW', userCat: Session.get('userCat')}, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
-					}
-					else {
+				Meteor.callAsync('funcEntryWindow', 'user', 'resendUserEmail', 
+					{email: email, type: 'sendForgotPW', userCat: Session.get('userCat')}).then((res)=>{
 						FlowRouter.go('forgotPWSent');
-					}
-				});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server');
+					});
 			}
 		}
 	}
@@ -148,9 +143,11 @@ Template.resetPW.events({
 			}
 			else {
 				let token = $('#verifyCode').val();
-				Meteor.call('funcEntryWindow', 'user', 'appResetPW',
-					{token: token, password: Accounts._hashPassword(newUserPW)}, (err, result)=>{
-					if(err) {
+				Meteor.callAsync('funcEntryWindow', 'user', 'appResetPW',
+					{token: token, password: Accounts._hashPassword(newUserPW)}).then(()=>{
+						Styling.showWarning('pwresetok');
+						FlowRouter.go('login');
+					}).catch((err)=>{
 						if(err.error === 'too-many-requests') {
 							Styling.showWarning('slowdown');
 						}
@@ -160,12 +157,7 @@ Template.resetPW.events({
 						else {
 							Styling.showWarning('vitale');
 						}
-					}
-					else {
-						Styling.showWarning('pwresetok');
-						FlowRouter.go('login');
-					}
-				});
+					});
 			}
 		}
 	}

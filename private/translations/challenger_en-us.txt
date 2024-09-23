@@ -110,6 +110,7 @@ perfectten#Perfect 10
 perfecttennote#How do you feel being ranked in Top 10? It gotta be perfect!
 prev10#<< Prev 10
 pwnochange#Ignore password columns if no change is needed.
+questionrespe#Please complete the questionnaire.
 repeatchallenge#Continue!
 recommended#Do it now!
 recordscore#Highest: 

@@ -76,12 +76,8 @@ Template.register.events({
 	},
 	'touchend #getAgreement, click #getAgreement' (event) {
 		if(Tools.swipeCheck(event)) {
-			Meteor.call('funcEntryWindow', 'user', 'getUserAgreement', 
-				{userCat: Session.get('userCat'), userLang: Session.get('userLang')}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
-				}
-				else {
+			Meteor.callAsync('funcEntryWindow', 'user', 'getUserAgreement', 
+				{userCat: Session.get('userCat'), userLang: Session.get('userLang')}).then((res)=>{
 					let agreementHeight = '';
 					if($(window).width() <= 1200) {
 						agreementHeight = '98vh';
@@ -89,12 +85,13 @@ Template.register.events({
 					else {
 						agreementHeight = '80vh';
 					}
-					$('#agreementContainer').html(result.agreement).show().animate({
+					$('#agreementContainer').html(res.agreement).show().animate({
 						height: agreementHeight,
 						opacity: 0.98
 					}, 500);
-				}
-			});
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
+				});
 		}
 	},
 	'touchend #acceptAgreement, click #acceptAgreement' (event) {
@@ -125,7 +122,6 @@ Template.register.events({
 					if(err) {
 						console.log(err);
 						if(err.reason === 'Login forbidden') {
-							//Router.go(urlRootPath + 'registered');
 							FlowRouter.go('registered');
 						}
 						else if(err.error === 'too-many-requests') {
@@ -231,15 +227,12 @@ Template.resendVerify.events({
 				Styling.showWarning('formvalide');
 			}
 			else {
-				Meteor.call('funcEntryWindow', 'user', 'resendUserEmail', 
-					{email: email, type: 'resendVerify'}, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
-					}
-					else {
+				Meteor.callAsync('funcEntryWindow', 'user', 'resendUserEmail', 
+					{email: email, type: 'resendVerify'}).then(()=>{
 						FlowRouter.go('registered');
-					}
-				});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server');
+					});
 			}
 		}
 	}

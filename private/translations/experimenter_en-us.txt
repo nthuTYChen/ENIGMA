@@ -57,11 +57,13 @@ coordremoved#Coordinator removed
 coordunverifiede#Coordinator account is unverified
 copyexplinks#Copy Exp Links
 correctresp#Correct Response
-currentstimuli#Current Stimuli List
 create#Create
 createdat#Created At
 createnewexp#Create New Exp
 createnewexpok#New Exp Created
+currentstimuli#Current Stimuli List
+customquestion#Custom Questionnaire
+customquestionuse#Use questionnaire?
 daydreamer#No Response
 deactivate#De-activate
 debriefing#Debriefing
@@ -250,6 +252,7 @@ testinglist#Testing...
 testnocheckrespcorre#The test session will have to provide response accuracy to participants, but none of the elements in the test session checks response accuracy.
 testblocknoconde#Not all test blocks include every test condition in all sessions the stimuli list
 testsessionmismatche#The numbers in the Session column in the test stimuli list is not consistent with the Number of Participation settings
+terminate#Elements termination?
 testsessionnoblocke#Not all test sessions include every block in the stimuli list
 teststimuliurl#Test Stimuli URLs
 text#Text

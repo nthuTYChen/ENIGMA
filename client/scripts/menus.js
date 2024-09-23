@@ -90,13 +90,10 @@ function getAbout(userCat) {
 	if(Session.equals('browseSession', 'completeExpInfo')) {
 		FlowRouter.go('about');
 	}
-	Meteor.call('funcEntryWindow', 'user', 'getAbout', {userCat: userCat, 
-		userLang: Session.get('userLang')}, (err, res) => {
-			if(err) {
-				Tools.callErrorHandler(err, 'server');
-			}
-			else {
-				$('#aboutContent').html(res.about);
-			}
+	Meteor.callAsync('funcEntryWindow', 'user', 'getAbout', {userCat: userCat, 
+		userLang: Session.get('userLang')}).then((res)=>{
+			$('#aboutContent').html(res.about);
+		}).catch((err)=>{
+			Tools.callErrorHandler(err, 'server');
 		});
 };

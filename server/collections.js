@@ -1,23 +1,23 @@
 import { Mongo } from 'meteor/mongo';
 
 // Setting up server-side databases and database protection
-allLangList = new Mongo.Collection('allLangList');
-experimentDB = new Mongo.Collection('experimentDB');
-expResultsDB = new Mongo.Collection('expResultsDB');
-expStatsDB = new Mongo.Collection('expStatsDB');
-activityLogDB = new Mongo.Collection('activityLogDB');
-translationDB = new Mongo.Collection('translationDB');
-languageFactsDB = new Mongo.Collection('languageFactsDB');
-wmStatsDB = new Mongo.Collection('wmStatsDB');
-siteStatsDB = new Mongo.Collection('siteStatsDB');
-adminLogDB = new Mongo.Collection('adminLogDB');
-mailLogDB = new Mongo.Collection('mailLogDB');
-deletedUserRepo = new Mongo.Collection('deletedUserRepo');
+global.allLangList = new Mongo.Collection('allLangList');
+global.experimentDB = new Mongo.Collection('experimentDB');
+global.expResultsDB = new Mongo.Collection('expResultsDB');
+global.expStatsDB = new Mongo.Collection('expStatsDB');
+global.activityLogDB = new Mongo.Collection('activityLogDB');
+global.translationDB = new Mongo.Collection('translationDB');
+global.languageFactsDB = new Mongo.Collection('languageFactsDB');
+global.wmStatsDB = new Mongo.Collection('wmStatsDB');
+global.siteStatsDB = new Mongo.Collection('siteStatsDB');
+global.adminLogDB = new Mongo.Collection('adminLogDB');
+global.mailLogDB = new Mongo.Collection('mailLogDB');
+global.deletedUserRepo = new Mongo.Collection('deletedUserRepo');
 
 // Old database
-experimenterDB = new Mongo.Collection('experimenterDB');
-interfaceLang = new Mongo.Collection('interfaceLang');
-challengerDB = new Mongo.Collection('challengerDB');
+global.experimenterDB = new Mongo.Collection('experimenterDB');
+global.interfaceLang = new Mongo.Collection('interfaceLang');
+global.challengerDB = new Mongo.Collection('challengerDB');
 
 Meteor.publish('userData', function() {
   if(this.userId) {
@@ -36,19 +36,20 @@ Meteor.publish('allLangList', function(lang, session) {
   return;
 });
 
-Meteor.publish('challengerDB', function(session, id) {
-  if(id !== Meteor.userId() || session !== 'challengerHome' || Meteor.user().profile.userCat !== 'challenger') {
+Meteor.publish('challengerDB', async function(session, id) {
+  let user = await Meteor.users.findOneAsync({_id: this.userId});
+  if(id !== this.userId || session !== 'challengerHome' || (user && user.profile.userCat !== 'challenger')) {
     this.ready();
   }
   return;
 });
 
-Meteor.publish('experimentDB', function(session, id, expId) {
+Meteor.publish('experimentDB', async function(session, id, expId) {
   let targetSessions = ['ENIGMAHome', 'exploreChallenge', 'challengerHome', 'experimenterHome', 'manageExp', 'configExp', 'runExp', 'completeExp', 'completeExpInfo'];
-  if((id !== Meteor.userId() && session !== 'ENIGMAHome') || !targetSessions.includes(session)) {
+  if((id !== this.userId && session !== 'ENIGMAHome') || !targetSessions.includes(session)) {
     return;
   }
-  let userData = Meteor.user();
+  let userData = await Meteor.users.findOneAsync({_id: this.userId});
   let userCat = userData && userData.profile && userData.profile.userCat;
   let runExpRecord = userData && userData.runExpRecord;
   if(session === 'ENIGMAHome') {
@@ -83,7 +84,7 @@ Meteor.publish('experimentDB', function(session, id, expId) {
       }
     };
     for(let i=0 ; i<participatedData.length ; i++) {
-      if(expStatsDB.find({userId: Meteor.userId(), expId: participatedData[i]}).fetch().length > 30) {
+      if(await expStatsDB.find({userId: Meteor.userId(), expId: participatedData[i]}).fetchAsync().length > 30) {
         fullyTriedExp.push(participatedData[i]);
       }
     }
@@ -114,7 +115,7 @@ Meteor.publish('experimentDB', function(session, id, expId) {
       {sort: {createdAt: -1}});
   }
   else if(expId !== '' && session === 'runExp') {
-    let exp = experimentDB.findOne({_id: expId});
+    let exp = await experimentDB.findOneAsync({_id: expId});
     if(exp) {
       if(userCat === 'experimenter') {
         return experimentDB.find({_id: expId});
@@ -131,8 +132,8 @@ Meteor.publish('experimentDB', function(session, id, expId) {
   return;
 });
 
-Meteor.publish('expStatsDB', (session, id)=>{
-  let userData = Meteor.user();
+Meteor.publish('expStatsDB', async function (session, id) {
+  let userData = await Meteor.users.findOneAsync({_id: this.userId});
   if(!userData || userData._id !== id || !userData.emails[0].verified || 
     userData.profile.userCat !== 'challenger' || session !== 'challengeHistory') {
     return;
@@ -142,9 +143,9 @@ Meteor.publish('expStatsDB', (session, id)=>{
   }
 });
 
-Meteor.publish('expResultsDB', (session, id, expId)=>{
-  let userData = Meteor.user();
-  let exp = experimentDB.findOne({$and: [{_id: expId}, {$or: [{user: id}, {coordinators: userData && userData.username}]}]});
+Meteor.publish('expResultsDB', async function (session, id, expId) {
+  let userData = await Meteor.users.findOneAsync({_id: this.userId});
+  let exp = await experimentDB.findOneAsync({$and: [{_id: expId}, {$or: [{user: id}, {coordinators: userData && userData.username}]}]});
   if(!userData || userData._id !== id || !userData.emails[0].verified || 
     userData.profile.userCat !== 'experimenter' || session !== 'configExp' || !exp) {
     return;
@@ -154,20 +155,21 @@ Meteor.publish('expResultsDB', (session, id, expId)=>{
   }
 });
 
-Meteor.publish('activityLogDB', function(session, id, onset) {
-  if(!Meteor.user() || id !== Meteor.userId() || session !== 'experimenterHome' || Meteor.user().profile.userCat !== 'experimenter') {
+Meteor.publish('activityLogDB', async function (session, id, onset) {
+  let user = await Meteor.users.findOneAsync({_id: this.userId});
+  if(!user || id !== user._id || session !== 'experimenterHome' || user.profile.userCat !== 'experimenter') {
     return;
   }
   return activityLogDB.find({audience: id}, {fields: {audience: 0}, sort: {date: -1}, skip: onset, limit: 10});
 });
 
-Meteor.publish('translationDB', (session, lang)=>{
+Meteor.publish('translationDB', (session, lang, userCat)=>{
   let docs = [];
   docs.push('general');
-  if((Meteor.user() && Meteor.user().profile.userCat === 'experimenter') || session === 'completeExpInfo') {
+  if(userCat === 'experimenter' || session === 'completeExpInfo') {
     docs.push('experimenter');
   }
-  else if((Meteor.user() && Meteor.user().profile.userCat === 'challenger') || session === 'expResults') {
+  else if(userCat === 'challenger' || session === 'expResults') {
     docs.push('challenger');
   }
   let targetSessions = ['experimenterHome', 'manageExp', 'configExp', 'runExp', 'expResults', 'runWMExp'];
@@ -177,8 +179,8 @@ Meteor.publish('translationDB', (session, lang)=>{
   return translationDB.find({docType: {$in: docs}, lang: lang});
 });
 
-Meteor.publish('wmStatsDB', (session, id)=>{
-  let userData = Meteor.user();
+Meteor.publish('wmStatsDB', async (session, id)=>{
+  let userData = await Meteor.users.findOneAsync({_id: this.userId});
   if(!userData || userData._id !== id || !userData.emails[0].verified || 
     userData.profile.userCat !== 'challenger' || (session !== 'wmHistory' && session !== 'challengerHome')) {
     return;
@@ -186,8 +188,8 @@ Meteor.publish('wmStatsDB', (session, id)=>{
   return wmStatsDB.find({userId: id}, {fields: {researchScores: 0}}, {sort: {endTime: -1}, limit: 7});
 });
 
-Meteor.publish('siteStatsDB', ()=>{
-  let targets = [], userData = Meteor.user();
+Meteor.publish('siteStatsDB', async ()=>{
+  let targets = [], userData = await Meteor.users.findOneAsync({_id: this.userId});
   targets.push('general');
   if(userData) {
     if(userData.profile.userCat === 'challenger') {
@@ -197,8 +199,8 @@ Meteor.publish('siteStatsDB', ()=>{
   return siteStatsDB.find({docType: {$in: targets}});
 });
 
-Meteor.publish('languageFactsDB', (session, lang)=>{
-  if(session === 'challengerHome' && Meteor.user()) {
+Meteor.publish('languageFactsDB', function (session, lang) {
+  if(session === 'challengerHome' && this.userId) {
     return languageFactsDB.find({lang: lang});
   }
   return;

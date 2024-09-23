@@ -41,7 +41,8 @@ Template.history.helpers({
 		return chaTexts.get() && chaTexts.get()[col];
 	},
 	challenging (expId) {
-		let runExpRecord = Meteor.user() && Meteor.user().runExpRecord;
+		let user = Meteor.user();
+		let runExpRecord = user && user.runExpRecord;
 		if(runExpRecord && runExpRecord.challenging && expId === runExpRecord.expId) {
 			return true;
 		}
@@ -54,9 +55,6 @@ Template.history.helpers({
 		return '124, 181, 24';
 	},
 	// Need to change this setting with users' own icon set and network settings
-	iconURL () {
-		return domainURL + 'yourFolder/icons/';
-	},
 	respsStats () {
 		let range = statsRange.get();
 		if(range) {
@@ -87,8 +85,8 @@ Template.history.events({
 	},
 	'touchend #historyPrev, click #historyPrev' (event) {
 		if(Tools.swipeCheck(event, false, false)) {
-			if(statsRange.get().onset - 10 >= 0) {
-				let newStatsRange = statsRange.get();
+			let newStatsRange = statsRange.get();
+			if(newStatsRange.onset - 10 >= 0) {
 				newStatsRange.onset = newStatsRange.onset - 10;
 				newStatsRange.offset = newStatsRange.offset - (newStatsRange.offset % 10 === 0 ? 10 : newStatsRange.offset % 10);
 				statsRange.set(newStatsRange);
@@ -101,14 +99,13 @@ Template.history.events({
 	'touchend #historyNext, click #historyNext' (event) {
 		if(Tools.swipeCheck(event, true, true)) {
 			let allHistoryN = expStatsDB.find({}).fetch().length;
-			if(statsRange.get().offset + 10 <= allHistoryN) {
-				let newStatsRange = statsRange.get();
+			let newStatsRange = statsRange.get();
+			if(newStatsRange.offset + 10 <= allHistoryN) {
 				newStatsRange.onset = newStatsRange.onset + 10;
 				newStatsRange.offset = newStatsRange.offset + 10;
 				statsRange.set(newStatsRange);
 			}
-			else if(statsRange.get().offset < allHistoryN) {
-				let newStatsRange = statsRange.get();
+			else if(newStatsRange.offset < allHistoryN) {
 				newStatsRange.onset = newStatsRange.onset + 10;
 				newStatsRange.offset = newStatsRange.offset + (allHistoryN - newStatsRange.offset);
 				statsRange.set(newStatsRange);
@@ -134,13 +131,10 @@ Template.history.events({
 	'touchend input#confirmRemove, click input#confirmRemove' () {
 		Styling.showWarning('removing', 'challenger');
 		$('div#removeHistConfirm').css('display', 'none');
-		Meteor.call('funcEntryWindow', 'user', 'removeExpStats', {targetId: deleteTarget}, (err, res)=>{
-			if(err) {
-				Tools.callErrorHandler(err, 'server');
-			}
-			else {
-				Styling.showWarning('expresultsremoved', 'challenger');
-			}
+		Meteor.callAsync('funcEntryWindow', 'user', 'removeExpStats', {targetId: deleteTarget}).then(()=>{
+			Styling.showWarning('expresultsremoved', 'challenger');
+		}).catch((err)=>{
+			Tools.callErrorHandler(err, 'server');
 		});
 		deleteTarget = '';
 	},
@@ -152,21 +146,18 @@ Template.history.events({
 		if(Tools.swipeCheck(event, false, false)) {
 			let targetId = event.currentTarget.id.replace('getConsent_', '');
 			Styling.showWarning('retrieving', 'challenger');
-			Meteor.call('funcEntryWindow', 'user', 'getConsent', {targetId: targetId}, (err, res)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
+			Meteor.callAsync('funcEntryWindow', 'user', 'getConsent', {targetId: targetId}).then((res)=>{
+				let windowRef = window.open();
+				let dir = 'Files/';
+				if(urlRootPath === 'enigmaDemo/') {
+					dir = 'enigmaDemo' + dir;
 				}
 				else {
-					let windowRef = window.open();
-					let dir = 'Files/';
-					if(urlRootPath === 'ENIGMA/') {
-						dir = 'enigma' + dir;
-					}
-					else {
-						dir = 'enigmaDemo' + dir;
-					}
-					windowRef.location = domainURL + dir + res.msg;
+					dir = 'enigma' + dir;
 				}
+				windowRef.location = domainURL + dir + res.msg;
+			}).catch((err)=>{
+				Tools.callErrorHandler(err, 'server');
 			});
 		}
 	}

@@ -13,53 +13,53 @@ Meteor.startup(()=>{
 	Meteor.setInterval(cleanDB, 3600 * 1000);
 });
 
-function cleanDB () {
+async function cleanDB () {
 	let currentTime = (new Date()).getTime();
-	adminLogDB.remove({date: {$lte: new Date(currentTime - 30 * 24 * 3600 * 1000)}});
-	activityLogDB.remove({date: {$lte: new Date(currentTime - 7 * 24 * 3600 * 1000)}});
-	mailLogDB.remove({date: {$lte: new Date(currentTime - 30 * 24 * 3600 * 1000)}});
-	deletedUserRepo.remove({date: {$lte: new Date(currentTime - 365 * 24 * 3600 * 1000)}});
-	recordAdminLog('system', 'cleanDB', 'server', '', 'DBs cleaned', 'server');
+	await adminLogDB.removeAsync({date: {$lte: new Date(currentTime - 30 * 24 * 3600 * 1000)}});
+	await activityLogDB.removeAsync({date: {$lte: new Date(currentTime - 7 * 24 * 3600 * 1000)}});
+	await mailLogDB.removeAsync({date: {$lte: new Date(currentTime - 30 * 24 * 3600 * 1000)}});
+	await deletedUserRepo.removeAsync({date: {$lte: new Date(currentTime - 365 * 24 * 3600 * 1000)}});
+	await recordAdminLog('system', 'cleanDB', 'server', '', 'DBs cleaned', 'server');
 };
 
-function cleanUnfinishedExpSession () {
+async function cleanUnfinishedExpSession () {
 	let currentTime = new Date();
-	Meteor.users.update({'runExpRecord.challenging': false,
+	await Meteor.users.updateAsync({'runExpRecord.challenging': false,
 		'runExpRecord.startTime': {$lte: new Date(currentTime.getTime() - 24 * 2 * 3600 * 1000)}}, 
 		{$unset: {runExpRecord: ''}});
 	Meteor.users.find({'runExpRecord.running': true, 
-		'runExpRecord.startTime': {$lte: new Date(currentTime.getTime() - 24 * 14 * 3600 * 1000)}}).forEach((user)=>{
+		'runExpRecord.startTime': {$lte: new Date(currentTime.getTime() - 24 * 14 * 3600 * 1000)}}).forEachAsync(async (user)=>{
 			let runExpRecord = user.runExpRecord, userId = user._id;
 			let expId = runExpRecord.expId;
 			if(runExpRecord.sessionN > 1) {
-				let exp = experimentDB.findOne({_id: expId});
+				let exp = await experimentDB.findOneAsync({_id: expId});
 				if(exp.status.currentSubj + 1 === exp.basicInfo.subjNum) {
-					experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date()}});
+					await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date()}});
 				}
 				else {
-					experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}});
+					await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}});
 				}	
 			}
-			Meteor.users.update({_id: userId}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': expId}});	
+			await Meteor.users.updateAsync({_id: userId}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': expId}});	
 		});
 	Meteor.users.find({'runExpRecord.stage': 'repeat', 'runExpRecord.running': false, 
-		'runExpRecord.startTime': {$lte: new Date(currentTime.getTime() - 24 * 14 * 3600 * 1000)}}).forEach((user)=>{
-		let userId = user._id, expId = user.runExpRecord.expId, exp = experimentDB.findOne({_id: expId});
-		Meteor.users.update({_id: userId}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': expId}});
+		'runExpRecord.startTime': {$lte: new Date(currentTime.getTime() - 24 * 14 * 3600 * 1000)}}).forEachAsync(async (user)=>{
+		let userId = user._id, expId = user.runExpRecord.expId, exp = await experimentDB.findOneAsync({_id: expId});
+		await Meteor.users.updateAsync({_id: userId}, {$unset: {runExpRecord: ''}, $push: {'profile.exp.participated': expId}});
 		if(exp.status.currentSubj + 1 === exp.basicInfo.subjNum) {
-			experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date()}});
+			await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}, $set: {'status.state': 'complete', 'completedAt': new Date()}});
 		}
 		else {
-			experimentDB.update({_id: expId}, {$inc: {'status.currentSubj': 1}});
+			await experimentDB.updateAsync({_id: expId}, {$inc: {'status.currentSubj': 1}});
 		}
 	});
-	recordAdminLog('system', 'cleanUnfinishedExpSession', 'server', '', 'Unfinished sessions cleaned', 'server');
+	await recordAdminLog('system', 'cleanUnfinishedExpSession', 'server', '', 'Unfinished sessions cleaned', 'server');
 };
 
-function experimentStats () {
-	experimentDB.find({}).forEach((exp)=>{
+async function experimentStats () {
+	experimentDB.find({}).forEachAsync(async (exp)=>{
 		let expId = exp._id;
-		let allExpStats = expStatsDB.find({expId: expId, lowAcc: {$ne: true}}).fetch();
+		let allExpStats = await expStatsDB.find({expId: expId, lowAcc: {$ne: true}}).fetchAsync();
 		let allExpStatsN = allExpStats.length;
 		if(allExpStatsN > 0) {
 			let allCorrPercs = 0, allCorrRTMeans = 0, allRTMeans = 0;
@@ -69,16 +69,16 @@ function experimentStats () {
 				allCorrRTMeans += stats.correctRTMean;
 				allRTMeans += stats.allRTMean;
 			}
-			experimentDB.update({_id: expId}, 
+			await experimentDB.updateAsync({_id: expId}, 
 				{$set: {'stats.correctPerc': Math.round(allCorrPercs*10/allExpStatsN)/10, 'stats.allRTMean': Math.round(allRTMeans*10/allExpStatsN)/10, 'stats.correctRTMean': Math.round(allCorrRTMeans*10/allExpStatsN)/10}});
 		}
 	});
-	recordAdminLog('system', 'experimentStats', 'server', '', 'Exp stats calculated', 'server');
+	await recordAdminLog('system', 'experimentStats', 'server', '', 'Exp stats calculated', 'server');
 };
 
-function challengerRanking () {
+async function challengerRanking () {
 	let corrNRank = [], corrRTMeanRank = [], sessionNRank = [];
-	Meteor.users.find({'profile.userCat': 'challenger'}).forEach((user)=>{
+	Meteor.users.find({'profile.userCat': 'challenger'}).forEachAsync(async (user)=>{
 		let userCorrN = user.profile.gaming.correctRespN.nums;
 		let corrNRankN = corrNRank.length;
 		if(userCorrN > 0) {
@@ -125,7 +125,7 @@ function challengerRanking () {
 				userRTSum += userCorrRTMeans[i];
 			}
 			let userCorrRTMean = Math.round(userRTSum * 10 / userCorrRTMeansN) / 10;
-			Meteor.users.update({_id: user._id}, {$set: {'profile.gaming.allCorrRTMean.nums': userCorrRTMean}});
+			await Meteor.users.updateAsync({_id: user._id}, {$set: {'profile.gaming.allCorrRTMean.nums': userCorrRTMean}});
 			let corrRTMeanRankN = corrRTMeanRank.length;
 			if(corrRTMeanRankN === 0) {
 				corrRTMeanRank.push({userId: user._id, num: userCorrRTMean});
@@ -147,66 +147,66 @@ function challengerRanking () {
 	let corrNRankN = corrNRank.length;
 	for(let i=0 ; i<corrNRankN ; i++) {
 		let rankData = corrNRank[i];
-		let user = Meteor.users.findOne({_id: rankData.userId});
+		let user = await Meteor.users.findOneAsync({_id: rankData.userId});
 		let userAchievements = user.profile.gaming.achievements, newAchievements = checkRankingAchievements(i, userAchievements);
 		userAchievements = userAchievements.concat(newAchievements);
-		Meteor.users.update({_id: rankData.userId}, 
+		await Meteor.users.updateAsync({_id: rankData.userId}, 
 			{$set: {'profile.gaming.correctRespN.ranking': i + 1, 'profile.gaming.achievements': userAchievements, 'profile.gaming.newAchieve': newAchievements.length}});
 	}
 	let sessionNRankN = sessionNRank.length;
 	for(let i=0 ; i<sessionNRankN ; i++) {
 		let rankData = sessionNRank[i];
-		let user = Meteor.users.findOne({_id: rankData.userId});
+		let user = await Meteor.users.findOneAsync({_id: rankData.userId});
 		let userAchievements = user.profile.gaming.achievements, newAchievements = checkRankingAchievements(i, userAchievements);
 		userAchievements = userAchievements.concat(newAchievements);
-		Meteor.users.update({_id: rankData.userId}, 
+		await Meteor.users.updateAsync({_id: rankData.userId}, 
 			{$set: {'profile.gaming.session.ranking': i + 1, 'profile.gaming.achievements': userAchievements, 'profile.gaming.newAchieve': newAchievements.length}});
 	}
 	let corrRTMeanRankN = corrRTMeanRank.length;
 	for(let i=0 ; i<corrRTMeanRankN ; i++) {
 		let rankData = corrRTMeanRank[i];
-		let user = Meteor.users.findOne({_id: rankData.userId});
+		let user = await Meteor.users.findOneAsync({_id: rankData.userId});
 		let userAchievements = user.profile.gaming.achievements, newAchievements = checkRankingAchievements(i, userAchievements);
 		userAchievements = userAchievements.concat(newAchievements);
-		Meteor.users.update({_id: rankData.userId}, 
+		await Meteor.users.updateAsync({_id: rankData.userId}, 
 			{$set: {'profile.gaming.allCorrRTMean.ranking': i + 1, 'profile.gaming.achievements': userAchievements, 'profile.gaming.newAchieve': newAchievements.length}});
 	}
-	recordAdminLog('system', 'challengerRanking', 'server', '', 'Challenger ranking calculated', 'server');
+	await recordAdminLog('system', 'challengerRanking', 'server', '', 'Challenger ranking calculated', 'server');
 };
 
-function calcWMStats () {
-	if(!siteStatsDB.findOne({docType: 'wmStats'})) {
-		siteStatsDB.insert({
+async function calcWMStats () {
+	if(!await siteStatsDB.findOneAsync({docType: 'wmStats'})) {
+		await siteStatsDB.insertAsync({
 			docType: 'wmStats',
 			lastUpdate: new Date(),
 			totalWMSessions: 0,
 			ageGroupMean: [0, 0, 0, 0, 0]
 		});
 	}
-	let sessionN = wmStatsDB.find({}).fetch().length;
+	let sessionN = await wmStatsDB.find({}).fetchAsync().length;
 	let groupMean = [];
-	let subsetSessions = wmStatsDB.find({age: {$lte: 20}}).fetch();
+	let subsetSessions = await wmStatsDB.find({age: {$lte: 20}}).fetchAsync();
 	groupMean.push(calcWMSubsetMean(subsetSessions));
-	subsetSessions = wmStatsDB.find({$and: [{age: {$gte: 21}}, {age: {$lte: 30}}]}).fetch();
+	subsetSessions = await wmStatsDB.find({$and: [{age: {$gte: 21}}, {age: {$lte: 30}}]}).fetchAsync();
 	groupMean.push(calcWMSubsetMean(subsetSessions));
-	subsetSessions = wmStatsDB.find({$and: [{age: {$gte: 31}}, {age: {$lte: 40}}]}).fetch();
+	subsetSessions = await wmStatsDB.find({$and: [{age: {$gte: 31}}, {age: {$lte: 40}}]}).fetchAsync();
 	groupMean.push(calcWMSubsetMean(subsetSessions));
-	subsetSessions = wmStatsDB.find({$and: [{age: {$gte: 41}}, {age: {$lte: 50}}]}).fetch();
+	subsetSessions = await wmStatsDB.find({$and: [{age: {$gte: 41}}, {age: {$lte: 50}}]}).fetchAsync();
 	groupMean.push(calcWMSubsetMean(subsetSessions));
-	subsetSessions = wmStatsDB.find({age: {$gte: 51}}).fetch();
+	subsetSessions = await wmStatsDB.find({age: {$gte: 51}}).fetchAsync();
 	groupMean.push(calcWMSubsetMean(subsetSessions));
-	siteStatsDB.update({docType: 'wmStats'}, {$set: {lastUpdate: new Date(), totalWMSessions: sessionN, ageGroupMean: groupMean}});
-	recordAdminLog('system', 'calcWMStats', 'server', '', 'WM stats calculated', 'server');
+	await siteStatsDB.updateAsync({docType: 'wmStats'}, {$set: {lastUpdate: new Date(), totalWMSessions: sessionN, ageGroupMean: groupMean}});
+	await recordAdminLog('system', 'calcWMStats', 'server', '', 'WM stats calculated', 'server');
 };
 
-function deleteAccountNote () {
+async function deleteAccountNote () {
 	let currentTime = new Date();
-	Meteor.users.find({'emails.0.verified': false, 'profile.verifyDue': {$lte: new Date(currentTime.getTime() + 24 * 3600 * 1000)}}).forEach((user)=>{
-		let mailLog = mailLogDB.findOne({type: 'unverifiednote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 12 * 3600 * 1000)}})
+	Meteor.users.find({'emails.0.verified': false, 'profile.verifyDue': {$lte: new Date(currentTime.getTime() + 24 * 3600 * 1000)}}).forEachAsync(async (user)=>{
+		let mailLog = await mailLogDB.findOneAsync({type: 'unverifiednote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 12 * 3600 * 1000)}})
 		if(!mailLog) {
 			let email = {
 				to: user.username,
-				from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
+				from: 'ENIGMA Admin <no-reply@enigma-lang.org>',
 				subject: 'ENIGMA: Your unverified account will be deleted automatically!',
 				text: '',
 				type: 'unverifiednote'
@@ -214,20 +214,21 @@ function deleteAccountNote () {
 			if(user.profile.userLang === 'zh-tw') {
 				email.subject = '字謎：您未經驗證的帳號即將被自動刪除！';
 			}
-			let deleteAccountBody = Assets.getText('emails/unverifiedNote_'+user.profile.userLang+'.txt');
+			let deleteAccountBody = await Assets.getTextAsync('emails/unverifiedNote_'+user.profile.userLang+'.txt');
 			deleteAccountBody = deleteAccountBody.replace('[deleteTime]', user.profile.verifyDue);
 			email.text = deleteAccountBody;
-			sendEmail(email);
+			await sendEmail(email);
 		}
 	});
-	recordAdminLog('system', 'deleteaccountnote', 'server', '', 'send delete account notes', 'server');
+	await recordAdminLog('system', 'deleteaccountnote', 'server', '', 'send delete account notes', 'server');
 };
 
-function repeatedExpNote () {
-	Meteor.users.find({'runExpRecord.stage': 'repeat', 'runExpRecord.challenging': true, 'runExpRecord.running': false}).forEach((user)=>{
+async function repeatedExpNote () {
+	Meteor.users.find({'runExpRecord.stage': 'repeat', 'runExpRecord.challenging': true, 'runExpRecord.running': false}).forEachAsync(async (user)=>{
 		let runExpRecord = user.runExpRecord, lastParticipation = user.profile.exp.lastParticipation, currentTime = new Date();
 		let expId = runExpRecord.expId;
-		let exp = experimentDB.findOne({_id: expId}), mailLog = mailLogDB.findOne({type: 'expnote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 48 * 3600 * 1000)}});
+		let exp = await experimentDB.findOneAsync({_id: expId}), 
+			mailLog = await mailLogDB.findOneAsync({type: 'expnote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 48 * 3600 * 1000)}});
 		if(exp && !mailLog) {
 			let gap = exp.basicInfo.gapHour;
 			if(!lastParticipation || lastParticipation.getTime() + gap * 3600 * 1000 <= currentTime.getTime()) {
@@ -235,18 +236,18 @@ function repeatedExpNote () {
 			}
 		}
 	});
-	recordAdminLog('system', 'repeatedexpnote', 'server', '', 'send repeated exp notes', 'server');
+	await recordAdminLog('system', 'repeatedexpnote', 'server', '', 'send repeated exp notes', 'server');
 };
 
-function repeatedWMNote () {
-	Meteor.users.find({'profile.subscribe': true, 'profile.wm.record': {$gte: 0}}).forEach((user)=>{
-		let wmRecord = user.profile.wm, lastWM = wmStatsDB.findOne({userId: user._id}, {sort: {endTime: -1}}), currentTime = new Date();
-		let mailLog = mailLogDB.findOne({type: 'wmnote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 24 * 30 * 3600 * 1000)}});
+async function repeatedWMNote () {
+	Meteor.users.find({'profile.subscribe': true, 'profile.wm.record': {$gte: 0}}).forEachAsync(async (user)=>{
+		let wmRecord = user.profile.wm, lastWM = await wmStatsDB.findOneAsync({userId: user._id}, {sort: {endTime: -1}}), currentTime = new Date();
+		let mailLog = await mailLogDB.findOneAsync({type: 'wmnote', user: user.username, date: {$gte: new Date(currentTime.getTime() - 24 * 30 * 3600 * 1000)}});
 		if(lastWM && !mailLog && (currentTime.getTime() - lastWM.endTime.getTime()) > 30 * 24 * 3600 * 1000) {
 			sendWMNote(user.username, user.profile.userLang, user._id, wmRecord, lastWM);
 		}
 	});
-	recordAdminLog('system', 'repeatedwmnote', 'server', '', 'send wm notes', 'server');
+	await recordAdminLog('system', 'repeatedwmnote', 'server', '', 'send wm notes', 'server');
 };
 
 // ---------------------- Below are NOT regularly executed functions ------------------
@@ -285,8 +286,8 @@ function calcWMSubsetMean (subset) {
 	return 0;
 };
 
-function recordAdminLog (logType, func, userIP, expId, logNote, userName) {
-	adminLogDB.insert({
+async function recordAdminLog (logType, func, userIP, expId, logNote, userName) {
+	await adminLogDB.insertAsync({
 		type: logType,
 		function: func,
 		user: userName,
@@ -297,12 +298,12 @@ function recordAdminLog (logType, func, userIP, expId, logNote, userName) {
 	});	
 };
 
-function sendExpNote (user) {
+async function sendExpNote (user) {
 	let expTitle = user.runExpRecord.expTitle;
 	let userLang = user.profile.userLang;
 	let email = {
 		to: user.username,
-		from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
+		from: 'ENIGMA Admin <no-reply@enigma-lang.org>',
 		subject: 'ENIGMA: Your next session is ready!',
 		text: '',
 		type: 'expnote'
@@ -310,15 +311,15 @@ function sendExpNote (user) {
 	if(userLang === 'zh-tw') {
 		email.subject = '字謎：你的下一個實驗回合時間到囉！';
 	}
-	let expNoteBody = Assets.getText('emails/expNote_'+userLang+'.txt');
+	let expNoteBody = await Assets.getTextAsync('emails/expNote_'+userLang+'.txt');
 	email.text = expNoteBody.replace('[expTitle]', expTitle);
-	sendEmail(email);
+	await sendEmail(email);
 };
 
-function sendWMNote(username, userLang, userId, wmStats, lastWM) {
+async function sendWMNote(username, userLang, userId, wmStats, lastWM) {
 	let email = {
 		to: username,
-		from: 'ENIGMA Admin <enigma@lngproc.hss.nthu.edu.tw>',
+		from: 'ENIGMA Admin <no-reply@enigma-lang.org>',
 		subject: 'ENIGMA: Come back and test your working memory again!',
 		text: '',
 		type: 'wmnote'
@@ -326,14 +327,16 @@ function sendWMNote(username, userLang, userId, wmStats, lastWM) {
 	if(userLang === 'zh-tw') {
 		email.subject = '字謎：再來測試看看你的工作記憶吧！';
 	}
-	let wmNoteBody = Assets.getText('emails/wmNote_'+userLang+'.txt');
+	let wmNoteBody = await Assets.getTextAsync('emails/wmNote_'+userLang+'.txt');
 	wmNoteBody = wmNoteBody.replace('[wmDate]', lastWM.endTime);
 	wmNoteBody = wmNoteBody.replace('[wmScore]', lastWM.totalScore);
-	email.text = wmNoteBody.replace('[wmHighScore]', wmStats.record);
-	sendEmail(email);
+	wmNoteBody = wmNoteBody.replace('[wmHighScore]', wmStats.record);
+	email.text = wmNoteBody.replace('[url]', 'https://enigma-lang.org/unsubscribe/' + 
+		userLang + '/' + userId);
+	await sendEmail(email);
 };
 
-function sendEmail (email) {
+async function sendEmail (email) {
 	Email.send({to: email.to, from: email.from, subject: email.subject, text: email.text});
-	mailLogDB.insert({type: email.type, user: email.to, date: new Date()});
+	await mailLogDB.insertAsync({type: email.type, user: email.to, date: new Date()});
 };

@@ -19,20 +19,21 @@ let interfaceL = new ReactiveVar(null), expTexts = new ReactiveVar(null);
 let currentMenu = '';
 
 Tracker.autorun(()=>{
+	let userId = Meteor.userId(), user = Meteor.user();
 	Meteor.subscribe('allLangList', Session.get('userLang'), Session.get('browseSession'));
-	Meteor.subscribe('userData', Meteor.userId());
-	Meteor.subscribe('experimentDB', Session.get('browseSession'), Meteor.userId(), Session.get('expId'));
-	Meteor.subscribe('expResultsDB', Session.get('browseSession'), Meteor.userId(), Session.get('expId'));
-	Meteor.subscribe('expStatsDB', Session.get('browseSession'), Meteor.userId());
-	Meteor.subscribe('wmStatsDB', Session.get('browseSession'), Meteor.userId());
+	Meteor.subscribe('userData', userId);
+	Meteor.subscribe('experimentDB', Session.get('browseSession'), userId, Session.get('expId'));
+	Meteor.subscribe('expResultsDB', Session.get('browseSession'), userId, Session.get('expId'));
+	Meteor.subscribe('expStatsDB', Session.get('browseSession'), userId);
+	Meteor.subscribe('wmStatsDB', Session.get('browseSession'), userId);
 	Meteor.subscribe('siteStatsDB');
-	Meteor.subscribe('activityLogDB', Session.get('browseSession'), Meteor.userId(), Session.get('experimenterLogOnset'));
-	Meteor.subscribe('translationDB', Session.get('browseSession'), Session.get('userLang'));
+	Meteor.subscribe('activityLogDB', Session.get('browseSession'), userId, Session.get('experimenterLogOnset'));
+	Meteor.subscribe('translationDB', Session.get('browseSession'), Session.get('userLang'), Session.get('userCat'));
 	Meteor.subscribe('languageFactsDB', Session.get('browseSession'), Session.get('userLang'));
-	if(Meteor.user()) {
-		Session.set('userLang', Meteor.user().profile.userLang);
-		Session.set('userCat', Meteor.user().profile.userCat);
-		Session.set('rememberMe', Meteor.user().profile.rememberMe);
+	if(user) {
+		Session.set('userLang', user.profile.userLang);
+		Session.set('userCat', user.profile.userCat);
+		Session.set('rememberMe', user.profile.rememberMe);
 		if(FlowRouter.getRouteName() === 'entrance') {
 			FlowRouter.go('userhome', {subpage: 'dashboard'});
 		}
@@ -72,7 +73,7 @@ Template.expLayout.helpers({
 
 Template.expLayout.events({
 	'touchend #endPreview, click #endPreview' () {
-		Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
+		Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
 		Session.set('browseSession', 'configExp');
 		FlowRouter.go('configExp', {subpage: 'basicInfo', expid: Session.get('expId')});
 	},
@@ -90,7 +91,7 @@ Template.expLayout.events({
 			FlowRouter.go('home');
 		}
 		else {
-			Meteor.call('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
+			Meteor.callAsync('funcEntryWindow', 'exp', 'expRecordCleaner', {expId: Session.get('expId')});
 			FlowRouter.go('userhome', {subpage: 'dashboard'});
 		}
 		Session.set('expId', '');

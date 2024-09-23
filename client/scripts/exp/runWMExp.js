@@ -20,7 +20,8 @@ let incorrectJudge = 0, incorrectRecall = 0, incorrectGroup = 0;
 Tracker.autorun(()=>{
 	chaTranslation.set(translationDB.findOne({docType: 'challenger'}));
 	expTranslation.set(translationDB.findOne({docType: 'experiment'}));
-	wmStimuli.set(Meteor.user() && Meteor.user().runWMRecord && Meteor.user().runWMRecord.stimuliList);
+	let user = Meteor.user();
+	wmStimuli.set(user && user.runWMRecord && user.runWMRecord.stimuliList);
 });
 
 Template.expWMPanels.onRendered(()=>{
@@ -34,12 +35,9 @@ Template.expWMPanels.onRendered(()=>{
 	Session.set('browseSession', 'runWMExp');
 	Session.set('expSession', 'wmInstruction');
 	Session.set('expLang', Session.get('userLang'));
-	Meteor.call('funcEntryWindow', 'exp', 'getWMInstruction', {session: Session.get('browseSession')}, (err, res)=>{
-		if(err) {}
-		else {
-			wmInstructions.set(res.msg);
-		}
-	});
+	Meteor.callAsync('funcEntryWindow', 'exp', 'getWMInstruction', {session: Session.get('browseSession')}).then((res)=>{
+		wmInstructions.set(res.msg);
+	}).catch((err)=>{});
 	runExpFunc.enterFullScreen();
 });
 
@@ -64,7 +62,8 @@ Template.wmInstruction.helpers({
 		return allLangList.find({code: {$in: ['en-us', 'zh-tw']}});
 	},
 	chaTranslation (field) {
-		return chaTranslation.get() && chaTranslation.get()[field];
+		let texts = chaTranslation.get();
+		return texts && texts[field];
 	},
 	defaultLang (code) {
 		if(Session.equals('userLang', code)) {
@@ -73,11 +72,13 @@ Template.wmInstruction.helpers({
 		return;
 	},
 	expTranslation (field) {
-		return expTranslation.get() && expTranslation.get()[field];
+		let texts = expTranslation.get();
+		return texts && texts[field];
 	},
 	wmInstruction (field) {
-		if(wmInstructions.get() && wmInstructions.get()[Session.get('expLang')]) {
-			return runExpFunc.processLongTexts(wmInstructions.get()[Session.get('expLang')]);
+		let texts = wmInstructions.get();
+		if(texts && texts[Session.get('expLang')]) {
+			return runExpFunc.processLongTexts(texts[Session.get('expLang')]);
 		}
 		return;
 	}
@@ -314,12 +315,10 @@ function endWMRecall () {
 	}
 	if(incorrectGroup === 3 || (groupN === 3 && itemN === 8)) {
 		incorrectGroup = 0;
-		Meteor.call('funcEntryWindow', 'exp', 'completeWMTest', {trials: allTrialResps, recall: recalledNum}, (err, res)=>{
-			if(res) {
-				runExpFunc.exitFullScreen();
-				Session.set('expSession', '');
-				FlowRouter.go('wmHistory');
-			}
+		Meteor.callAsync('funcEntryWindow', 'exp', 'completeWMTest', {trials: allTrialResps, recall: recalledNum}).then((res)=>{
+			runExpFunc.exitFullScreen();
+			Session.set('expSession', '');
+			FlowRouter.go('wmHistory');
 		});
 	}
 	else {

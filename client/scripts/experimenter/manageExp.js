@@ -20,10 +20,12 @@ Template.manageExp.onCreated(()=>{
 
 Template.manageExp.helpers({
 	allExp () {
-		return Meteor.user() && Meteor.user().profile.exp.allExp;
+		let user = Meteor.user();
+		return user && user.profile.exp.allExp;
 	},
 	allExpQuota () {
-		return Meteor.user() && Meteor.user().profile.exp.allExpQuota;
+		let user = Meteor.user();
+		return user && user.profile.exp.allExpQuota;
 	},
 	allRunningExp () {
 		return experimentDB.find({'status.state': 'active', coordinators: {$nin: [Meteor.user().username]}});
@@ -38,13 +40,16 @@ Template.manageExp.helpers({
 		return experimentDB.find({coordinators: Meteor.user().username});
 	},
 	runningExpQuota () {
-		return Meteor.user() && Meteor.user().profile.exp.runningExpQuota;
+		let user = Meteor.user();
+		return user && user.profile.exp.runningExpQuota;
 	},
 	runningExps () {
-		return Meteor.user() && Meteor.user().profile.exp.runningExp;
+		let user = Meteor.user();
+		return user && user.profile.exp.runningExp;
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	}
 });
 
@@ -133,14 +138,11 @@ Template.createExp.events({
 				multipleN: $('#multipleN').val(),
 				multipleTrain: $('#multipleTrain').prop('checked')
 			};
-			Meteor.call('funcEntryWindow', 'exp', 'createExp', newExp, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server', 'experimenter');
-				}
-				else {
-					Styling.showWarning('createnewexpok', 'experimenter');
-					FlowRouter.go('userhome', {subpage: 'manageExp'});
-				}
+			Meteor.callAsync('funcEntryWindow', 'exp', 'createExp', newExp).then(()=>{
+				Styling.showWarning('createnewexpok', 'experimenter');
+				FlowRouter.go('userhome', {subpage: 'manageExp'});
+			}).catch((err)=>{
+				Tools.callErrorHandler(err, 'server', 'experimenter');
 			});
 		}
 	},
@@ -162,7 +164,8 @@ Template.deleteExp.helpers({
 		return expData && expData.basicInfo.title;
 	},
 	translation (col) {
-		return expErTexts.get() && expErTexts.get()[col];
+		let texts = expErTexts.get();
+		return texts && texts[col];
 	}
 });
 
@@ -170,14 +173,11 @@ Template.deleteExp.events({
 	'touchend #proceedDelete, click #proceedDelete' (event) {
 		if(Tools.swipeCheck(event)) {
 			Styling.showWarning('deleting', 'experimenter');
-			Meteor.call('funcEntryWindow', 'exp', 'deleteExp', {expId: expData._id}, (err, result)=>{
-				if(err) {
-					Tools.callErrorHandler(err, 'server');
-				}
-				else {
-					Styling.showWarning('expdeleted', 'experimenter');
-					FlowRouter.go('userhome', {subpage: 'manageExp'});
-				}
+			Meteor.callAsync('funcEntryWindow', 'exp', 'deleteExp', {expId: expData._id}).then(()=>{
+				Styling.showWarning('expdeleted', 'experimenter');
+				FlowRouter.go('userhome', {subpage: 'manageExp'});
+			}).catch((err)=>{
+				Tools.callErrorHandler(err, 'server');
 			});
 		}
 	},

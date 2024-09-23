@@ -11,12 +11,13 @@ Tracker.autorun(()=>{
 });
 
 Template.achievements.onRendered(()=>{
-	if(Meteor.user() && Meteor.user().profile.gaming.newAchieve > 0) {
-		Meteor.call('funcEntryWindow', 'user', 'clearNewAchievements', '');
+	let user = Meteor.user();
+	if(user && user.profile.gaming.newAchieve > 0) {
+		Meteor.callAsync('funcEntryWindow', 'user', 'clearNewAchievements', {});
 	}
 	Session.set('browseSession', 'achievements');
 	Tracker.afterFlush(()=>{
-		let achievementsN = Meteor.user() && Meteor.user().profile.gaming.achievements.length;
+		let achievementsN = user && user.profile.gaming.achievements.length;
 		for(let i=0 ; i<achievementsN ; i++) {
 			$('section > div.hiddenGems').eq(0).remove();
 		}
@@ -28,7 +29,8 @@ Template.achievements.onRendered(()=>{
 
 Template.achievements.helpers({
 	achievementsN () {
-		return Meteor.user() && Meteor.user().profile.gaming.achievements.length;
+		let user = Meteor.user();
+		return user && user.profile.gaming.achievements.length;
 	},
 	chaTranslation (col) {
 		return chaTexts.get() && chaTexts.get()[col];
@@ -57,7 +59,8 @@ Template.achievements.helpers({
 		return domainURL + 'yourFolder/icons/';
 	},
 	obtainedAchievements () {
-		return Meteor.user() && Meteor.user().profile.gaming.achievements;
+		let user = Meteor.user();
+		return user && user.profile.gaming.achievements;
 	}
 });
 

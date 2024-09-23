@@ -84,15 +84,14 @@
 					</h3>
 					{{#if challengeType "repeat"}}
 						<em>{{chaTranslation "endtime"}} {{endTime}}</em> <em>{{chaTranslation "challengenum"}} {{sessionN}}/{{targetN}}</em>
-						{{#if passTimeLimit}}
-							<p>
-								<input type="button" id="repeatChallenge" value="{{chaTranslation "repeatchallenge"}}" />
-							</p>
-						{{else}}
-							<p>
-								<em>{{chaTranslation "timetonext"}}<span class="textWarning">{{countDown}}</span> {{chaTranslation "sec"}}</em> <input type="button" id="withdraw" value="{{chaTranslation "withdraw"}}" />
-							</p>
-						{{/if}}
+						<p>
+							{{#if passTimeLimit}}
+								<input type="button" id="repeatChallenge" value="{{chaTranslation "repeatchallenge"}}" /> 
+							{{else}}
+								<em>{{chaTranslation "timetonext"}}<span class="textWarning">{{countDown}}</span>{{chaTranslation "sec"}}</em> 
+							{{/if}}
+							<input type="button" id="withdraw" value="{{chaTranslation "withdraw"}}" />
+						</p>
 					{{else}}{{#if challengeType "abnormal"}}
 						<em>{{chaTranslation "abnormalquit"}}</em> <input type="button" id="withdraw" value="{{chaTranslation "withdraw"}}" />
 						

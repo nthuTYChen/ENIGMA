@@ -32,34 +32,40 @@ Template.profile_cha.helpers({
 		return interfaceL.get() && interfaceL.get()[col];
 	},
 	notVerified () {
-		return Meteor.user() && !Meteor.user().emails[0].verified;
+		let user = Meteor.user();
+		return user && !user.emails[0].verified;
 	},
 	userCat () {
-		if(Meteor.user()) {
-			return interfaceL.get() && interfaceL.get()[Meteor.user().profile.userCat];
+		let user = Meteor.user();
+		if(user) {
+			return interfaceL.get() && interfaceL.get()[user.profile.userCat];
 		}
 		return;
 	},
 	userData (type) {
-		if(Meteor.user()) {
-			return interfaceL.get() && interfaceL.get()[Meteor.user().profile[type]];
+		let user = Meteor.user();
+		if(user) {
+			return interfaceL.get() && interfaceL.get()[user.profile[type]];
 		}
 		return;
 	},
 	userDob () {
-		return Meteor.user() && Meteor.user().profile.dob;
+		let user = Meteor.user();
+		return user && user.profile.dob;
 	},
 	userNatLang (type) {
-		if(Meteor.user()) {
-			let lang = Meteor.user().profile[type];
+		let user = Meteor.user();
+		if(user) {
+			let lang = user.profile[type];
 			let langName = allLangList.findOne({code: lang});
 			return langName && langName.name;
 		}
 		return;
 	},
 	userLangSel (lang) {
-		if(Meteor.user()) {
-			if(Meteor.user().profile.userLang === lang) {
+		let user = Meteor.user();
+		if(user) {
+			if(user.profile.userLang === lang) {
 				return 'selected';
 			}
 			return;
@@ -67,15 +73,17 @@ Template.profile_cha.helpers({
 		return;
 	},
 	username () {
-		return Meteor.user() && Meteor.user().username;
+		let user = Meteor.user();
+		return user && user.username;
 	},
 	verifiedStatus () {
-		if(Meteor.user()) {
-			if(Meteor.user().emails[0].verified) {
-				return chaTexts.get() && chaTexts.get()['yes'];
+		let user = Meteor.user(), texts = chaTexts.get();
+		if(user) {
+			if(user.emails[0].verified) {
+				return texts && texts['yes'];
 			}
 			else {
-				return chaTexts.get() && chaTexts.get()['no'];
+				return texts && texts['no'];
 			}
 		}
 		return;
@@ -104,30 +112,20 @@ Template.profile_cha.events({
 				if(newpw !== '') {
 					newProfile.password = Accounts._hashPassword(newpw);
 				}
-				Meteor.call('funcEntryWindow', 'user', 'changeProfile', newProfile, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
+				Meteor.callAsync('funcEntryWindow', 'user', 'changeProfile', newProfile).then((res)=>{
+					if(res.username) {
+						Styling.showWarning('changedandlogin');
+						FlowRouter.go('registered');
+					}
+					else if(res.password) {
+						Styling.showWarning('changedandlogin');
+						FlowRouter.go('home');
 					}
 					else {
-						if(result.username) {
-							Styling.showWarning('changedandlogin');
-							Meteor.logout();
-							import('../register.js').then(()=>{
-								//Router.go(urlRootPath + 'registered');
-								FlowRouter.go('registered');
-							});
-						}
-						else if(result.password) {
-							Styling.showWarning('changedandlogin');
-							Meteor.logout();
-							Meteor.setTimeout(()=>{
-								FlowRouter.go('home');
-							}, 2000);
-						}
-						else {
-							Styling.showWarning('changed');
-						}
+						Styling.showWarning('changed');
 					}
+				}).catch((err)=>{
+					Tools.callErrorHandler(err, 'server');
 				});
 			}
 		}
@@ -136,15 +134,12 @@ Template.profile_cha.events({
 		if(Tools.swipeCheck(event)) {
 			Styling.showWarning('submitting');
 			let email = Meteor.user().username;
-			Meteor.call('funcEntryWindow', 'user', 'resendUserEmail', 
-					{email: email, type: 'resendVerify'}, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
-					}
-					else {
+			Meteor.callAsync('funcEntryWindow', 'user', 'resendUserEmail', 
+					{email: email, type: 'resendVerify'}).then(()=>{
 						FlowRouter.go('registered');
-					}
-				});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server');
+					});
 		}
 	},
 	'touchend #deleteAccount, click #deleteAccount' (event) {
@@ -154,18 +149,15 @@ Template.profile_cha.events({
 	},
 	'touchend #getAgreement, click #getAgreement' (event) {
 		if(Tools.swipeCheck(event)) {
-			Meteor.call('funcEntryWindow', 'user', 'getUserAgreement', 
-					{userCat: Session.get('userCat'), userLang: Session.get('userLang')}, (err, result)=>{
-					if(err) {
-						Tools.callErrorHandler(err, 'server');
-					}
-					else {
-						$('#agreementContainer').html(result.agreement).show().animate({
+			Meteor.callAsync('funcEntryWindow', 'user', 'getUserAgreement', 
+					{userCat: Session.get('userCat'), userLang: Session.get('userLang')}).then((res)=>{
+						$('#agreementContainer').html(res.agreement).show().animate({
 							height: '80%',
 							opacity: 0.98
 						}, 500);
-					}
-				});
+					}).catch((err)=>{
+						Tools.callErrorHandler(err, 'server');
+					});
 		}
 	},
 	'touchend #acceptAgreement, click #acceptAgreement' (event) {

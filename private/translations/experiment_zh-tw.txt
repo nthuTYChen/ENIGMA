@@ -40,6 +40,8 @@ nodebriefing#你尚未完成所有要求的挑戰次數或是重覆參加這項�
 none#無
 noresp#測試階段回應比例<=50%。
 playsample#播放樣本
+questionnaire#研究者自訂問卷
+questionnairenote#注意：本問卷是由此挑戰的研究者所設計，而非「字謎」挑戰者系統標準流程的一部份。若問卷中的問題過於冒犯或是過於隱犯隱私，這些問題可能會違反標準的研究倫理。除非您已經聯絡過研究者了解並同意必須進行此問卷的必要性，請您不要繼續挑戰的程序並避免提供任何資訊。
 quitexp#退出挑戰
 reloadstimuli#重新讀取
 researchers#研究者：

@@ -9,7 +9,7 @@ challenger#字謎挑戰者
 changed#變更完成
 changedandlogin#變更完成，請重新登入
 confirm#確認
-copyright#<p>著作權 2023 陳宗穎</p> <p>國立清華大學</p> <p>本計畫研究經費由中華民國國科會補助</p>
+copyright#<p>著作權 2024 陳宗穎</p> <p>國立清華大學</p> <p>本計畫研究經費由中華民國國科會補助</p>
 deleting#刪除中…
 deleteaccount#刪除帳號
 deleteaccounte#密碼錯誤。這是命運 - 留下吧！
@@ -71,6 +71,7 @@ submitting#送出中，請勿重覆執行。
 termandcondition#使用者條款
 thankyoureg#驗證信函已寄送至您的電子信箱，希望不會被當成垃圾信囉！
 tokenexpired#認證碼可能過期
+unsubscribesuccess@成功取消訂閱
 userhome#使用者首頁
 userlang#慣用語言介面
 userlogin#使用者登入

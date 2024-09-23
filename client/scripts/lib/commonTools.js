@@ -64,24 +64,21 @@ export let stopPropDefault = function (event) {
 };
 
 export let getAndShowInstruction = function (ins) {
-	Meteor.call('funcEntryWindow', 'exp', 'getInstruction', 
-		{instruction: ins,  userLang: Session.get('userLang')}, (err, result)=>{
-		if(err) {
+	Meteor.callAsync('funcEntryWindow', 'exp', 'getInstruction', 
+		{instruction: ins,  userLang: Session.get('userLang')}).then((res)=>{
+			let insHeight = '';
+			$('#instructionContainer').html(res.instruction).show().animate({
+				height: '80%',
+				opacity: 0.98
+			}, 500);
+		}).catch((err)=>{
 			if(err.error === 'too-many-requests') {
 				Styling.showWarning('slowdown');
 			}
 			else {
 				Styling.showWarning(err.error);
 			}
-		}
-		else {
-			let insHeight = '';
-			$('#instructionContainer').html(result.instruction).show().animate({
-				height: '80%',
-				opacity: 0.98
-			}, 500);
-		}
-	});
+		});
 };
 
 export let closeInstruction = function () {
@@ -95,33 +92,27 @@ export let deleteAccount = function () {
 	Styling.showWarning('deleting');
 	let password = $('input').eq(0).val();
 	password = Accounts._hashPassword(password);
-	Meteor.call('funcEntryWindow', 'user', 'deleteUserAccount', {password: password}, (err, res)=>{
-		if(err) {
-			$('input').eq(0).val('');
-			callErrorHandler(err, 'server');
-		}
-		else {
-			Meteor.logout();
-			FlowRouter.go('register');
-			Styling.showWarning('accountdeleted');
-		}
+	Meteor.callAsync('funcEntryWindow', 'user', 'deleteUserAccount', {password: password}).then(()=>{
+		Meteor.logout();
+		FlowRouter.go('register');
+		Styling.showWarning('accountdeleted');
+	}).catch((err)=>{
+		$('input').eq(0).val('');
+		callErrorHandler(err, 'server');
 	});
 }
 
 export let runExp = function () {
 	let expId = Session.get('expId');
-	Meteor.call('funcEntryWindow', 'exp', 'expInitializer', 
+	Meteor.callAsync('funcEntryWindow', 'exp', 'expInitializer', 
 		{expId: expId, 
 		screenX: $(window).width(), 
-		screenY: $(window).height()}, (err, res)=>{
-			if(err) {
-				callErrorHandler(err, 'server');
-				Session.set('expType', '');
-				FlowRouter.go('userhome', {subpage: 'dashboard'});
-			}
-			else {
-				Session.set('expSession', 'loadingSettings');
-				FlowRouter.go('runExp', {expid: expId});
-			}
-	});
+		screenY: $(window).height()}).then(()=>{
+			Session.set('expSession', 'loadingSettings');
+			FlowRouter.go('runExp', {expid: expId});
+		}).catch((err)=>{
+			callErrorHandler(err, 'server', 'challenger');
+			Session.set('expType', '');
+			FlowRouter.go('userhome', {subpage: 'dashboard'});
+		});
 };

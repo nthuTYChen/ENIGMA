@@ -18,13 +18,16 @@ Template.challengerMenu.helpers({
 		return interfaceL.get() && interfaceL.get()[col];
 	},
 	hasNewAchieve () {
-		return Meteor.user() && Meteor.user().profile.gaming.newAchieve > 0;
+		let user = Meteor.user();
+		return user && user.profile.gaming.newAchieve > 0;
 	},
 	newAchieveNum () {
-		return Meteor.user() && Meteor.user().profile.gaming.newAchieve;
+		let user = Meteor.user();
+		return user && user.profile.gaming.newAchieve;
 	},
 	verified () {
-		return Meteor.user() && Meteor.user().emails[0].verified;
+		let user = Meteor.user();
+		return user && user.emails[0].verified;
 	}
 });
 

@@ -8,7 +8,7 @@ cancel#Cancel
 challenger#Challenger
 changed#Changed.
 changedandlogin#Changed and logged out.
-copyright#<p>Copyright 2023 Tsung-Ying Chen</p> <p>National Tsing Hua University, Hsinchu, Taiwan</p> <p>Project Funded by the National Science and Technology Council, Taiwan</p>
+copyright#<p>Copyright 2024 Tsung-Ying Chen</p> <p>National Tsing Hua University, Hsinchu, Taiwan</p> <p>Project Funded by the National Science and Technology Council, Taiwan</p>
 confirm#Confirm
 deleteaccount#Delete Account
 deleteaccounte#Wrong password. It's a sign - stay with us!
@@ -71,6 +71,7 @@ submitting#Submitting. Do not repeat.
 termandcondition#Terms and Conditions
 thankyoureg#A verification letter was sent to your e-mail. Let's hope you won't find it in the junkmail folder!
 tokenexpired#Possibly expired code.
+unsubscribesuccess@Unsubscribe successfully.
 userhome#User Home
 userlang#Language Interface
 userlogin#User Log In
