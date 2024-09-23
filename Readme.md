@@ -5,6 +5,7 @@
 		<p>Official Website: <a href="https://enigma-lang.org" target="_blank">https://enigma-lang.org</a></p>
 		<p>Facebook: <a href="https://www.facebook.com/Enigma.NTHU" target="_blank">https://www.facebook.com/Enigma.NTHU</a></p>
 		<p>Tutorial Videos (Youtube): <a href="https://www.youtube.com/channel/UC24SonuOW4CoWppcupesqEw" target="_blank">https://www.youtube.com/channel/UC24SonuOW4CoWppcupesqEw</a></p>
+		<p>Publication: Chen, T.-Y. (2024) ENIGMA: A Web application for running online artificial grammar learning experiments. <cite>Journal of Psycholinguistic Research</cite> 53, article 38. <a href="https://doi.org/10.1007/s10936-024-10078-5" target="_blank">doi:10.1007/s10936-024-10078-5</a> <a href="https://rdcu.be/dFGsj" target="_blank">Full texts</a></p>
 		<p><em>Copyright 2024 Tsung-Ying Chen, Department of Foreign Languages & Literature, National Tsing Hua University, Taiwan</em></p>
 	</section>
 	<section>
