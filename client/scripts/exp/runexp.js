@@ -130,9 +130,16 @@ Template.expLoadingSettings.events({
 	},
 	'touchend #agreeAndContinue, click #agreeAndContinue' (event) {
 		if(Tools.swipeCheck(event)) {
+			let exp = expData.get();
+			let useQuestionnaire = exp.orientation.questionnaire.use;
 			if(Session.equals('expType', 'demo')) {
 				$('#instructionContainer').hide().html('');
-				Session.set('expSession', 'loadingMultimedia');
+				if(useQuestionnaire) {
+					Session.set('expSession', 'questionnaire');
+				}
+				else {
+					Session.set('expSession', 'loadingMultimedia');
+				}
 			}
 			else {
 				let signature = $('#signature').val(), user = Meteor.user();
@@ -147,8 +154,6 @@ Template.expLoadingSettings.events({
 					Meteor.callAsync('funcEntryWindow', 'exp', 'signConsent', 
 						{signature: signature, expLang: Session.get('expLang')}).then(()=>{
 							$('#instructionContainer').hide().html('');
-							let exp = expData.get();
-							let useQuestionnaire = exp.orientation.questionnaire.use;
 							if(useQuestionnaire && runExpRecord.sessionN === 1 &&
 								(user.profile.userCat === 'challenger' && 
 									!user.profile.exp.participated.includes(Session.get('expId'))) &&

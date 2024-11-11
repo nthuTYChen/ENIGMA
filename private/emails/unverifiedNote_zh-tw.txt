@@ -6,6 +6,7 @@
 
 「字謎」團隊
 enigma.nthu [at] gmail.com
-https://lngproc.hss.nthu.edu.tw/ENIGMA
+https://enigma-lang.org
+https://www.facebook.com/Enigma.NTHU
 
 *** 此為自動發送的系統訊息，請勿直接回覆 ***

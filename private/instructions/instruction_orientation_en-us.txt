@@ -1,6 +1,6 @@
 <section>
 	<article>
-		<p>In "Orientation", you can add information that will be presented before each stage begins, including "Exp Description", "Consent Form", "Compensation". "Training Instruction", and "Test Instruction". You can provide the information for different languages to help recruit participants with diverse language backgrounds. When you provide all of the above five types of information as well as "Debriefing" for a language, ENIGMA will mark this experiment to have the information for that particular language, and will recommend this experiment to participants setting the language as their native language or L2. Regardless, you will have to provide all the information for <span class="textWarning">English (US)</span> to be able to activate this experiment.</p>
+		<p>In "Orientation", you can add information that will be presented before each stage begins, including "Exp Description", "Consent Form", "Compensation". "Training Instruction", and "Test Instruction". You can provide the information for different languages to help recruit participants with diverse language backgrounds. When you provide all of the above five types of information as well as "Debriefing" for a language, ENIGMA will mark this experiment to have the information for that particular language, and will recommend this experiment to participants setting the language as their native language or L2. Regardless, you will have to provide all the information for <span class="textWarning">English (US)</span> to be able to activate this experiment. If you choose to use a custom questionnaire, it must also comply with the above rules.</p>
 		<p>We currently only include some major languages in addition to English in our list, but if you wish to provide information for some other languages, please let us know at any time.</p>
 	</article>
 </section>
@@ -27,9 +27,16 @@
 </section>
 
 <section>
+	<h3>Custom Questionnaire</h3>
+	<article>
+		<p>if you need to collect information from participants that is not covered in their ENIGMA account profile (e.g., the Age of L2 Onset), you can choose to use a custom questionnaire and provide the questions you hope the participants to answer, and the participants will be able to enter text responses to your questions in their first participation in the same experiment. However, since participants are only allowed to provide a 100-character response, please design simple questions that are easy to answer. Please note that your questions should be designed following research ethics principles, so they should avoid offending particular groups or asking for information that could reveal participants' real-life identify, especially without valid reasons or approval from a ethics review board.</p>
+	</article>
+</section>
+
+<section>
 	<h3>Training/Test Instruction</h3>
 	<article>
-		<p>Before a training/test phase starts, ENIGMA will present the instruction to participants. In 2,000 characters, you should try to explain to your participants what they should do in a training/test phase. Don't forget to take users of both desktop and mobile devices into consideration when composing the instructions. If your experiment does not have a training phase, just enter "Not Application" in "Training Instruction".</p>
+		<p>Before a training/test phase starts, ENIGMA will present the instruction to participants. In 2,000 characters, you should try to explain to your participants what they should do in a training/test phase. Don't forget to take users of both desktop and mobile devices into consideration when composing the instructions. If your experiment does not have a training phase, just enter "Not Applicable" in "Training Instruction".</p>
 	</article>
 </section>
 

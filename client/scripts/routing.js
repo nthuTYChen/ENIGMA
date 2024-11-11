@@ -242,7 +242,6 @@ FlowRouter.route('/unsubscribe/:userLang/:id', {
 	action(params) {
 		Session.set('userLang', params.userLang);
 		BlazeLayout.render('contentLayout', {body: 'loading'});
-		// Updated: 2024/7/25
 		Meteor.callAsync('funcEntryWindow', 'user', 'unsubscribeMails', {userId: params.id});
 		alert('OK.');
 		FlowRouter.go('home');

@@ -210,6 +210,7 @@ presentation#呈現資訊
 presentonset#元件開始時間(秒)
 prev10#前10筆
 preview#預覽
+preloadstimuli#預載實驗刺激項目
 proceed#繼續
 promlene#隨機測驗提示長度必須大於0。
 promlennotnume#隨機測驗提示長度請輸入數字

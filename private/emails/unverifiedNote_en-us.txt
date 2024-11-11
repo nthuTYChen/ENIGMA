@@ -6,6 +6,7 @@ Account Deletion Time: [deleteTime]
 
 ENIGMA Team
 enigma.nthu [at] gmail.com
-https://lngproc.hss.nthu.edu.tw/ENIGMA
+https://enigma-lang.org
+https://www.facebook.com/Enigma.NTHU
 
 *** This is an automatically delivered message. Please do not reply directly. ***

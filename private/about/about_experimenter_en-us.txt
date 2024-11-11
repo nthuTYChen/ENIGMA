@@ -19,8 +19,8 @@
 	<article>
 		<p><em>Research Team</em></p>
 		<p>Principle Investigator: Tsung-Ying Chen, Ph.D</p>
-		<p>Current Assistants: Yi-Shan Lin, Wei-Hsin Lo, Hong-Yi Wang, Wei-Chin Chang</p>
-		<p>Previous Assistants: Bo-Ying Yang, Ssu-Han Chang, Tzu-Hsuan Tseng</p>
+		<p>Current Assistants: Wei-Hsin Lo, Hong-Yi Wang, Wei-Chin Chang, Yan-Yun Tu</p>
+		<p>Previous Assistants: Yi-Shan Lin, Bo-Ying Yang, Ssu-Han Chang, Tzu-Hsuan Tseng</p>
 	</article>
 </section>
 
@@ -92,9 +92,9 @@
 			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_cite.svg" />
 		</figure>
 		<p>Currently, if you publish any work with experiment data collected using ENIGMA, you can cite the Web application as:</p>
-		<q>Chen, T.-Y. (2023). ENIGMA: An online research tool for artificial language/grammar learning. https://lngproc.hss.nthu.edu.tw/ENIGMA</q>
+		<p>Chen, T.-Y. (2024). ENIGMA: A Web application for running online artificial grammar learning experiments. <cite>Journal of Psycholinguistic Research</cite> 53, article 38. <a href="https://doi.org/10.1007/s10936-024-10078-5" target="_blank">DOI: 10.1007/s10936-024-10078-5</a></p>
 	</article>
 	<article>
-		<sub>Last updated on Jun 27, 2023</sub>
+		<sub>Last updated on Apr 24, 2024</sub>
 	</article>
 </section>

@@ -126,6 +126,7 @@ Template.createExp.events({
 				ethics: $('#ethics').val(),
 				subjNum: $('#subjNum').val(),
 				age: $('#age').val(),
+				preload: $('#preload').prop('checked'),
 				screening: {
 					fastCompletion: $('#fastCompletion').prop('checked'),
 					frequentQuitter: $('#frequentQuitter').prop('checked'),

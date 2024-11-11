@@ -73,8 +73,8 @@
 	<article>
 		<p>網址欄位中所使用的網址<span class="textWarning">必須</span>以「http://」或「https://」開頭，且必須直接連接至.wav聲音檔、.mp4影片檔、或是.jpg及.png圖片檔。範例連結如下：</p>
 		<ul>
-			<li><a href="https://lngproc.fl.nthu.edu.tw/enigmaTest/test.wav" target="blank">https://lngproc.fl.nthu.edu.tw/enigmaTest/test.wav</a></li>
-			<li><a href="https://lngproc.fl.nthu.edu.tw/enigmaTest/test.png" target="blank">https://lngproc.fl.nthu.edu.tw/enigmaTest/test.png</a></li>
+			<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test.wav" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test.wav</a></li>
+			<li><a href="https://lngproc.hss.nthu.edu.tw/enigmaTest/test.png" target="blank">https://lngproc.hss.nthu.edu.tw/enigmaTest/test.png</a></li>
 		</ul>
 		<p>在每個網址欄位中，請不要混合含有不同檔案類型的網址。舉例來說，若你在包含「AudioURL」名稱的欄位中同時輸入含有.wav以及.jpg的網址時，你就會得到「字謎」提示的錯誤訊息。此外，由於瀏覽器的相容性問題，「AudioURL」相關欄位只能使用連結至.wav檔案的網址，「VideoURL」相關欄位只能使用連結至.mp4檔案的網址，同時.mp4檔案建議使用H.264或H.265編碼。「ImageURL」相關欄位可使用常用的網頁圖形格式如.jpg或.png。</p>
 		<p>大多數的雲端儲存空間(如：Dropbox、Google Drive、OneDrive)提供的分享連結並<span class="textWarning">不適用</span>於「字謎」，因為這些連結通常是連至分享檔案的「頁面」，而非直接連至分享的檔案。因此，我們建議你將檔案上傳至你的學術機構所提供的網頁空間，才能以直接連結的方式存取你需要在「字謎」中使用的多媒體實驗刺激項目。</p>

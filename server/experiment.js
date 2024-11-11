@@ -1456,6 +1456,7 @@ function processExpBasicSettings (data) {
 		newData.ethics = data.ethics.trim().replace(/(\s|\t|\n|\r)+/g, ' ');
 		newData.subjNum = parseInt(data.subjNum.trim(), 10);
 		newData.age = parseInt(data.age.trim(), 10);
+		newData.preload = data.preload;
 		newData.screening = {};
 		newData.screening.fastCompletion = data.screening.fastCompletion;
 		newData.screening.frequentQuitter = data.screening.frequentQuitter;
@@ -1481,8 +1482,11 @@ async function checkExpBasicSettings (data, type) {
 	if(data.title.length === 0) {
 		errMsg.push('titleemptye');
 	}
-	else if(await experimentDB.findOneAsync({'basicInfo.title': data.title}) && type === 'create') {
-		errMsg.push('titleexiste');
+	else if(type === 'create') {
+		let existExp = await experimentDB.findOneAsync({'basicInfo.title': data.title});
+		if(existExp) {
+			errMsg.push('titleexiste');
+		}
 	}
 	else if(data.title.length > 50) {
 		errMsg.push('titletoolonge');
@@ -1551,7 +1555,8 @@ async function checkExpBasicSettings (data, type) {
 		errMsg.push('toomanysubje');
 	}
 
-	if(typeof data.screening.fastCompletion !== 'boolean' || typeof data.screening.frequentQuitter !== 'boolean' || 
+	if(typeof data.preload !== 'boolean' || typeof data.screening.fastCompletion !== 'boolean' || 
+		typeof data.screening.frequentQuitter !== 'boolean' || 
 		typeof data.screening.daydreamer !== 'boolean' || typeof data.screening.hacking !== 'boolean') {
 		errMsg.push('vitale');
 	}

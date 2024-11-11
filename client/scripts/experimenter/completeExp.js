@@ -27,7 +27,6 @@ Template.completeExpInfo.helpers({
 		return expData.get() && expData.get()[field];
 	},
 	expStatusInfo (field) {
-		// Updated: 2024/7/25
 		let exp = expData.get();
 		if(field === 'state') {
 			let status = exp && exp.status[field];

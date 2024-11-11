@@ -207,6 +207,7 @@ presentation#Presentation
 presentonset#Element Onset (sec)
 prev10#Prev 10
 preview#Preview
+preloadstimuli#Preload Stimuli
 proceed#Proceed
 promlene#Random test prompt length should be higher than 0.
 promlennotnume#Random test prompt length must be numeric.

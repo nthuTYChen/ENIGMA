@@ -9,7 +9,6 @@
 		</p>
 	</article>
 </section>
-
 <section>
 	<h3>是誰在負責「字謎」的運作？</h3>
 	<article>
@@ -19,8 +18,8 @@
 	<article>
 		<p><em>研究團隊成員</em></p>
 		<p>計畫主持人：陳宗穎 博士</p>
-		<p>現任助理：林意珊、羅惟馨、王泓懿、張瑋芩</p>
-		<p>前任助理：曾子軒、張思涵、楊伯廷</p>
+		<p>現任助理：羅惟馨、王泓懿、張瑋芩、涂彥允</p>
+		<p>前任助理：曾子軒、張思涵、楊伯廷、林意珊</p>
 	</article>
 </section>
 
@@ -91,9 +90,9 @@
 			<img src="https://lngproc.hss.nthu.edu.tw/enigmaIMG/illustrations/about_cite.svg" />
 		</figure>
 		<p>如果你發表以「字謎」蒐集實驗資料的研究，你可以根據以下型式引用「字謎」：</p>
-		<q>Chen, T.-Y. (2023). ENIGMA: An online research tool for artificial language/grammar learning. https://lngproc.hss.nthu.edu.tw/ENIGMA</q>
+		<p>Chen, T.-Y. (2024). ENIGMA: A Web application for running online artificial grammar learning experiments. <cite>Journal of Psycholinguistic Research</cite> 53, article 38. <a href="https://doi.org/10.1007/s10936-024-10078-5" target="_blank">DOI: 10.1007/s10936-024-10078-5</a></p>
 	</article>
 	<article>
-		<sub>最後更新：Jun 27, 2023</sub>
+		<sub>最後更新：Apr 24, 2024</sub>
 	</article>
 </section>

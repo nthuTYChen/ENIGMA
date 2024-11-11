@@ -57,6 +57,10 @@
         <span>{{expBasicInfo "age"}}</span>
       </p>
       <p class="details">
+        <span>{{translation "preloadstimuli"}}</span>
+        <span>{{columnYes "preload"}}</span>
+      </p>
+      <p class="details">
         <span>{{translation "screening"}}</span>
         <span>{{translation "fastcompletion"}}: <span class="textWarning">{{screeningExclude "fastCompletion"}}</span> {{translation "frequentquitter"}}: <span class="textWarning">{{screeningExclude "frequentQuitter"}}</span> {{translation "daydreamer"}}: <span class="textWarning">{{screeningExclude "daydreamer"}}</span></span>
       </p>
@@ -193,6 +197,10 @@
         <p>
           <label for="age">{{translation "agethreshold"}}</label>
           <span><input type="number" name="age" id="age" min="6" max="120" value="{{expBasicInfo "age"}}" required /></span>
+        </p>
+        <p>
+          <label for="preload">{{translation "preloadstimuli"}}</label>
+          <span><input type="checkbox" id="preload" {{boxChecked "preload"}}/></span>
         </p>
         <p>
           <label for="age">{{translation "screening"}}</label>

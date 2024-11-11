@@ -19,8 +19,8 @@
 	<article>
 		<p><em>Research Team</em></p>
 		<p>Principle Investigator: Tsung-Ying Chen, Ph.D</p>
-		<p>Current Assistants: Yi-Shan Lin, Wei-Hsin Lo, Hong-Yi Wang, Wei-Chin Chang</p>
-		<p>Previous Assistants: Bo-Ying Yang, Ssu-Han Chang, Tzu-Hsuan Tseng</p>
+		<p>Current Assistants: Wei-Hsin Lo, Hong-Yi Wang, Wei-Chin Chang, Yan-Yun Tu</p>
+		<p>Previous Assistants: Yi-Shan Lin, Bo-Ying Yang, Ssu-Han Chang, Tzu-Hsuan Tseng</p>
 	</article>
 </section>
 
@@ -77,6 +77,6 @@
 		<p>If there's any other information that is unclear to you, please send your suggestions to chen.ty [at] mx.nthu.edu.tw, and we're happy to address the issues or answer whatever question you might have. Otherwise, please also enjoy our Challenger System, which aims to help you understanding your language learning performance and linguistic instinct better!</p>
 	</article>
 	<article>
-		<sub>Last updated on Jun 27, 2023</sub>
+		<sub>Last updated on Oct 26, 2023</sub>
 	</article>
 </section>

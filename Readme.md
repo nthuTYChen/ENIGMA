@@ -10,7 +10,7 @@
 	</section>
 	<section>
 		<h2>Introduction</h2>
-		<p>ENIGMA is a free and open-source Web application specifically designed to run online experiments based on the artificial grammar learning paradigm. The application is built with Meteor v3.03 (<a href="https://meteor.com" target="_blank">https://meteor.com</a>), a JavaScript-based open-source package for Web application development. Users could clone the source codes in this repository and compile it using Meteor v3.03 or above to run the application on their own server, or to simply use the official version. The application is the research outcome of the project "A Comprehensive Examination of Evidence and Methodology in Artificial Grammar Learning" funded by the National Council of Science and Technology, Taiwan.</p>
+		<p>ENIGMA is a free and open-source Web application specifically designed to run online experiments based on the artificial grammar learning paradigm. The application is built with Meteor v3.04 (<a href="https://meteor.com" target="_blank">https://meteor.com</a>), a JavaScript-based open-source package for Web application development. Users could clone the source codes in this repository and compile it using Meteor v3.04 or above to run the application on their own server, or to simply use the official version. The application is the research outcome of the project "A Comprehensive Examination of Evidence and Methodology in Artificial Grammar Learning" funded by the National Council of Science and Technology, Taiwan.</p>
 		<p>ENIGMA is built with the following Meteor packages (in addition to the core, build-in Meteor packages): <em>accounts-base, ddp-rate-limiter, email, fetch, pwix:blaze-layout, mongo, ostrio:flow-router-extra, reactive-var, session, templating, tracker, udondan:jszip</em></p>
 		<p>ENIGMA is built with the following NPM packages (in addition to the core, build-in NPM packages for Node.js v20): <em>file-saver</em></p>
 		<p>Note that to deploy ENIGMA as a Meteor application in the production mode, an independent database building on <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> (version >= 7.0) is necessary.</p>
@@ -62,6 +62,6 @@
 		</p>
 	</section>
 	<section>
-		<p><em>Last updated on Sep 23, 2024</em></p>
+		<p><em>Last updated on Nov 11, 2024</em></p>
 	</section>
 </article>

@@ -43,7 +43,7 @@
 <section>
 	<h3>Website (Optional)</h3>
 	<article>
-		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment. One type of helpful information would be the website of the Principle Investigation or the research team (e.g., a lab or a research center). If you are able to provide this information, it will be easier for participants to validate your identity and research background, which might make your ENIGMA experiment more trustworthy and attractive to participants. The website address should be no longer than <span class="textWarning">100 characters</span> and should start with "http://" or "https://". This information, if available, should also be consistent with that in your research ethics approval.</p>
+		<p>The research ethics guidelines require you to disclose detailed information of your research team associated with your ENIGMA experiment. One type of helpful information would be the website of the Principle Investigator or the research team (e.g., a lab or a research center). If you are able to provide this information, it will be easier for participants to validate your identity and research background, which might make your ENIGMA experiment more trustworthy and attractive to participants. The website address should be no longer than <span class="textWarning">100 characters</span> and should start with "http://" or "https://". This information, if available, should also be consistent with that in your research ethics approval.</p>
 	</article>
 </section>
 
@@ -66,6 +66,13 @@
 	<h3>Age Threshold</h3>
 	<article>
 		<p>In each ENIGMA experiment, you can follow your research as well as the research ethics guidelines you need to follow to set up an age threshold. Every participant in ENIGMA is required to provide their Date of Birth when signing up for an ENIGMA account, and ENIGMA will help them automatically exclude the experiments they are not allowed to participate in. We are certainly unable to assure you that every participant provides the correct information, but at least your participants' rights are already maximally protected when you properly set an age threshold following the research ethics guidelines.</p>
+	</article>
+</section>
+
+<section>
+	<h3>Preload Stimuli</h3>
+	<article>
+		<p>If your experiment uses multimedia stimuli (i.e., audio, video, and/or images), you can check this option so each experiment session preloads all the multimedia stimuli to participants' devices before the session begins. This might help avoid network issues during the session especially for those who connect via the mobile network. However, if you have a large number of multimedia stimuli, preloading all of them may cause a Web browser to crash during the experiment. This is especially true for mobile devices since the hardware is more limited than desktop devices. More importantly, Apple iOS browsers are not compatible with preloading at all. Thus, we advice you to test on multiple devices before deciding whether your experiment is set properly for preloading multimedia stimuli.</p>
 	</article>
 </section>
 
