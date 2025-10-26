@@ -15,7 +15,7 @@
 <section>
 	<h3>Consent Form</h3>
 	<article>
-		<p>A consent form should clearly explain the rights and responsibilities to participants, and the consent form should be approved by a Research Ethics Board. ENIGMA allows a consent form as long as 15,000 characters, but if your approved consent form needs more space, please let us know as well. A link to your consent form will appear below the description, and participants can click the link to expand the consent form to quickly go through all the details.</p>
+		<p>A consent form should clearly explain the rights and responsibilities to participants, and the consent form should be approved by a Research Ethics Board. ENIGMA allows a consent form as long as 20,000 characters, but if your approved consent form needs more space, please let us know as well. A link to your consent form will appear below the description, and participants can click the link to expand the consent form to quickly go through all the details.</p>
 	</article>
 </section>
 

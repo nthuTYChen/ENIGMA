@@ -1606,7 +1606,7 @@ async function saveLongTextsInfo (cat, texts, expId) {
 									wordLimit = 1000;
 									break;
 								case 'consentForms':
-									wordLimit = 15000;
+									wordLimit = 20000;
 									break;
 								case 'compensations':
 									wordLimit = 1000;
