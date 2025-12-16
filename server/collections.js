@@ -103,13 +103,13 @@ Meteor.publish('experimentDB', async function(session, id, expId) {
     }
     if(userData && withScreeningRecord) {
       return experimentDB.find({$and: [{$or: [{'status.state': 'active'}, {'status.state': 'complete'}]}, {_id: {$nin: fullyTriedExp}}, 
-        {$or: [{excludedExps: {$elemMatch: {id: {$nin: participatedData}}}}, {excludedExps: {$eq: []}}]},
+        {$or: [{excludedExps: {$not: {$elemMatch: {id: {$in: participatedData}}}}}, {excludedExps: {$eq: []}}]},
         screeningContent, {'basicInfo.age': {$lte: participantAge}}]}, 
         {fields: {user: 0, coordinators: 0, excludedExps: 0, orientation: 0, training: 0, test: 0, debriefing: 0}},
         {sort: {createdAt: -1}});
     }
     return experimentDB.find({$and: [{$or: [{'status.state': 'active'}, {'status.state': 'complete'}]}, {_id: {$nin: fullyTriedExp}}, 
-      {$or: [{excludedExps: {$elemMatch: {id: {$nin: participatedData}}}}, {excludedExps: {$eq: []}}]},
+      {$or: [{excludedExps: {$not: {$elemMatch: {id: {$in: participatedData}}}}}, {excludedExps: {$eq: []}}]},
       {'basicInfo.age': {$lte: participantAge}}]}, 
       {fields: {user: 0, coordinators: 0, excludedExps: 0, orientation: 0, training: 0, test: 0, debriefing: 0}},
       {sort: {createdAt: -1}});

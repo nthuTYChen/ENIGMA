@@ -62,6 +62,6 @@
 		</p>
 	</section>
 	<section>
-		<p><em>Last updated on Oct 26, 2025</em></p>
+		<p><em>Last updated on Dec 16, 2025</em></p>
 	</section>
 </article>
