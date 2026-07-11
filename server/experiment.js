@@ -524,7 +524,7 @@ export let changeTrainingConfig = async (data, userCheck)=>{
 					},
 					'training.blocks': [],
 					'training.conditions': []
-				}}, {$unset: {activateCheck: ''}});
+				}, $unset: {activateCheck: ''}});
 			await recordActivityLog(user._id, exp, 'logchangetraining');
 		}
 		else if(checkTrainingSettings(data.training)) {
@@ -540,7 +540,7 @@ export let changeTrainingConfig = async (data, userCheck)=>{
 					'training.threshold': data.training.threshold,
 					'training.blocks': data.training.blocks,
 					'training.conditions': ckStimuliRes.conds
-				}}, {$unset: {activateCheck: ''}});
+				}, $unset: {activateCheck: ''}});
 				await recordActivityLog(user._id, exp, 'logchangetraining');
 			}
 			else {
@@ -579,7 +579,7 @@ export let changeTestConfig = async (data, userCheck)=>{
 				'test.stimuli': data.test.stimuli,
 				'test.blocks': data.test.blocks,
 				'test.conditions': ckStimuliRes.conds
-			}}, {$unset: {activateCheck: ''}});
+			}, $unset: {activateCheck: ''}});
 		}
 		else {
 			errMsg.push('vitale');
@@ -621,7 +621,7 @@ export let changeDebriefingInfo = async (data, userCheck) => {
 export let activateCheck = async (data, userCheck) => {
 	let errMsg = [], user = await Meteor.userAsync();
 	let exp = await experimentDB.findOneAsync({_id: data.expId});
-	if(exp && exp.status.state === 'inactive' && userCheck.verified && userCheck.owner) {
+	if(exp && exp.status.state === 'inactive' && !(exp.activateCheck && exp.activateCheck.pass) && userCheck.verified && userCheck.owner) {
 		await experimentDB.updateAsync({_id: data.expId}, {$set: {activateCheck: {done: false, pass: false, failList: []}}});
 		let failList = [];
 		let checkCorrect = false;
