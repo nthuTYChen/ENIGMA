@@ -621,7 +621,7 @@ export let changeDebriefingInfo = async (data, userCheck) => {
 export let activateCheck = async (data, userCheck) => {
 	let errMsg = [], user = await Meteor.userAsync();
 	let exp = await experimentDB.findOneAsync({_id: data.expId});
-	if(exp && exp.status.state === 'inactive' && !(exp.activateCheck && exp.activateCheck.pass) && userCheck.verified && userCheck.owner) {
+	if(exp && exp.status.state === 'inactive' && (data.testRun || (exp.activateCheck && exp.activateCheck.pass)) && userCheck.verified && userCheck.owner) {
 		await experimentDB.updateAsync({_id: data.expId}, {$set: {activateCheck: {done: false, pass: false, failList: []}}});
 		let failList = [];
 		let checkCorrect = false;
