@@ -2653,7 +2653,7 @@ function calcAge (dob) {
 async function assembleExpResults (expId, zipTemp, getSign = true) {
 	let allData = await expResultsDB.find({expId: expId}).fetchAsync();
 	if(allData.length > 0) {
-		let subjectProfile = 'UserId\tSessionN\tExpLang\tGender\tHandedness\tAge\tL1\tL2\tExpParticipateN\tScreenX(px)\tScreenY(px)\tCondition\tExpTitle\tIPAddress\tStartTime\tEndTime\ttotalTime(ms)\tCustomQuestion\tWMTrialN\tWMTrialGroupN\tWMJudgeCorr\tWMRecallANL\tWMRecallPNL\tWMRecallANU\tWMRecallPNU\tWMAge\tWithdrawDate\n';
+		let subjectProfile = 'UserID\tSessionN\tExpLang\tGender\tHandedness\tAge\tL1\tL2\tExpParticipateN\tScreenX(px)\tScreenY(px)\tCondition\tExpTitle\tIPAddress\tStartTime\tEndTime\ttotalTime(ms)\tCustomQuestion\tWMTrialN\tWMTrialGroupN\tWMJudgeCorr\tWMRecallANL\tWMRecallPNL\tWMRecallANU\tWMRecallPNU\tWMAge\tWithdrawDate\n';
 		let informedConsents = 'Signature\tDate\n', signatures = [], signDates = [];
 		for(let i=0 ; i<allData.length ; i++) {
 			let eachData = allData[i];
@@ -2698,7 +2698,7 @@ async function assembleExpResults (expId, zipTemp, getSign = true) {
 				else {
 					subjectProfile += 'na\tna\tna\tna\tna\tna\tna\tna\tna\n';
 				}
-				let resultHeaders = 'UserId\tStage\tSessionN\tStimuliID\tTrialOrder\tComponentLength\tBlock\tElement\tElementOrder\tElementType\tPressedKey\tCorrectKey\tRT\tCorrect\n';
+				let resultHeaders = 'UserID\tStage\tSessionN\tStimuliID\tTrialOrder\tComponentLength\tBlock\tElement\tElementOrder\tElementType\tPressedKey\tCorrectKey\tRT\tCorrect\n';
 				let training = eachData.trainingResults;
 				if(training) {
 					let trainingData = '';
@@ -2719,7 +2719,7 @@ async function assembleExpResults (expId, zipTemp, getSign = true) {
 						trainingData += trial.rt + '\t';
 						trainingData += trial.correct + '\n';
 					}
-					zipTemp.file(i + '_training.csv', '\uFEFF' + resultHeaders + trainingData);
+					zipTemp.file(i + '_training.txt', '\uFEFF' + resultHeaders + trainingData);
 				}
 				let test = eachData.testResults;
 				if(test) {
@@ -2741,11 +2741,11 @@ async function assembleExpResults (expId, zipTemp, getSign = true) {
 						testData += trial.rt + '\t';
 						testData += trial.correct + '\n';
 					}
-					zipTemp.file(i + '_test.csv', '\uFEFF' + resultHeaders + testData);
+					zipTemp.file(i + '_test.txt', '\uFEFF' + resultHeaders + testData);
 				}
 			}
 		}
-		zipTemp.file('participantInfo.csv', '\uFEFF' + subjectProfile);
+		zipTemp.file('participantInfo.txt', '\uFEFF' + subjectProfile);
 		if(getSign) {
 			do {
 				let index = Math.floor(Math.random() * signatures.length);
@@ -2754,7 +2754,7 @@ async function assembleExpResults (expId, zipTemp, getSign = true) {
 				signDates.splice(index, 1);
 			}
 			while(signatures.length > 0);
-			zipTemp.file('informedConsents.csv', '\uFEFF' + informedConsents);
+			zipTemp.file('informedConsents.txt', '\uFEFF' + informedConsents);
 		}
 		return zipTemp;
 	}
